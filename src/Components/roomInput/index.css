@@ -1,0 +1,36 @@
+
+.form-container{
+  width: 80%;
+  margin-top: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+
+#input-area{
+  background-color: rgba(252,252,252,0.8);
+  width: 100%;
+  margin: 0px 0px 10px 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+#input-fields{
+  margin: 10px 10px;
+}
+
+#input-fields-select{
+  margin: 26px 10px;
+}
+
+.button-area{
+  margin-left: 30px;
+}
+
+
+
