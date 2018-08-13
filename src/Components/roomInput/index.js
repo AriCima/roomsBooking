@@ -1,5 +1,8 @@
 import React from 'react';
 
+import DataService from '../../Components/services/DataService';
+
+
 // MATERIAL-UI
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -71,21 +74,19 @@ class RoomInput extends React.Component {
             exterior: false,
             privateBathroom: false,
             balcony: false,
-            price: 0,
+            price: null,
         };
 
-        // this.onNewRequest = this.onNewRequest.bind(this);
+
+        this.onNewRoom = this.onNewRoom.bind(this);
     }
 
     updateFormInput(field, value){
-        let requestInfo = this.state;
-        requestInfo[field] = value;
-        this.setState({requestInfo})
+        let roomInfo = this.state;
+        roomInfo[field] = value;
+        this.setState({roomInfo})  // ATENCION !!!!!    GUARDA UN OBJETO DE SU MISMO OBJETO
     };
 
-    // handleChangeSelect = portions => event => {
-    //     this.setState({ [portions]: event.target.value });
-    // };
 
     onNewRoom(e){
         e.preventDefault();
@@ -94,17 +95,15 @@ class RoomInput extends React.Component {
         let newState = this.state;
 
         if(!error){
-            console.log('El state del Register es: ', this.state.requestInfo);
-            console.log('Formulario 1 enviado'); 
+            console.log('Request enviado \n El state del RoomInput es: ', this.state);
 
-            this.props.newRequest(newState);
+            DataService.addNewRoom(newState.roomNumber, newState)
+      
         }
             
     }
 
   
-
-
   render() {
     const { classes } = this.props;
 
@@ -112,7 +111,7 @@ class RoomInput extends React.Component {
 
         <div className="form-container">
 
-            <form  className={classes.container} noValidate autoComplete="off" onSubmit={this.onNewRequest}>
+            <form  className={classes.container} noValidate autoComplete="off" onSubmit={this.onNewRoom}>
             
                 <div id="input-area">
 
@@ -187,18 +186,6 @@ class RoomInput extends React.Component {
                             ))}
                         </TextField>
                     </div>
-
-                    {/* <div id="input-fields">
-                        <TextField
-                            id="with-placeholder"
-                            label="Price"
-                            placeholder="Price"
-                            className={classes.textField}
-                            margin="normal"
-                            value={this.state.price}
-                            onChange={(e)=>{this.updateFormInput('price', e.target.value)}}
-                        />
-                    </div> */}
                  
                     <div id="input-fields">
                         <FormControl fullWidth className={classes.margin}>
