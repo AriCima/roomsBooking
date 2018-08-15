@@ -17,7 +17,7 @@ import format from 'date-fns/format';
 import areRangesOverlapping from 'date-fns/are_ranges_overlapping';
 
 // DATABASE API
-import DataService from '../../Components/services/DataService';
+import DataService from '../../services/DataService';
 
 
 
@@ -82,11 +82,10 @@ class RoomState extends React.Component {
         super(props);
 
         this.state = { 
+            userId: this.props.userID,
             roomNumber: '',
             currentBookStartDate: '',
             currentBookEndDate: '',
-            // currentReservStartDate:'',
-            // currentReservEndDate:'',
             newStartDate: '',
             newEndDate: '',
             roomState: '',
@@ -95,17 +94,47 @@ class RoomState extends React.Component {
             overlappingError: false,
         };
 
+
+        this.onChangeRoomNumber = this.onChangeRoomNumber.bind(this); 
+        this.onChangeCurrentBookStartDate = this.onChangeCurrentBookStartDate.bind(this);  
+        this.onChangeCurrentBookEndDate =  this.onChangeCurrentBookEndDate.bind(this); 
+        this.onChangeNewStartDate = this.onChangeNewStartDate.bind(this); 
+        this.onChangeNewEndDate = this.onChangeNewEndDate.bind(this); 
+
         this.onNewBook = this.onNewBook.bind(this);
     }
 
-    updateFormInput(field, value){
-        console.log('el field es:', field);
-        console.log('el value es:', value);
-        let roomInfo = this.state;
-        roomInfo[field] = value;
-        this.setState({roomInfo})
+    // updateFormInput(field, value){
+    //     let roomInfo = this.state;
+    //     roomInfo[field] = value;
+    //     this.setState({roomInfo})  // ATENCION !!!!!    GUARDA UN OBJETO DE SU MISMO OBJETO
 
-    };
+    // };
+
+    onChangeRoomNumber(event){
+        this.setState({roomNumber: event.target.value})
+    }
+
+    onChangeCurrentBookStartDate(event){
+        this.setState({currentBookStartDate: event.target.value})
+    }
+
+    onChangeCurrentBookEndDate(event){
+        this.setState({currentBookEndDate: event.target.value})
+    }
+
+    onChangeNewStartDate(event){
+        this.setState({newStartDate: event.target.value})
+    }
+
+    onChangeNewEndDate(event){
+        this.setState({newEndDate: event.target.value})
+    }
+
+    onChangeNewRoomState(event){
+        this.setState({roomState: event.target.value})
+    }
+
 
 
     onNewBook(e){
@@ -115,26 +144,23 @@ class RoomState extends React.Component {
         var newStartDate = new Date(this.state.newStartDate);
         var newEndDate = new Date(this.state.newEndDate)
        
-       if(!isDate(newStartDate)){
-           this.setState({startDateError: true})
-           error = true;
-           console.log('The start Date is not an instance of Date')
-       };
+        if(!isDate(newStartDate)){
+            this.setState({startDateError: true})
+            error = true;
+            console.log('The start Date is not an instance of Date')
+        };
 
-       if(!isValid(newEndDate)){
+        if(!isValid(newEndDate)){
             this.setState({endDateError: true});
             error = true;
             console.log('The end Date is not valid')
         };
-
 
         if(!isAfter(newEndDate, newStartDate)|| isEqual(newEndDate, newStartDate)){
             this.setState({endDateError: true});
             error = true;
             alert('End date must be greater than Start Date')
         };
-
-
 
         if(areRangesOverlapping(newStartDate, newEndDate, this.state.currentBookStartDate,  this.state.currentBookEndDate)){
             this.setState({overlappingError: true});
@@ -155,7 +181,6 @@ class RoomState extends React.Component {
             this.state.currentBookEndDate = format(newEndDate,['Do-MMM-YYYY']);
 
             let newState = this.state;
-
 
             DataService.saveRoomNewState(newState.roomNumber, newState)  
 
@@ -191,7 +216,8 @@ class RoomState extends React.Component {
                                 className={classes.textField}
                                 margin="normal"
                                 value={this.state.roomNumber}
-                                onChange={(e)=>{this.updateFormInput('roomNumber', e.target.value)}}
+                                onChange={this.onChangeRoomNumber}
+                                // onChange={(e)=>{this.updateFormInput('roomNumber', e.target.value)}}
                             />
                         </div>
 
@@ -203,7 +229,8 @@ class RoomState extends React.Component {
                                 defaultValue="dd/mm/yyyy"
                                 className={classes.textField}
                                 value={this.state.newStartDate}
-                                onChange={(e)=>{this.updateFormInput('newStartDate', e.target.value)}}
+                                onChange={this.onChangeNewStartDate}
+                                // onChange={(e)=>{this.updateFormInput('newStartDate', e.target.value)}}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -218,7 +245,8 @@ class RoomState extends React.Component {
                                 defaultValue="dd/mm/yyyy"
                                 className={classes.textField}
                                 value={this.state.newEndDate}
-                                onChange={(e)=>{this.updateFormInput('newEndDate', e.target.value)}}
+                                onChange={this.onChangeNewEndDate}
+                                // onChange={(e)=>{this.updateFormInput('newEndDate', e.target.value)}}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -231,7 +259,8 @@ class RoomState extends React.Component {
                                 label="Room State"
                                 className={classNames(classes.margin, classes.textField)}
                                 value={this.state.roomState}
-                                onChange={(e)=>{this.updateFormInput('roomState', e.target.value)}}
+                                onChange={this.onChangeNewRoomState}
+                                // onChange={(e)=>{this.updateFormInput('roomState', e.target.value)}}
                             >
                                 {roomStates.map(option => (
                                     <MenuItem key={option.value} value={option.value}>

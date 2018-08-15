@@ -1,6 +1,7 @@
 import React from 'react';
 
-import DataService from '../../Components/services/DataService';
+// SERVICE API
+import DataService from '../../../Components/services/DataService';
 
 
 // MATERIAL-UI
@@ -69,6 +70,7 @@ class RoomInput extends React.Component {
         super(props);
 
         this.state = { 
+            userId: '',
             roomNumber: '',
             sqm: '',
             exterior: false,
@@ -77,27 +79,67 @@ class RoomInput extends React.Component {
             price: null,
         };
 
+        this.onChangeRoomNumber = this.onChangeRoomNumber.bind(this); 
+        this.onChangeSqm = this.onChangeSqm.bind(this);  
+        this.onChangeExterior =  this.onChangeExterior.bind(this); 
+        this.onChangePrivateBathroom = this.onChangePrivateBathroom.bind(this); 
+        this.onChangeBalcony = this.onChangeBalcony.bind(this); 
+        this.onChangeprice = this.onChangeprice.bind(this); 
 
         this.onNewRoom = this.onNewRoom.bind(this);
+
+
     }
 
-    updateFormInput(field, value){
-        let roomInfo = this.state;
-        roomInfo[field] = value;
-        this.setState({roomInfo})  // ATENCION !!!!!    GUARDA UN OBJETO DE SU MISMO OBJETO
-    };
+    // updateFormInput(field, value){
+    //     let roomInfo = this.state;
+    //     roomInfo[field] = value;
+    //     this.setState({roomInfo})  // ATENCION !!!!!    GUARDA UN OBJETO DE SU MISMO OBJETO
+    // };
+
+    onChangeRoomNumber(event){
+        this.setState({roomNumber: event.target.value})
+    }
+    
+    onChangeSqm(event){
+        this.setState({sqm: event.target.value})
+    }
+    onChangeExterior(event){
+        this.setState({exterior: event.target.value})
+    }
+
+    onChangePrivateBathroom(event){
+        this.setState({privateBathroom: event.target.value})
+    }
+
+    onChangeBalcony(event){
+        this.setState({balcony: event.target.value})
+    }
+
+    onChangeprice(event){
+        this.setState({price: event.target.value})
+    }
 
 
     onNewRoom(e){
         e.preventDefault();
+        console.log
+        
         let error = false;
 
         let newState = this.state;
 
+        console.log('STATE AL ENVIAR EL FORM: ', this.state);
+
         if(!error){
+           
+            newState.userId = this.props.userEmailId.id;
+
+            console.log("NewState luego antes de enviar info al firebase", newState);
+            
             console.log('Request enviado \n El state del RoomInput es: ', this.state);
 
-            DataService.addNewRoom(newState.roomNumber, newState)
+            DataService.addNewRoom(newState.roomNumber, newState);
       
         }
             
@@ -106,6 +148,8 @@ class RoomInput extends React.Component {
   
   render() {
     const { classes } = this.props;
+
+    console.log('la props id en RoomInput: ', this.props.userEmailId);
 
     return (
 
@@ -123,7 +167,8 @@ class RoomInput extends React.Component {
                             className={classes.textField}
                             margin="normal"
                             value={this.state.roomNumber}
-                            onChange={(e)=>{this.updateFormInput('roomNumber', e.target.value)}}
+                            onChange={this.onChangeRoomNumber}
+                            // onChange={(e)=>{this.updateFormInput('roomNumber', e.target.value)}}
                         />
                     </div>
 
@@ -135,7 +180,8 @@ class RoomInput extends React.Component {
                             className={classes.textField}
                             margin="normal"
                             value={this.state.sqm}
-                            onChange={(e)=>{this.updateFormInput('sqm', e.target.value)}}
+                            onChange={this.onChangeSqm}
+                            // onChange={(e)=>{this.updateFormInput('sqm', e.target.value)}}
                         />
                     </div>
 
@@ -145,7 +191,8 @@ class RoomInput extends React.Component {
                             label="Exterior"
                             className={classNames(classes.margin, classes.textField)}
                             value={this.state.exterior}
-                            onChange={(e)=>{this.updateFormInput('exterior', e.target.value)}}
+                            onChange={this.onChangeExterior}
+                            // onChange={(e)=>{this.updateFormInput('exterior', e.target.value)}}
                         >
                             {yesNo.map(option => (
                                 <MenuItem key={option.value} value={option.value}>
@@ -161,7 +208,8 @@ class RoomInput extends React.Component {
                             label="Private Bathroom"
                             className={classNames(classes.margin, classes.textField)}
                             value={this.state.privateBathroom}
-                            onChange={(e)=>{this.updateFormInput('privateBathroom', e.target.value)}}
+                            onChange={this.onChangePrivateBathroom}
+                            // onChange={(e)=>{this.updateFormInput('privateBathroom', e.target.value)}}
                         >
                             {yesNo.map(option => (
                                 <MenuItem key={option.value} value={option.value}>
@@ -177,7 +225,8 @@ class RoomInput extends React.Component {
                             label="Balcony"
                             className={classNames(classes.margin, classes.textField)}
                             value={this.state.balcony}
-                            onChange={(e)=>{this.updateFormInput('balcony', e.target.value)}}
+                            onChange={this.onChangeBalcony}
+                            // onChange={(e)=>{this.updateFormInput('balcony', e.target.value)}}
                         >
                             {yesNo.map(option => (
                                 <MenuItem key={option.value} value={option.value}>
@@ -193,7 +242,8 @@ class RoomInput extends React.Component {
                             <Input
                                 id="adornment-amount"
                                 value={this.state.price}
-                                onChange={(e)=>{this.updateFormInput('price', e.target.value)}}
+                                onChange={this.onChangeprice}
+                                // onChange={(e)=>{this.updateFormInput('price', e.target.value)}}
                                 startAdornment={<InputAdornment position="start">€</InputAdornment>}
                             />
                         </FormControl>

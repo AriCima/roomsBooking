@@ -16,8 +16,8 @@ body {
     width: 400px;
     height: 400px;
     position: absolute;
-    top: calc(25vh - 200px);
-    left: calc(25vw - 200px);
+    top: calc(50vh - 140px);
+    left: calc(50vw - 200px);
     overflow: hidden; }
     .background-login .inner-container .box {
       position: absolute;
@@ -51,7 +51,7 @@ body {
         justify-content: center;
         align-items: center; }
         .background-login .inner-container .box .sendArea button {
-          background: #2ecc71;
+          background-color: rgb(0, 144, 248);
           border: 0;
           color: #fff;
           padding: 10px;

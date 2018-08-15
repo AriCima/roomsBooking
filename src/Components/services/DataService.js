@@ -44,6 +44,32 @@ export default class DataService {
         });
     }
 
+    static getUsersRoomsList(userId){
+
+        return new Promise((resolve, reject) => {
+
+            firebase.firestore().collection('rooms').where(`userId`,`==`, userId).get() // Where me devuelve todos los rooms que tengan ese userId
+            .then((result) => {
+                let rooms=[];
+                result.docs.forEach((d) => {
+                    let j = d.data();
+                    j.id=d.id;
+                    rooms.push(j);
+                })
+                
+                resolve(rooms);  
+
+            })
+
+            .catch((error) => {
+               console.log('error: ', error)
+                // reject('Usuario no existe', error)
+
+            })
+            
+        });
+    }
+
     static addNewRoom(roomNr, roomInfo)
         {  //registro en Firebase
 
@@ -94,7 +120,7 @@ export default class DataService {
         });
     }
 
-    static getRoomInfo(roomNr){
+    static getSingleRoomInfo(roomNr){
 
         return new Promise((resolve, reject) => {
 

@@ -15,8 +15,8 @@ body {
     width: 400px;
     height: 400px;
     position: absolute;
-    top: calc(30vh - 200px);
-    left: calc(50vw - 100px);
+    top: calc(50vh - 140px);
+    left: calc(50vw - 200px);
     overflow: hidden; }
     .background-register .inner-container .box {
       position: absolute;
@@ -50,7 +50,7 @@ body {
         .background-register .inner-container .box input:active {
           outline: none; }
       .background-register .inner-container .box button {
-        background: #2ecc71;
+        background-color: rgb(0, 144, 248);;
         border: 0;
         color: #fff;
         padding: 10px;
@@ -63,7 +63,7 @@ body {
           outline: none; }
         .background-register .inner-container .box button:active {
           outline: none;
-          background: #27ae60; }
+          background-color: rgb(0, 144, 248);; }
       .background-register .inner-container .box p {
         font-size: 14px;
         text-align: center; }

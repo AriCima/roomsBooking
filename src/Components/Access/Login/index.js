@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
+
+// SERVICES API
 import AuthService from '../../services/AuthService'
 import DataService from '../../services/DataService'
 
@@ -54,9 +57,10 @@ class Login extends Component {
                 .then((result)=>{
                     console.log('Result de Login', result)
                 
-                DataService.getUserContactInfo(result.user.uid).then(
+                DataService.getUserRoomsInfo(result.user.uid).then(
                     (userData)=>{
-                    console.log('userData en App: ', userData);                   
+                    console.log('userData en App: ', userData);   
+                    this.props.history.push(`/user/${userData.id}`)                
                     }, 
                     (errorMessage)=>{
                     console.log(errorMessage)
@@ -104,7 +108,7 @@ class Login extends Component {
                         <button>Sign-In</button>
                         <p>Not a member?</p>
                         <div className="sendArea-register">
-                           <p>Register</p>
+                           <Link to="/register"><p>Register</p></Link>
                         </div>
                     </div>
                 </div>
