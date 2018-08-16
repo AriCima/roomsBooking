@@ -38,7 +38,7 @@ const styles = theme => ({
   },
   button: {
     margin: theme.spacing.unit,
-    background: 'rgb(237, 0, 117)',
+    background: 'rgb(0, 144, 248);',
   },
   input: {
     display: 'none',
@@ -123,10 +123,7 @@ class RoomInput extends React.Component {
 
     onNewRoom(e){
         e.preventDefault();
-        console.log
-        
         let error = false;
-
         let newState = this.state;
 
         console.log('STATE AL ENVIAR EL FORM: ', this.state);
@@ -135,9 +132,9 @@ class RoomInput extends React.Component {
            
             newState.userId = this.props.userEmailId.id;
 
-            console.log("NewState luego antes de enviar info al firebase", newState);
+            //console.log("NewState luego antes de enviar info al firebase", newState);
             
-            console.log('Request enviado \n El state del RoomInput es: ', this.state);
+            //console.log('Request enviado \n El state del RoomInput es: ', this.state);
 
             DataService.addNewRoom(newState.roomNumber, newState);
       
@@ -155,7 +152,11 @@ class RoomInput extends React.Component {
 
         <div className="form-container">
 
-            <form  className={classes.container} noValidate autoComplete="off" onSubmit={this.onNewRoom}>
+            <div className="form-title">
+                <h4>INPUT NEW ROOM</h4>
+            </div>
+
+            <form  id="form-format" className={classes.container} noValidate autoComplete="off" onSubmit={this.onNewRoom}>
             
                 <div id="input-area">
 

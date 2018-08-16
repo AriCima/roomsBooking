@@ -32,19 +32,18 @@ class Header extends Component {
 
                 <div className="header-left">
                     <div className="title">
-                     {this.props.user &&   <p>{this.props.user.email} // {this.props.user.id}</p>}
+                     {this.props.user &&   <p>{this.props.user.email}</p>}
                     </div>
                 </div>
 
                 <div className="header-mid">
 
                     <div className="nav-block">
-                        <p>ROOM MANAGEMENT APP</p>
+                    {!this.props.user ? <p>ROOM MANAGEMENT APP</p>
+                        :<Link to="/overview">Overview</Link>
+                    } 
                     </div>
 
-                    <div className="title">
-                     {this.props.user && <Link to="/rooms-admin">Rooms Admin</Link>}
-                    </div>
                     
                 </div>
 

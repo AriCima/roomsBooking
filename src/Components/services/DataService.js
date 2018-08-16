@@ -93,15 +93,13 @@ export default class DataService {
         });
     }
 
-    static saveRoomNewState(roomNr, newState){ 
-       
-        console.log("el newState recibido en firestore es: ", newState)
+    static saveRoomNewState(roomNumber, newBooking){        
 
         return new Promise((resolve, reject) => {
 
-            firebase.firestore().collection('rooms').doc(roomNr).set(
-                {roomStateToSave: newState},
-                {merge: true}
+            firebase.firestore().collection('bookings').doc(roomNumber).set(               
+                {bookings: newBooking},
+                // {merge: true},
             )
             
             .then((result) => {

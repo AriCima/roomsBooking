@@ -82,13 +82,14 @@ class RoomState extends React.Component {
         super(props);
 
         this.state = { 
-            userId: this.props.userID,
+            userId: '',
             roomNumber: '',
-            currentBookStartDate: '',
-            currentBookEndDate: '',
+            // currentBookStartDate: '',
+            // currentBookEndDate: '',
             newStartDate: '',
             newEndDate: '',
             roomState: '',
+            roomBooks: [],
             startDateError: false,
             endDateError: false,
             overlappingError: false,
@@ -96,10 +97,11 @@ class RoomState extends React.Component {
 
 
         this.onChangeRoomNumber = this.onChangeRoomNumber.bind(this); 
-        this.onChangeCurrentBookStartDate = this.onChangeCurrentBookStartDate.bind(this);  
-        this.onChangeCurrentBookEndDate =  this.onChangeCurrentBookEndDate.bind(this); 
+        // this.onChangeCurrentBookStartDate = this.onChangeCurrentBookStartDate.bind(this);  
+        // this.onChangeCurrentBookEndDate =  this.onChangeCurrentBookEndDate.bind(this); 
         this.onChangeNewStartDate = this.onChangeNewStartDate.bind(this); 
         this.onChangeNewEndDate = this.onChangeNewEndDate.bind(this); 
+        this.onChangeNewRoomState = this.onChangeNewRoomState.bind(this);
 
         this.onNewBook = this.onNewBook.bind(this);
     }
@@ -115,13 +117,13 @@ class RoomState extends React.Component {
         this.setState({roomNumber: event.target.value})
     }
 
-    onChangeCurrentBookStartDate(event){
-        this.setState({currentBookStartDate: event.target.value})
-    }
+    // onChangeCurrentBookStartDate(event){
+    //     this.setState({currentBookStartDate: event.target.value})
+    // }
 
-    onChangeCurrentBookEndDate(event){
-        this.setState({currentBookEndDate: event.target.value})
-    }
+    // onChangeCurrentBookEndDate(event){
+    //     this.setState({currentBookEndDate: event.target.value})
+    // }
 
     onChangeNewStartDate(event){
         this.setState({newStartDate: event.target.value})
@@ -140,6 +142,9 @@ class RoomState extends React.Component {
     onNewBook(e){
         e.preventDefault();
         let error = false;
+        let newState = this.state;
+
+        console.log("llamada a new book OK");
 
         var newStartDate = new Date(this.state.newStartDate);
         var newEndDate = new Date(this.state.newEndDate)
@@ -176,16 +181,21 @@ class RoomState extends React.Component {
 
 
         if(!error){
+
+            console.log("no hay error en el book");
          
+            newState.userId = this.props.userEmailId.id;
             this.state.currentBookStartDate = format(newStartDate, ['Do-MMM-YYYY']);
             this.state.currentBookEndDate = format(newEndDate,['Do-MMM-YYYY']);
 
-            let newState = this.state;
+            this.state.roomBooks.push({
+                startDate: this.state.currentBookStartDate,
+                endDate: this.state.currentBookEndDate,
+                roomState: this.state.roomState});
 
-            DataService.saveRoomNewState(newState.roomNumber, newState)  
+            console.log("newState.roomNumber = ", newState.roomNumber)
 
-            alert(`La hab ${this.state.roomNumber} se encuentra 
-            ${this.state.roomState} entre el ${this.state.currentBookStartDate} y el ${this.state.currentBookEndDate}`);
+            DataService.saveRoomNewState(newState.roomNumber, this.state.roomBooks)  
 
         }
             

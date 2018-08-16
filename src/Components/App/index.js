@@ -5,9 +5,9 @@ import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import Header from '../Header';
 import Register from '../Access/Register';
 import Login from '../Access/Login';
-import RoomManagement from '../RoomManagement';
-import RoomInput from '../RoomManagement/RoomInput';
-import RoomState from '../RoomManagement/RoomState';
+import RoomsOverview from '../RoomsOverview';
+import RoomInput from '../RoomsOverview/RoomInput';
+import Room from '../RoomsOverview/Room';
 
 // API SERVICES
 import DataService from '../services/DataService';
@@ -88,11 +88,12 @@ class App extends Component {
                 <Route path="/landing" component={Login}/>
                 <Route path="/login" component={Login}/>
                 <Route path="/register" component={Register}/>
-                <Route path="/rooms-admin" exact render = {(props) => {return <RoomManagement userEmailId={user}/>}}/>
-                {/* <Route path="/addroom" exact render = {(props) => {return <RoomInput userEmailId={user}/>}}/> */}
+                <Route path="/overview" exact render = {(props) => {return <RoomsOverview userEmailId={user}/>}}/>
+                <Route path="/add-room" exact render = {(props) => {return <RoomInput userEmailId={user}/>}}/>
+                <Route path="/room-admin/:roomNr" exact render = {(props) => {return <Room userEmailId={user} roomNr={this.props.match.params.roomNr}/>}}/>
               </Switch>
 
-              <RoomState/>
+
             </div>
 
           </div>
