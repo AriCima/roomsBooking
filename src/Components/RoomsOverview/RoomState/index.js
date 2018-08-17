@@ -32,13 +32,32 @@ export default class RoomsState extends React.Component {
 
     }
 
+
   render() {
 
+    let percent = 15;
+
+    let divStyle = {
+        background: `linear-gradient(
+            to right, 
+            rgba(128,128,128,0.3),
+            rgba(128,128,128,0.3) ${percent}%,
+            rgba(255,0,0,0.3) ${percent}%,
+            rgba(255,0,0,0.3)
+          )`,
+
+    }     
+    
     return (
 
         <div className="rooms-timeline">
 
             <h1>ROOMS TIME LINES GO HERE</h1>
+
+            <div className="months-boxes" style={divStyle}>
+                <p>Aug</p>
+            </div>
+           
 
             <div className="picture">
                 <img src={require('../../../assets/bookChart.png')}/>

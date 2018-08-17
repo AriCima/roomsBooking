@@ -1,3 +1,18 @@
 .picture{
   margin-top: 2px;
 }
+
+.months-boxes{
+  border: 1px solid lightblue;
+  height: 30px;
+  width: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.months-boxes p{
+  padding: 0;
+  margin: 0;
+  color: rgba(0,0,0,0.2);
+}
