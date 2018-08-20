@@ -15,6 +15,8 @@ import isAfter from 'date-fns/is_after';
 import isEqual from 'date-fns/is_equal';
 import format from 'date-fns/format';
 import areRangesOverlapping from 'date-fns/are_ranges_overlapping';
+import getDate from 'date-fns/get_date';
+import getMonth from 'date-fns/get_month';
 
 // DATABASE API
 import DataService from '../../../services/DataService';
@@ -82,14 +84,15 @@ class RoomState extends React.Component {
         super(props);
 
         this.state = { 
+            bookings: [{
+                bookCode: null,
+                bookingDays: [0,0,0,0,0,0,0,0,0,0,0,0],
+            }],
             userId: '',
             roomNumber: '',
-            // currentBookStartDate: '',
-            // currentBookEndDate: '',
             newStartDate: '',
             newEndDate: '',
             roomState: '',
-            roomBooks: [],
             startDateError: false,
             endDateError: false,
             overlappingError: false,
@@ -97,8 +100,6 @@ class RoomState extends React.Component {
 
 
         this.onChangeRoomNumber = this.onChangeRoomNumber.bind(this); 
-        // this.onChangeCurrentBookStartDate = this.onChangeCurrentBookStartDate.bind(this);  
-        // this.onChangeCurrentBookEndDate =  this.onChangeCurrentBookEndDate.bind(this); 
         this.onChangeNewStartDate = this.onChangeNewStartDate.bind(this); 
         this.onChangeNewEndDate = this.onChangeNewEndDate.bind(this); 
         this.onChangeNewRoomState = this.onChangeNewRoomState.bind(this);
@@ -106,24 +107,9 @@ class RoomState extends React.Component {
         this.onNewBook = this.onNewBook.bind(this);
     }
 
-    // updateFormInput(field, value){
-    //     let roomInfo = this.state;
-    //     roomInfo[field] = value;
-    //     this.setState({roomInfo})  // ATENCION !!!!!    GUARDA UN OBJETO DE SU MISMO OBJETO
-
-    // };
-
     onChangeRoomNumber(event){
         this.setState({roomNumber: event.target.value})
     }
-
-    // onChangeCurrentBookStartDate(event){
-    //     this.setState({currentBookStartDate: event.target.value})
-    // }
-
-    // onChangeCurrentBookEndDate(event){
-    //     this.setState({currentBookEndDate: event.target.value})
-    // }
 
     onChangeNewStartDate(event){
         this.setState({newStartDate: event.target.value})
@@ -147,7 +133,7 @@ class RoomState extends React.Component {
         console.log("llamada a new book OK");
 
         var newStartDate = new Date(this.state.newStartDate);
-        var newEndDate = new Date(this.state.newEndDate)
+        var newEndDate = new Date(this.state.newEndDate);
        
         if(!isDate(newStartDate)){
             this.setState({startDateError: true})
@@ -173,29 +159,97 @@ class RoomState extends React.Component {
             console.log('The range overlaps with a BOOKED range')
         };
 
-        // if(areRangesOverlapping(newStartDate, this.state.newEndDate, this.state.reservStartDate, this.state.reservEndDate)){
-        //     this.setState({overlappingError: true});
-        //     error = true;
-        //     console.log('The range overlaps with a RESERVED range')
-        // }
-
-
         if(!error){
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dic'];
+            const days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
             console.log("no hay error en el book");
          
             newState.userId = this.props.userEmailId.id;
             this.state.currentBookStartDate = format(newStartDate, ['Do-MMM-YYYY']);
-            this.state.currentBookEndDate = format(newEndDate,['Do-MMM-YYYY']);
+            let bookStartDay = getDate(newStartDate);   //Día (en número) del final de la reserva
+            let bookStartMonth = getMonth(newStartDate);   //Mes (en número) del inicio de reserva
+            console.log('RoomStateManagemetn día inicial: ',bookStartDay)
+            console.log('RoomStateManagemetn mes inicial: ',months[bookStartMonth])
+            
 
-            this.state.roomBooks.push({
-                startDate: this.state.currentBookStartDate,
-                endDate: this.state.currentBookEndDate,
-                roomState: this.state.roomState});
+            this.state.currentBookEndDate = format(newEndDate,['Do-MMM-YYYY']);
+            let bookEndDay = getDate(newEndDate); //Día (en número) del inicio de la reserva
+            let bookEndMonth = getMonth(newEndDate);  //Mes (en número) del final de reserva
+
+
+         
+
+            //  booking Structure =  [
+            //     [15, 'Ene'],     El nro representa el nro de días que está alquilado
+            //     [100, 'Feb'],
+            //     [20, 'Mar']
+            // ]
+
+            // let newRoomBook = [];
+
+            // for (var i = bookStartMonth; i <= bookEndMonth; i++){
+
+            //     if (i === bookStartMonth){          // Booking Start Month
+            //         newRoomBook.push([Math.round((((days[i]-bookStartDay)/days[i])*100)), months[i]]);
+            //     };
+
+            //     if (i === bookEndMonth){            //  Booking End Month
+            //         newRoomBook.push([Math.round(((bookEndDay/days[i])*100)), months[i]]);
+            //     };
+
+            //     newRoomBook.push([100, months[i]])  // inbetween months
+               
+            // }
+
+            let d = new Date();
+            let code = d.getTime().toString();  
+
+            console.log('code: ', code)
+
+            let newBookingDays = [];
+
+            for (var i = 0; i<= 11; i++){
+
+                if (i == bookStartMonth){
+                   newBookingDays[i] = Math.round((((days[i]-bookStartDay) /days[i])*100))
+                } else if (i === bookEndMonth){             
+                    newBookingDays[i] = Math.round(((bookEndDay/days[i])*100))
+                } else if (bookStartMonth < i && i < bookEndMonth){
+                    newBookingDays[i] = 100;
+                }else {
+                    newBookingDays[i] = 0;
+                }
+            }
+
+            this.state.bookings.push({
+                bookcode: code,
+                bookingDays: newBookingDays
+            });
+
+            console.log(' this.state.bookings: ',  this.state.bookings);
+
+            // this.setState({
+            //     roomBooks: newRoomBook,
+            // })
+
+            // this.state.roomBooks.push({
+            //     newRoomBook
+            // });
+
+            // UPDATE: This was fixed in Firebase JS SDK 4.6.0. Directly nested arrays are still unsupported, 
+            // but you can now have an array that contains an object that contains an array, etc.
+
+            // console.log('Nuevo Room Book con todos los meses: ', this.state.roomBooks);
+
+            // this.state.roomBooks.push({
+            //     startDate: this.state.currentBookStartDate,
+            //     endDate: this.state.currentBookEndDate,
+            //     roomState: this.state.roomState});
 
             console.log("newState.roomNumber = ", newState.roomNumber)
 
-            DataService.saveRoomNewState(newState.roomNumber, this.state.roomBooks)  
+            DataService.saveRoomNewState(newState.roomNumber, this.state.bookings)  
 
         }
             

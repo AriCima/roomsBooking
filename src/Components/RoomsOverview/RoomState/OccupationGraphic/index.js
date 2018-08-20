@@ -9,12 +9,9 @@ import classNames from 'classnames';
 import Button from '@material-ui/core/Button';
 
 //DATE-FNS
-import isDate from 'date-fns/is_date';
-import isValid from 'date-fns/is_valid';
-import isAfter from 'date-fns/is_after';
-import isEqual from 'date-fns/is_equal';
 import format from 'date-fns/format';
 import areRangesOverlapping from 'date-fns/are_ranges_overlapping';
+import getMonth from 'date-fns/get_month';
 
 // DATABASE API
 import DataService from '../../../services/DataService'
@@ -39,6 +36,8 @@ export default class OccupationGraphic extends React.Component {
             (userData)=>{
               console.log('userData en OccupationGraphic: ', userData);
               //this.state.bookings = userData;
+
+
               this.setState({bookings : userData});
 
               console.log('this.state.bookings en OccupationGraphics:', this.state.bookings)
@@ -51,6 +50,13 @@ export default class OccupationGraphic extends React.Component {
     }
 
     _renderOccupation(){
+
+        const Months = ['Jan', 'Feb', 'Mar', 'Apr', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dic'];
+        
+
+        let today = new Date;
+        let currentMonth = getMonth(today);
+        
         let percent = 15;
         let divStyle = {
             background: `linear-gradient(
@@ -60,17 +66,22 @@ export default class OccupationGraphic extends React.Component {
                 rgba(255,0,0,0.3) ${percent}%,
                 rgba(255,0,0,0.3)
             )`,
+        }     
 
-    }     
-        return( 
-
-
-            <div className="months-boxes" style={divStyle}>
-                <p>Aug</p>
-            </div>
+        for (var i = 0; i<12; i++){
 
 
-        )
+        }
+        
+            return( 
+
+                <div className="months-boxes" style={divStyle}>
+                    <p>Aug</p>
+                </div>
+                
+
+            )
+        
     }
 
 
