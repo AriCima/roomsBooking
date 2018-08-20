@@ -7,6 +7,7 @@ import Register from '../Access/Register';
 import Login from '../Access/Login';
 import RoomsOverview from '../RoomsOverview';
 import RoomInput from '../RoomsOverview/RoomInput';
+import RoomState from '../RoomsOverview/RoomState/RoomStateManage';
 import Room from '../RoomsOverview/Room';
 
 // API SERVICES
@@ -26,6 +27,7 @@ var config = {
   storageBucket: "roomsbooking-fc246.appspot.com",
   messagingSenderId: "170840432036"
 };
+
 
 firebase.initializeApp(config);
 
@@ -70,7 +72,7 @@ class App extends Component {
 
   render() {
     const { user } = this.state;
-    console.log('el user dentro del render: ', user)
+    console.log('el user en App render: ', user)
     return (
       <div>
 
@@ -90,7 +92,7 @@ class App extends Component {
                 <Route path="/register" component={Register}/>
                 <Route path="/overview" exact render = {(props) => {return <RoomsOverview userEmailId={user}/>}}/>
                 <Route path="/add-room" exact render = {(props) => {return <RoomInput userEmailId={user}/>}}/>
-                <Route path="/room-admin/:roomNr" exact render = {(props) => {return <Room userEmailId={user} roomNr={this.props.match.params.roomNr}/>}}/>
+                <Route path="/bookings" exact render = {(props) => {return <RoomState userEmailId={user} />}}/>
               </Switch>
 
 

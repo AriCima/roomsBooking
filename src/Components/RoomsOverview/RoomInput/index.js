@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 
 // SERVICE API
 import DataService from '../../../Components/services/DataService';
@@ -137,7 +138,8 @@ class RoomInput extends React.Component {
             //console.log('Request enviado \n El state del RoomInput es: ', this.state);
 
             DataService.addNewRoom(newState.roomNumber, newState);
-      
+            
+            
         }
             
     }
@@ -253,9 +255,11 @@ class RoomInput extends React.Component {
                 </div>
 
                 <div className="button-area">
-                    <Button variant="contained" color="primary" className={classes.button} type="submit">
-                        Enviar
-                    </Button>
+                    
+                        <Button variant="contained" color="primary" className={classes.button} type="submit">
+                            Enviar
+                        </Button>
+                    
                 </div>
             </form>
         </div>

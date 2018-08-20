@@ -10,6 +10,8 @@ class Header extends Component {
 
     this.signOut = this.signOut.bind(this);
 
+    console.log('props en el header', this.props)
+
    }
 
     signOut(){   //Esta función informa a FireBase sobre el logout y FB automáticamente ejecuta el onAuthStateChange del App
@@ -39,7 +41,7 @@ class Header extends Component {
                 <div className="header-mid">
 
                     <div className="nav-block">
-                    {!this.props.user ? <p>ROOM MANAGEMENT APP</p>
+                    {!this.props.user ? <p>ROOMS MANAGEMENT APP</p>
                         :<Link to="/overview">Overview</Link>
                     } 
                     </div>

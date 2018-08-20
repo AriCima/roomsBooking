@@ -20,6 +20,7 @@ import areRangesOverlapping from 'date-fns/are_ranges_overlapping';
 import DataService from '../../services/DataService';
 
 import './index.css'; 
+import OccupationGraphic from './OccupationGraphic';
 
 
 export default class RoomsState extends React.Component {
@@ -35,18 +36,7 @@ export default class RoomsState extends React.Component {
 
   render() {
 
-    let percent = 15;
-
-    let divStyle = {
-        background: `linear-gradient(
-            to right, 
-            rgba(128,128,128,0.3),
-            rgba(128,128,128,0.3) ${percent}%,
-            rgba(255,0,0,0.3) ${percent}%,
-            rgba(255,0,0,0.3)
-          )`,
-
-    }     
+    
     
     return (
 
@@ -54,17 +44,10 @@ export default class RoomsState extends React.Component {
 
             <h1>ROOMS TIME LINES GO HERE</h1>
 
-            <div className="months-boxes" style={divStyle}>
-                <p>Aug</p>
-            </div>
+           <OccupationGraphic user={this.state.user}/>
            
 
-            <div className="picture">
-                <img src={require('../../../assets/bookChart.png')}/>
-            </div>
-            <div className="picture">
-                <img src={require('../../../assets/bookChart.png')}/>
-            </div>
+            
 
         </div>
     );

@@ -28,10 +28,15 @@ export default class DataService {
 
     static getUserContactInfo(userId){
 
+        console.log('el argumento recibido en dataservice: ', userId)
+
         return new Promise((resolve, reject) => {
 
             firebase.firestore().collection('users').doc(userId).get()
+
             .then((result) => {
+                console.log('el Result es: ', result)
+                console.log('el Result.data() es: ', result.data())
                 resolve(result.data());   // OBTENGO TODO LO QUE TENGO ALMACENADO DE ÉSTE USUARIO
             })
 
@@ -44,7 +49,7 @@ export default class DataService {
         });
     }
 
-    static getUsersRoomsList(userId){
+    static getUserRoomsList(userId){
 
         return new Promise((resolve, reject) => {
 
@@ -58,6 +63,7 @@ export default class DataService {
                 })
                 
                 resolve(rooms);  
+                console.log('el resume del rooms list), ', rooms)
 
             })
 
@@ -97,9 +103,9 @@ export default class DataService {
 
         return new Promise((resolve, reject) => {
 
-            firebase.firestore().collection('bookings').doc(roomNumber).set(               
+            firebase.firestore().collection('rooms').doc(roomNumber).set(               
                 {bookings: newBooking},
-                // {merge: true},
+                {merge: true},
             )
             
             .then((result) => {
@@ -139,6 +145,38 @@ export default class DataService {
                 var errorCode = error.code;
                 console.log('La consulta no se pudo realizar: ', errorCode);
                 var errorMessage = error.message;
+                
+            })
+            
+        });
+    }
+
+    static getRoomOccupation(userId, roomNr){
+        console.log('getRoomOccupation launched');
+
+        return new Promise((resolve, reject) => {
+
+            firebase.firestore().collection('rooms').where('userId', '==', userId).where(`roomNumber`,`==`, roomNr).get()
+
+            .then((result) => {
+                console.log("Result del RoomOccupation: ", result)
+                let roomData=[];
+                result.docs.forEach((d) => {
+                    let j = d.data();
+                    j.id=d.id;
+                    roomData.push(j);
+                })
+                let bookings = roomData[0].bookings;
+
+                resolve(bookings);
+                console.log("Bookings en el RoomOccupation: ", bookings)
+            })
+
+            .catch((error) => {
+                var errorCode = error.code;
+                console.log('La consulta no se pudo realizar: ', errorCode);
+                var errorMessage = error.message;
+                console.log('porque el error es: ',errorMessage )
                 
             })
             

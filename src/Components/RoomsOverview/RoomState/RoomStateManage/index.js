@@ -17,7 +17,7 @@ import format from 'date-fns/format';
 import areRangesOverlapping from 'date-fns/are_ranges_overlapping';
 
 // DATABASE API
-import DataService from '../../services/DataService';
+import DataService from '../../../services/DataService';
 
 
 

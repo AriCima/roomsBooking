@@ -33,7 +33,7 @@ export default class RoomsOverview extends React.Component {
   componentDidMount(){
     console.log("ComponenDidMount userID:", this.props.userEmailId.id);
 
-    DataService.getUsersRoomsList(this.props.userEmailId.id).then(
+    DataService.getUserRoomsList(this.props.userEmailId.id).then(
       (roomsReceived) => {
         console.log("Rooms received", roomsReceived)
 
@@ -44,6 +44,9 @@ export default class RoomsOverview extends React.Component {
       }
     )  
   }
+
+
+
 
   _renderRooms(){
       
@@ -79,7 +82,7 @@ export default class RoomsOverview extends React.Component {
   render() {
 
     const {rooms} = this.state
-    console.log('props de RoomManage: ', this.props)
+    console.log('props del Overview: ', this.props)
     return (
       
       <div className="rooms-admin">
@@ -88,6 +91,9 @@ export default class RoomsOverview extends React.Component {
 
           <div className="room-input">
             <RoomState userEmailId={this.props.userEmailId}/> 
+          </div>
+          <div className="add-room-button">
+            <Link to="/bookings"><AddButton/></Link>
           </div>
         </div>
 
@@ -107,13 +113,9 @@ export default class RoomsOverview extends React.Component {
             {this._renderRooms()}
           </div>
 
-          <div className="add-room-button">
-            <Link to="/add-room"><AddButton/></Link>
-          </div>
-
-          {/* <div className="room-input">
+          <div className="room-input">
             <RoomInput userEmailId={this.props.userEmailId}/> 
-          </div> */}
+          </div>
         </div>
 
       </div>
