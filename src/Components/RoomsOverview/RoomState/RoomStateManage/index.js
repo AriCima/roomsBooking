@@ -86,7 +86,7 @@ class RoomState extends React.Component {
         this.state = { 
             bookings: [{
                 bookCode: null,
-                bookingDays: [0,0,0,0,0,0,0,0,0,0,0,0],
+                bookingDays: [0,0,0,0,0,0,0,0,0,0,0,0] // Cada posición indica los días "alquilados" de cada habitación
             }],
             userId: '',
             roomNumber: '',
@@ -169,43 +169,18 @@ class RoomState extends React.Component {
             this.state.currentBookStartDate = format(newStartDate, ['Do-MMM-YYYY']);
             let bookStartDay = getDate(newStartDate);   //Día (en número) del final de la reserva
             let bookStartMonth = getMonth(newStartDate);   //Mes (en número) del inicio de reserva
-            console.log('RoomStateManagemetn día inicial: ',bookStartDay)
-            console.log('RoomStateManagemetn mes inicial: ',months[bookStartMonth])
+
+            // CHECKPOINT
+            // console.log('RoomStateManagemetn día inicial: ',bookStartDay)
+            // console.log('RoomStateManagemetn mes inicial: ',months[bookStartMonth])
             
 
             this.state.currentBookEndDate = format(newEndDate,['Do-MMM-YYYY']);
             let bookEndDay = getDate(newEndDate); //Día (en número) del inicio de la reserva
             let bookEndMonth = getMonth(newEndDate);  //Mes (en número) del final de reserva
 
-
-         
-
-            //  booking Structure =  [
-            //     [15, 'Ene'],     El nro representa el nro de días que está alquilado
-            //     [100, 'Feb'],
-            //     [20, 'Mar']
-            // ]
-
-            // let newRoomBook = [];
-
-            // for (var i = bookStartMonth; i <= bookEndMonth; i++){
-
-            //     if (i === bookStartMonth){          // Booking Start Month
-            //         newRoomBook.push([Math.round((((days[i]-bookStartDay)/days[i])*100)), months[i]]);
-            //     };
-
-            //     if (i === bookEndMonth){            //  Booking End Month
-            //         newRoomBook.push([Math.round(((bookEndDay/days[i])*100)), months[i]]);
-            //     };
-
-            //     newRoomBook.push([100, months[i]])  // inbetween months
-               
-            // }
-
             let d = new Date();
-            let code = d.getTime().toString();  
-
-            console.log('code: ', code)
+            let code = d.getTime().toString();  // el bookCode = milisegundos
 
             let newBookingDays = [];
 
@@ -227,27 +202,9 @@ class RoomState extends React.Component {
                 bookingDays: newBookingDays
             });
 
-            console.log(' this.state.bookings: ',  this.state.bookings);
-
-            // this.setState({
-            //     roomBooks: newRoomBook,
-            // })
-
-            // this.state.roomBooks.push({
-            //     newRoomBook
-            // });
-
-            // UPDATE: This was fixed in Firebase JS SDK 4.6.0. Directly nested arrays are still unsupported, 
-            // but you can now have an array that contains an object that contains an array, etc.
-
-            // console.log('Nuevo Room Book con todos los meses: ', this.state.roomBooks);
-
-            // this.state.roomBooks.push({
-            //     startDate: this.state.currentBookStartDate,
-            //     endDate: this.state.currentBookEndDate,
-            //     roomState: this.state.roomState});
-
-            console.log("newState.roomNumber = ", newState.roomNumber)
+            // CHECKPOINT
+            // console.log(' this.state.bookings: ',  this.state.bookings);
+            // console.log("newState.roomNumber = ", newState.roomNumber);
 
             DataService.saveRoomNewState(newState.roomNumber, this.state.bookings)  
 
