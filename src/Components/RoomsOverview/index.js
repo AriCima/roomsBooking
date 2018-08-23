@@ -25,13 +25,14 @@ export default class RoomsOverview extends React.Component {
     super(props);
 
     this.state = {
-      rooms : []
+      rooms : [],
+      occupation: []
     }
 
   }
 
   componentDidMount(){
-    console.log("ComponenDidMount userID:", this.props.userEmailId.id);
+    console.log("ComponenDidMount roomsOverview userID:", this.props.userEmailId.id);
 
     DataService.getUserRoomsList(this.props.userEmailId.id).then(
       (roomsReceived) => {
@@ -42,7 +43,19 @@ export default class RoomsOverview extends React.Component {
         console.log("Rooms del Manage state", this.state.rooms)
 
       }
-    )  
+    );  
+
+    DataService.getRoomsOccupation(this.props.userEmailId.id).then(
+      console.log("Get Rooms Bookings llamada OK"),
+      (roomsOccupationReceived) => {
+        console.log("Rooms Occupation received", roomsOccupationReceived)
+
+        this.setState({occupation: roomsOccupationReceived})
+
+        console.log("Rooms del Manage state", this.state.rooms)
+
+      }
+    );  
   }
 
 
@@ -83,6 +96,7 @@ export default class RoomsOverview extends React.Component {
 
     const {rooms} = this.state
     console.log('props del Overview: ', this.props)
+
     return (
       
       <div className="rooms-admin">

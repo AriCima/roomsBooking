@@ -135,21 +135,6 @@ class RoomState extends React.Component {
         this.setState({agency: event.target.value})
     }
 
-    // componentDidMount(){
-    
-    //     DataService.getRoomOccupation(this.state.userId, this.state.roomNumber).then(
-    //         (userData)=>{
-    //         console.log('userData en RoomMan: ', userData);
-    //         userData.id = user.uid;
-    //         this.setState({user : userData});
-    //         console.log('El user luego del setState en App:', user)
-    //         }, 
-    //         (errorMessage)=>{
-    //         console.log(errorMessage)
-    //         }
-    //     )
-
-    // }
 
     onNewBook(e){
         e.preventDefault();
@@ -386,7 +371,6 @@ class RoomState extends React.Component {
                                 onChange={this.onChangeAgency}
                             />
                         </div>
-
 
                     </div>
 

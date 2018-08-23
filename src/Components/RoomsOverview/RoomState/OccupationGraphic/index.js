@@ -30,24 +30,24 @@ export default class OccupationGraphic extends React.Component {
 
     }
 
-    componentDidMount(){
+    // componentDidMount(){
 
-        DataService.getRoomOccupation('XPehl23JyqfV2CJmwtohLTOTkUN2','ari 1').then(
-            (userData)=>{
-              console.log('userData en OccupationGraphic: ', userData);
-              //this.state.bookings = userData;
+    //     DataService.getRoomOccupation('XPehl23JyqfV2CJmwtohLTOTkUN2','ari 1').then(
+    //         (userData)=>{
+    //           console.log('userData en OccupationGraphic: ', userData);
+    //           //this.state.bookings = userData;
 
 
-              this.setState({bookings : userData});
+    //           this.setState({bookings : userData});
 
-              console.log('this.state.bookings en OccupationGraphics:', this.state.bookings)
-            }, 
-            (errorMessage)=>{
-              console.log(errorMessage)
-            }
-        )
+    //           console.log('this.state.bookings en OccupationGraphics:', this.state.bookings)
+    //         }, 
+    //         (errorMessage)=>{
+    //           console.log(errorMessage)
+    //         }
+    //     )
 
-    }
+    // }
 
     _renderOccupation(){
 
