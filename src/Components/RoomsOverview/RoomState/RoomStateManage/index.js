@@ -17,6 +17,7 @@ import format from 'date-fns/format';
 import areRangesOverlapping from 'date-fns/are_ranges_overlapping';
 import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';
+import getYear from 'date-fns/get_year';
 
 // DATABASE API
 import DataService from '../../../services/DataService';
@@ -84,10 +85,13 @@ class RoomState extends React.Component {
         super(props);
 
         this.state = { 
-            bookings: [{
-                bookCode: null,
-                bookingDays: [0,0,0,0,0,0,0,0,0,0,0,0] // Cada posición indica los días "alquilados" de cada habitación
-            }],
+            bookingCode: null,
+            guest:'',
+            bookingDays: {
+                currentYear: [0,0,0,0,0,0,0,0,0,0,0,0],
+                nextYear:[0,0,0,0,0,0,0,0,0,0,0,0]},  // Próximos 2 años, cada posición indica los días "alquilados" de cada habitación.
+            state:'',
+            agency:'',
             userId: '',
             roomNumber: '',
             newStartDate: '',
@@ -99,12 +103,14 @@ class RoomState extends React.Component {
         };
 
 
-        this.onChangeRoomNumber = this.onChangeRoomNumber.bind(this); 
-        this.onChangeNewStartDate = this.onChangeNewStartDate.bind(this); 
-        this.onChangeNewEndDate = this.onChangeNewEndDate.bind(this); 
-        this.onChangeNewRoomState = this.onChangeNewRoomState.bind(this);
+        this.onChangeRoomNumber     = this.onChangeRoomNumber.bind(this); 
+        this.onChangeNewStartDate   = this.onChangeNewStartDate.bind(this); 
+        this.onChangeNewEndDate     = this.onChangeNewEndDate.bind(this); 
+        this.onChangeNewRoomState   = this.onChangeNewRoomState.bind(this);
+        this.onChangeGuest          = this.onChangeGuest.bind(this);
+        this.onChangeAgency         = this.onChangeAgency.bind(this);
 
-        this.onNewBook = this.onNewBook.bind(this);
+        this.onNewBook              = this.onNewBook.bind(this);
     }
 
     onChangeRoomNumber(event){
@@ -122,8 +128,28 @@ class RoomState extends React.Component {
     onChangeNewRoomState(event){
         this.setState({roomState: event.target.value})
     }
+    onChangeGuest(event){
+        this.setState({guest: event.target.value})
+    }
+    onChangeAgency(event){
+        this.setState({agency: event.target.value})
+    }
 
+    // componentDidMount(){
+    
+    //     DataService.getRoomOccupation(this.state.userId, this.state.roomNumber).then(
+    //         (userData)=>{
+    //         console.log('userData en RoomMan: ', userData);
+    //         userData.id = user.uid;
+    //         this.setState({user : userData});
+    //         console.log('El user luego del setState en App:', user)
+    //         }, 
+    //         (errorMessage)=>{
+    //         console.log(errorMessage)
+    //         }
+    //     )
 
+    // }
 
     onNewBook(e){
         e.preventDefault();
@@ -132,8 +158,8 @@ class RoomState extends React.Component {
 
         console.log("llamada a new book OK");
 
-        var newStartDate = new Date(this.state.newStartDate);
-        var newEndDate = new Date(this.state.newEndDate);
+        let newStartDate = new Date(this.state.newStartDate);
+        let newEndDate = new Date(this.state.newEndDate);
        
         if(!isDate(newStartDate)){
             this.setState({startDateError: true})
@@ -147,7 +173,7 @@ class RoomState extends React.Component {
             console.log('The end Date is not valid')
         };
 
-        if(!isAfter(newEndDate, newStartDate)|| isEqual(newEndDate, newStartDate)){
+        if(!isAfter(newEndDate, newStartDate) || isEqual(newEndDate, newStartDate)){
             this.setState({endDateError: true});
             error = true;
             alert('End date must be greater than Start Date')
@@ -169,6 +195,7 @@ class RoomState extends React.Component {
             this.state.currentBookStartDate = format(newStartDate, ['Do-MMM-YYYY']);
             let bookStartDay = getDate(newStartDate);   //Día (en número) del final de la reserva
             let bookStartMonth = getMonth(newStartDate);   //Mes (en número) del inicio de reserva
+            let bookStartYear = getYear(newStartDate);     // Año del inicio de reserva
 
             // CHECKPOINT
             // console.log('RoomStateManagemetn día inicial: ',bookStartDay)
@@ -176,44 +203,89 @@ class RoomState extends React.Component {
             
 
             this.state.currentBookEndDate = format(newEndDate,['Do-MMM-YYYY']);
-            let bookEndDay = getDate(newEndDate); //Día (en número) del inicio de la reserva
-            let bookEndMonth = getMonth(newEndDate);  //Mes (en número) del final de reserva
+            let bookEndDay = getDate(newEndDate);       //Día (en número) del inicio de la reserva
+            let bookEndMonth = getMonth(newEndDate);    //Mes (en número) del final de la reserva
+            let bookEndYear = getYear(newEndDate);      // Año del final de la reserva
 
-            let d = new Date();
-            let code = d.getTime().toString();  // el bookCode = milisegundos
+            // GENERATE BOOKING CODE
+            const letters = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+            let code = [];
 
-            let newBookingDays = [];
+            for (let l=0; l<4; l++){
+                let capital = Math.round(Math.random()*10);
+                let random = Math.round(Math.random()*26);
 
-            for (var i = 0; i<= 11; i++){
-
-                if (i == bookStartMonth){
-                   newBookingDays[i] = Math.round((((days[i]-bookStartDay) /days[i])*100))
-                } else if (i === bookEndMonth){             
-                    newBookingDays[i] = Math.round(((bookEndDay/days[i])*100))
-                } else if (bookStartMonth < i && i < bookEndMonth){
-                    newBookingDays[i] = 100;
-                }else {
-                    newBookingDays[i] = 0;
+                if(Number.isInteger(capital/2)){
+                    code[l]=(letters[random]).toUpperCase();
+                } else {
+                    code[l]=letters[random];
                 }
             }
 
-            this.state.bookings.push({
-                bookcode: code,
-                bookingDays: newBookingDays
-            });
+            let d = new Date();
+            let t = d.getTime().toString().slice(-8);  // el bookCode = milisegundos
 
-            // CHECKPOINT
-            // console.log(' this.state.bookings: ',  this.state.bookings);
-            // console.log("newState.roomNumber = ", newState.roomNumber);
-
-            DataService.saveRoomNewState(newState.roomNumber, this.state.bookings)  
-
-        }
+            let bCode = code.join("").concat(t);
             
-    }
+            // CHECK POINT
+            // console.log('El bookingCode generado es: ', generatedBookingCode)
 
-  
 
+
+            let newBookingDays = {
+                currentYear: [0,0,0,0,0,0,0,0,0,0,0,0],
+                nextYear:[0,0,0,0,0,0,0,0,0,0,0,0]
+            };
+
+            if(bookStartYear == bookEndYear){
+
+                for (let i = bookStartMonth; i<= bookEndMonth; i++){
+                    if (i == bookStartMonth){
+                    newBookingDays.currentYear[i] = Math.round((((days[i]-bookStartDay)/days[i])*100))
+                    } else if (i === bookEndMonth){             
+                        newBookingDays.currentYear[i] = Math.round(((bookEndDay/days[i])*100))
+                    } else if (bookStartMonth < i && i < bookEndMonth){
+                        newBookingDays.currentYear[i] = 100;
+                    }else {
+                        newBookingDays[i] = 0;
+                    }
+                };
+
+                this.state.bookingCode = bCode;
+                this.state.bookingDays = newBookingDays;
+
+            } else if ( bookStartYear < bookEndYear){
+
+                for (let j = bookStartMonth; j<= 11; j++){
+                    if (j == bookStartMonth){
+                        newBookingDays.currentYear[j] = Math.round((((days[j]-bookStartDay) /days[j])*100))
+                    } else {
+                        newBookingDays.currentYear[j] = 100;
+                    }
+                }
+
+                for (let k = 0; k<= bookEndMonth; k++){
+                    if (k < bookEndMonth){
+                        newBookingDays.nextYear[k] = 100;
+                    } else if (k === bookEndMonth){             
+                        newBookingDays.nextYear[k] = Math.round(((bookEndDay/days[k])*100))
+                    }
+                }
+
+                this.state.bookingCode = bCode;
+                this.state.bookingDays = newBookingDays;
+            };
+           
+        
+
+            //CHECKPOINT
+            console.log(' this.state.bookingInfo: ',  this.state.bookingInfo);
+            console.log("newState.roomNumber = ", newState.roomNumber);
+
+            DataService.saveRoomNewState(this.state.userId, this.state.roomNumber,this.state.bookingCode,  this.state.newStartDate, this.state.newEndDate, this.state.guest, this.state.agency, this.state.bookingDays);  
+        };
+    };
+   
 
   render() {
     const { classes } = this.props;
@@ -289,6 +361,30 @@ class RoomState extends React.Component {
                                     </MenuItem>
                                 ))}
                             </TextField>
+                        </div>
+
+                         <div id="input-fields">
+                            <TextField
+                                id="with-placeholder"
+                                label="Guest Name"
+                                placeholder="Guest Name"
+                                className={classes.textField}
+                                margin="normal"
+                                value={this.state.guest}
+                                onChange={this.onChangeGuest}
+                            />
+                        </div>
+
+                        <div id="input-fields">
+                            <TextField
+                                id="with-placeholder"
+                                label="Agency"
+                                placeholder="Agency"
+                                className={classes.textField}
+                                margin="normal"
+                                value={this.state.agency}
+                                onChange={this.onChangeAgency}
+                            />
                         </div>
 
 

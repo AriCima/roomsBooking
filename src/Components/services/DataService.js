@@ -99,13 +99,20 @@ export default class DataService {
         });
     }
 
-    static saveRoomNewState(roomNumber, newBooking){        
+    static saveRoomNewState(userId, roomNumber, code, sDay, eDay, guest, agency, bDays){        
 
         return new Promise((resolve, reject) => {
 
-            firebase.firestore().collection('rooms').doc(roomNumber).set(               
-                {bookings: newBooking},
-                {merge: true},
+            firebase.firestore().collection('bookings').add({
+                userId      : userId,
+                roomNumber  : roomNumber,
+                bookingCode : code,
+                startDay    : sDay,
+                endDay      : eDay,
+                guest       : guest,
+                agency      : agency,
+                monthDays   : bDays
+                }
             )
             
             .then((result) => {
@@ -151,12 +158,12 @@ export default class DataService {
         });
     }
 
-    static getRoomOccupation(userId, roomNr){
-        console.log('getRoomOccupation launched');
+    static getRoomOccupation(agency){
+        console.log('getRoomOccupation launched AGENCIA: ', agency);
 
         return new Promise((resolve, reject) => {
 
-            firebase.firestore().collection('rooms').where('userId', '==', userId).where(`roomNumber`,`==`, roomNr).get()
+            firebase.firestore().collection('bookings').where('bookings.agency', '==', agency).get()
 
             .then((result) => {
                 console.log("Result del RoomOccupation: ", result)
