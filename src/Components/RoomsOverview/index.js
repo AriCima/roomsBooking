@@ -26,7 +26,7 @@ export default class RoomsOverview extends React.Component {
 
     this.state = {
       rooms : [],
-      occupation: []
+      occupation: {}
     }
 
   }
@@ -46,13 +46,14 @@ export default class RoomsOverview extends React.Component {
     );  
 
     DataService.getRoomsOccupation(this.props.userEmailId.id).then(
-      console.log("Get Rooms Bookings llamada OK"),
+      
       (roomsOccupationReceived) => {
+
         console.log("Rooms Occupation received", roomsOccupationReceived)
 
         this.setState({occupation: roomsOccupationReceived})
 
-        console.log("Rooms del Manage state", this.state.rooms)
+        console.log("Rooms del Manage state", this.state.occupation)
 
       }
     );  
@@ -105,6 +106,8 @@ export default class RoomsOverview extends React.Component {
 
           <div className="room-input">
             <RoomState userEmailId={this.props.userEmailId}/> 
+
+            <p>{this.state.occupation.bookingCode}</p>
           </div>
           <div className="add-room-button">
             <Link to="/bookings"><AddButton/></Link>

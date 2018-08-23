@@ -164,24 +164,21 @@ export default class DataService {
         return new Promise((resolve, reject) => {
 
             firebase.firestore().collection('bookings').where('userId', '==', userId).get()
-            // .then((result) => {
-            //     console.log("Result del RoomOccupation: ", result)
-            //     let roomData=[];
-            //     result.docs.forEach((d) => {
-            //         let j = d.data();
-            //         j.id=d.id;
-            //         roomData.push(j);
-            //     })
-            //     let bookings = roomData[0].bookings;
 
-            //     resolve(bookings);
-            //     console.log("Bookings en el RoomOccupation: ", bookings)
-            // })
             .then(function(querySnapshot) {
                 querySnapshot.forEach(function(doc) {
+                    let info = {};
                     // doc.data() is never undefined for query doc snapshots
-                    console.log(doc.id, " => ", doc.data());
+                    //console.log(doc.id, " => ", doc.data());   ---->>> info de la documentación de firebase.
+                    info = doc.data();
+
+                    // CHECKPOINT
+                    //console.log("info es: ", info);
+
+                    resolve(info);
+                    
                 });
+
             })
 
             .catch((error) => {
@@ -193,7 +190,6 @@ export default class DataService {
             })
             
         });
+
     }
-
-
 }
