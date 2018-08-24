@@ -25,29 +25,106 @@ export default class OccupationGraphic extends React.Component {
 
         this.state = { 
             user: null,
-            bookings: [],
+            occupation: {},
         };
 
     }
 
-    // componentDidMount(){
+    componentDidMount(){
 
-    //     DataService.getRoomOccupation('XPehl23JyqfV2CJmwtohLTOTkUN2','ari 1').then(
-    //         (userData)=>{
-    //           console.log('userData en OccupationGraphic: ', userData);
-    //           //this.state.bookings = userData;
+        DataService.getRoomsOccupation(this.props.userId).then(
+      
+        (roomsOccupationReceived) => {
+
+        console.log("Rooms Occupation received", roomsOccupationReceived)
+
+        this.setState({occupation: roomsOccupationReceived})
+
+        console.log("Rooms del Manage state", this.state.occupation)
+
+      }
+    );  
+
+    }
+//   _renderOccupation(){
+//     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dic'];
+    
+//     let today = new Date;
+//     let currentMonth = getMonth(today);
+//     console.log("Current Month cálculo", currentMonth);
+
+//     let firstSixMonthsOcc = [];  // month's occup % from state
+//     let secondSixMonthsOcc = [];   // month's occup % from state
+//     let firstSixMonths = [];
+//     let secondSixMonths = [];
 
 
-    //           this.setState({bookings : userData});
+    
 
-    //           console.log('this.state.bookings en OccupationGraphics:', this.state.bookings)
-    //         }, 
-    //         (errorMessage)=>{
-    //           console.log(errorMessage)
-    //         }
-    //     )
+//       if (currentMonth <= 5 ){
 
-    // }
+//         for (let i=0; i<=5; i++){
+//           firstSixMonthsOcc[i] = this.state.occupation.monthDays.currentYear[i];   
+//           firstSixMonths[i] = months[currentMonth + i];
+//         }
+
+//         for (var j = 0; j< 5; j++){
+//           secondSixMonthsOcc[j] = this.state.occupation.monthDays.nextYear[j+5];
+//           secondSixMonths[j] = months[currentMonth + j + 5];
+//         }
+
+//       } else {
+//         for (let i=0; i<=11-currentMonth; i++){
+//           firstSixMonthsOcc[i] = this.state.occupation.monthDays.currentYear[i];
+//           firstSixMonths[i] = months[currentMonth + i];
+//         }
+
+//         for (let j=(11-(currentMonth)+1); j <= 5; j++){
+//           firstSixMonthsOcc[j] = this.state.occupation.monthDays.nextYear[j];
+//           firstSixMonths[j] = months[currentMonth + j];
+//         }
+
+//         for (var j = 0; j< 5; j++){
+//           secondSixMonthsOcc[j] = this.state.occupation.monthDays.nextYear[5-(11-currentMonth)];
+//           secondSixMonths[j] = months[currentMonth + j + 5];
+//         }
+
+//       }
+
+
+//       return(
+//         <div>
+//           <p>{this.firstSixMonths}</p>
+//           <p>{this.secondSixMonths}</p>
+//         </div>
+        
+//       )
+      
+    
+
+//     // let percent = [];
+//     // let divStyle = {
+//     //   background: `linear-gradient(
+//     //       to right, 
+//     //       rgba(128,128,128,0.3),
+//     //       rgba(128,128,128,0.3) ${percent}%,
+//     //       rgba(255,0,0,0.3) ${percent}%,
+//     //       rgba(255,0,0,0.3)
+//     //   ),
+//     //}     
+
+
+//     // return( 
+
+//     //     <div className="months-boxes" style={divStyle}>
+//     //         <p>Aug</p>
+//     //     </div>
+        
+
+//     // )
+  
+    
+// }
 
     _renderOccupation(){
 

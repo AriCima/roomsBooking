@@ -166,19 +166,17 @@ export default class DataService {
             firebase.firestore().collection('bookings').where('userId', '==', userId).get()
 
             .then(function(querySnapshot) {
-                querySnapshot.forEach(function(doc) {
-                    let info = {};
-                    // doc.data() is never undefined for query doc snapshots
-                    //console.log(doc.id, " => ", doc.data());   ---->>> info de la documentación de firebase.
-                    info = doc.data();
-
-                    // CHECKPOINT
-                    //console.log("info es: ", info);
-
-                    resolve(info);
-                    
+                let info = [];
+                querySnapshot.forEach((d) => {
+                   
+                    let j = d.data();
+                    j.id=d.id;
+                    info.push(j);  
                 });
+                // CHECKPOINT
+                console.log("info es: ", info);
 
+                resolve(info);
             })
 
             .catch((error) => {

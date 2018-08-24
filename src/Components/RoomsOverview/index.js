@@ -8,7 +8,11 @@ import AddButton from '../Accessories/AddButton';
 // SERVICE API
 import DataService from '../services/DataService';
 
+//DATE-FNS
+import getMonth from 'date-fns/get_month';
+
 import './index.css';
+import OccupationGraphic from './RoomState/OccupationGraphic';
 
 
 const styles = theme => ({
@@ -26,12 +30,21 @@ export default class RoomsOverview extends React.Component {
 
     this.state = {
       rooms : [],
-      occupation: {}
+      occupation: {},
+      currentYear: [],
+      nextYear: [],
+      occupationPercent:[[]]
     }
+
 
   }
 
   componentDidMount(){
+
+    for (let x in this.state.occupation) {
+      this.state.occupationPercent.push(this.state.occupation[x]);
+    }
+
     console.log("ComponenDidMount roomsOverview userID:", this.props.userEmailId.id);
 
     DataService.getUserRoomsList(this.props.userEmailId.id).then(
@@ -49,16 +62,24 @@ export default class RoomsOverview extends React.Component {
       
       (roomsOccupationReceived) => {
 
-        console.log("Rooms Occupation received", roomsOccupationReceived)
+      console.log("Rooms Occupation received", roomsOccupationReceived)
 
-        this.setState({occupation: roomsOccupationReceived})
+      // this.setState({
+      //   currentYear: roomsOccupationReceived.monthDays.currentYear,
+      //   nextYear: roomsOccupationReceived.monthDays.currentYear
+      // });
 
-        console.log("Rooms del Manage state", this.state.occupation)
+      console.log("this.state.currentYear", this.state.currentYear);
 
-      }
-    );  
-  }
+    }
+  );  
 
+    
+  };
+
+ 
+
+  
 
 
 
@@ -98,6 +119,8 @@ export default class RoomsOverview extends React.Component {
     const {rooms} = this.state
     console.log('props del Overview: ', this.props)
 
+    console.log("OccupationPercent: ", this.state.occupationPercent)
+
     return (
       
       <div className="rooms-admin">
@@ -105,10 +128,14 @@ export default class RoomsOverview extends React.Component {
         <div className="manage-bookings">
 
           <div className="room-input">
-            <RoomState userEmailId={this.props.userEmailId}/> 
 
-            <p>{this.state.occupation.bookingCode}</p>
+            {/* <p>{this._renderOccupation()}</p> */}
+
+            {/* <OccupationGraphic userId={this.props.userEmailId.id}/>  */}
+
           </div>
+
+
           <div className="add-room-button">
             <Link to="/bookings"><AddButton/></Link>
           </div>
