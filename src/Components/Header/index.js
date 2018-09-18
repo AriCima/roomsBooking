@@ -41,8 +41,8 @@ class Header extends Component {
                 <div className="header-mid">
 
                     <div className="nav-block">
-                    {!this.props.user ? <p>ROOMS MANAGEMENT APP</p>
-                        :<Link to="/overview">Overview</Link>
+                    {!this.props.user ? <p>RENTAL MANAGEMENT APP</p>
+                        :<Link to="/home">Home</Link>
                     } 
                     </div>
 

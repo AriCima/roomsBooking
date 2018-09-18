@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 
+
 // APP COMPONENTS
 import Header from '../Header';
 import Register from '../Access/Register';
 import Login from '../Access/Login';
-import RoomsOverview from '../RoomsOverview';
-import RoomInput from '../RoomsOverview/RoomInput';
-import RoomState from '../RoomsOverview/RoomState/RoomStateManage';
-import Room from '../RoomsOverview/Room';
+import Home from '../Home';
+import Apartment from '../Apartments/Apt';
+import Room from '../Rooms/Room';
+import RoomInput from '../Rooms/RoomInput';
+import RoomBookings from '../Rooms/RoomBookings';
+import ApartmentInput from '../Apartments/AptInput';
 
 // API SERVICES
 import DataService from '../services/DataService';
+
+// CSS
 import './index.css';
 
 // FIREBASE
@@ -27,8 +32,6 @@ var config = {
   storageBucket: "roomsbooking-fc246.appspot.com",
   messagingSenderId: "170840432036"
 };
-
-
 firebase.initializeApp(config);
 
 
@@ -44,7 +47,7 @@ class App extends Component {
   }
 
 
-  componentDidMount(){
+  componentWillMount(){
 
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
@@ -88,11 +91,17 @@ class App extends Component {
 
               <Switch>
                 <Route path="/landing" component={Login}/>
-                <Route path="/login" component={Login}/>
+                <Route path="/" exact component={Login}/>
                 <Route path="/register" component={Register}/>
-                <Route path="/overview" exact render = {(props) => {return <RoomsOverview userEmailId={user}/>}}/>
+                <Route path="/home" exact render = {(props) => {return <Home userEmailId={user}/>}}/>
+                {/* <Route path="/apt_overview/:s" exact render = {(props) => {return <Home userEmailId={user} apartmentName={props.match.params.s}/>}}/> */}
+                <Route path="/apt_overview/:apt" exact render = {(props) => { return <Apartment aptID={props.match.params.apt}/> }}/> 
+                <Route path="/apt_add/:user" exact render = {(props) => { return <ApartmentInput userID={props.match.params.user}/> }}/> 
+                <Route path="/room_overview/:room" exact render = {(props) => {return <Room roomID={props.match.params.room}/> }}/>
+                <Route path="/room_booking/:room" exact render = {(props) => {return <RoomBookings roomID={props.match.params.room}/> }}/>
+                <Route path="/add-jam" exact render = {(props) => {return <ApartmentInput userEmailId={user}/>}}/>
                 <Route path="/add-room" exact render = {(props) => {return <RoomInput userEmailId={user}/>}}/>
-                <Route path="/bookings" exact render = {(props) => {return <RoomState userEmailId={user} />}}/>
+                {/* <Route path="/bookings" exact render = {(props) => {return <RoomState userEmailId={user} />}}/> */}
               </Switch>
 
 

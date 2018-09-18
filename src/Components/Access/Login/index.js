@@ -57,7 +57,7 @@ class Login extends Component {
                 .then((result)=>{
                     console.log('Result de Login', result)
                 
-                DataService.getUserRoomsList(result.user.uid).then(
+                DataService.getUserApartments(result.user.uid).then(
                     (userData)=>{
                     console.log('userData en App: ', userData);   
                     this.props.history.push(`/user/${userData.id}`)                
