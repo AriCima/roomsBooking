@@ -49,7 +49,7 @@ const styles = theme => ({
 });
 
 
-const JamType = [
+const rentMode = [
     {
       value: 'One Tenant',
       label: 'One Tenant',
@@ -66,8 +66,7 @@ class ApartmentInput extends React.Component {
         super(props);
 
         this.state = { 
-            userId: '',
-            apartmentCode: '',
+            userId: this.props.userID,
             apartmentName: '',
             street: '',
             houseNr: '',
@@ -86,6 +85,7 @@ class ApartmentInput extends React.Component {
         this.onChangeRentalType =  this.onChangeRentalType.bind(this); 
 
         this.onNewApartment = this.onNewApartment.bind(this);
+
     }
 
 
@@ -115,51 +115,29 @@ class ApartmentInput extends React.Component {
 
     onNewApartment(e){
         e.preventDefault();
-        let error = false;
         let newState = this.state;
 
-        console.log('STATE AL ENVIAR EL FORM de NewApartment: ', this.state);
+        // GENERATE APARTMENT CODE
+        const letters = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+        let code = [];
 
-        if(!error){
-           
-            newState.userId = this.props.userEmailId.id;
+        for (let l=0; l<4; l++){
+            let capital = Math.round(Math.random()*10);
+            let random = Math.round(Math.random()*26);
 
-            //console.log("NewState antes de enviar info al firebase", newState);
-            
-            //console.log('Request enviado \n El state del ApartmentInput es: ', this.state);
-
-            // GENERATE APARTMENT CODE
-            const letters = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-            let code = [];
-
-            for (let l=0; l<4; l++){
-                let capital = Math.round(Math.random()*10);
-                let random = Math.round(Math.random()*26);
-
-                if(Number.isInteger(capital/2)){
-                    code[l]=(letters[random]).toUpperCase();
-                } else {
-                    code[l]=letters[random];
-                }
+            if(Number.isInteger(capital/2)){
+                code[l]=(letters[random]).toUpperCase();
+            } else {
+                code[l]=letters[random];
             }
-
-            let d = new Date();
-            let t = d.getTime().toString().slice(-8);  // el bookCode = milisegundos
-            this.state.apartmentCode = code.join("").concat(t);
-
-            //
-
-
-
-            DataService.addNewApartment(newState.apartmentName, newState).then(
-                (result)=>{
-                    console.log(`userData luego del add-flat`, result)
-                    this.props.history.push(`/apartment_overview/${Object.keys(result.apartmentName)}`)
-                }
-            )
-            
-
         }
+
+        let d = new Date();
+        let t = d.getTime().toString().slice(-8);  // el Code = milisegundos
+        let aptCode = code.join("").concat(t);
+        let apartmentCode = aptCode;
+        
+        DataService.addNewApartment(apartmentCode, newState);
             
     };
 
@@ -167,14 +145,12 @@ class ApartmentInput extends React.Component {
   render() {
     const { classes } = this.props;
 
-    console.log('la props id en RoomInput: ', this.props.userEmailId);
-
     return (
 
         <div className="form-container">
 
             <div className="form-title">
-                <h4>INPUT NEW JAM</h4>
+                <h4>ADD NEW APARTMENT</h4>
             </div>
 
             <form  id="form-format" className={classes.container} noValidate autoComplete="off" onSubmit={this.onNewApartment}>
@@ -261,7 +237,7 @@ class ApartmentInput extends React.Component {
                             value={this.state.rentalType}
                             onChange={this.onChangeRentalType}
                         >
-                            {JamType.map(option => (
+                            {rentMode.map(option => (
                                 <MenuItem key={option.value} value={option.value}>
                                     {option.label}
                                 </MenuItem>

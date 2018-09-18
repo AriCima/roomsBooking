@@ -13,17 +13,21 @@ class ApartmentsOverview extends Component {
     super(props)
 
     this.state = {
-      userId: this.props.user.userId,
+      userId: this.props.userEmailId.id,
       apartments: []
     };
+
+    // console.log("USERID en AptOvVIEW: ", this.state.userId)
   }
 
   
+  
   componentDidMount() {
-    console.log("ComponentDidMount START")
+    console.log("el user en AptOverview: ", this.state.userId)
     DataService.getUserApartments(this.state.userId)
-    .then(res => {
-    const apartments = res.data.results;
+    .then(apts => {
+    const apartments = apts;
+    console.log("apts en aptOverview: ", apts)
     this.setState({ apartments });
     })
     .catch(function (error) {    // ataja el error: no rompe la app
@@ -36,8 +40,8 @@ class ApartmentsOverview extends Component {
     return this.state.apartments.map((apt,i) => {
       return (
         <Link to={`/apt_overview/${apt.id}`} key={i}>
-          <h1>{apt.title}</h1> 
-          <p>{apt.overview}</p>
+          <h1>{apt.apartmentName}</h1> 
+          <p>{apt.rentalType}</p>
         </Link>
       )
     })
@@ -45,8 +49,6 @@ class ApartmentsOverview extends Component {
 
   render() {
   
-      
-    console.log("Nro de Apts: ", this.state.apartments.length)
 
     return (
       
@@ -58,7 +60,7 @@ class ApartmentsOverview extends Component {
         <div className="add-apartment">
           <p>Add apartment</p>
           <div className="add-room-button">
-            <Link to="/bookings"><AddButton/></Link>
+            <Link to={`/apt_add/${this.state.userId}`}><AddButton/></Link>
           </div>
         </div>
 

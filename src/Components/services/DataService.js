@@ -27,15 +27,15 @@ export default class DataService {
     };
     static getUserContactInfo(userId){
 
-        console.log('el argumento recibido en dataservice: ', userId)
+        // console.log('el argumento recibido en dataservice: ', userId)
 
         return new Promise((resolve, reject) => {
 
             firebase.firestore().collection('users').doc(userId).get()
 
             .then((result) => {
-                console.log('el Result es: ', result)
-                console.log('el Result.data() es: ', result.data())
+                // console.log('el Result es: ', result)
+                // console.log('el Result.data() es: ', result.data())
                 resolve(result.data());   // OBTENGO TODO LO QUE TENGO ALMACENADO DE ÉSTE USUARIO
             })
 
@@ -71,11 +71,12 @@ export default class DataService {
         });
     };
     static getUserApartments(userId){
-
+        console.log('El userID recibido en DataService.get apts: ', userId)
         return new Promise((resolve, reject) => {
 
             firebase.firestore().collection('apartments').where(`userId`,`==`, userId).get() // Where me devuelve todos los rooms que tengan ese userId
             .then((result) => {
+            
                 let apts=[];
                 result.docs.forEach((d) => {
                     let j = d.data();

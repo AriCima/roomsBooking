@@ -43,7 +43,7 @@ class App extends Component {
       user: null
     }
 
-    console.log("usuario: ", this.state.user)
+    // console.log("usuario: ", this.state.user)
   }
 
 
@@ -75,7 +75,7 @@ class App extends Component {
 
   render() {
     const { user } = this.state;
-    console.log('el user en App render: ', user)
+    // console.log('el user en App render: ', user)
     return (
       <div>
 
@@ -93,13 +93,14 @@ class App extends Component {
                 <Route path="/landing" component={Login}/>
                 <Route path="/" exact component={Login}/>
                 <Route path="/register" component={Register}/>
-                <Route path="/home" exact render = {(props) => {return <Home userEmailId={user}/>}}/>
+                <Route path="/home" render = {(props) => { return <Home userEmailId={user}/>}}/>
                 {/* <Route path="/apt_overview/:s" exact render = {(props) => {return <Home userEmailId={user} apartmentName={props.match.params.s}/>}}/> */}
                 <Route path="/apt_overview/:apt" exact render = {(props) => { return <Apartment aptID={props.match.params.apt}/> }}/> 
                 <Route path="/apt_add/:user" exact render = {(props) => { return <ApartmentInput userID={props.match.params.user}/> }}/> 
+                {/* <Route path="/apt_add/:user" component={ApartmentInput}/> */}
                 <Route path="/room_overview/:room" exact render = {(props) => {return <Room roomID={props.match.params.room}/> }}/>
                 <Route path="/room_booking/:room" exact render = {(props) => {return <RoomBookings roomID={props.match.params.room}/> }}/>
-                <Route path="/add-jam" exact render = {(props) => {return <ApartmentInput userEmailId={user}/>}}/>
+                {/* <Route path="/add-jam" exact render = {(props) => {return <ApartmentInput userEmailId={user}/>}}/> */}
                 <Route path="/add-room" exact render = {(props) => {return <RoomInput userEmailId={user}/>}}/>
                 {/* <Route path="/bookings" exact render = {(props) => {return <RoomState userEmailId={user} />}}/> */}
               </Switch>
