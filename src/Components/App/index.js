@@ -95,7 +95,7 @@ class App extends Component {
                 <Route path="/register" component={Register}/>
                 <Route path="/home" render = {(props) => { return <Home userEmailId={user}/>}}/>
                 {/* <Route path="/apt_overview/:s" exact render = {(props) => {return <Home userEmailId={user} apartmentName={props.match.params.s}/>}}/> */}
-                <Route path="/apt_overview/:apt" exact render = {(props) => { return <Apartment aptID={props.match.params.apt}/> }}/> 
+                <Route path="/single_apt_overview/:aptId" exact render = {(props) => { return <Apartment aptID={props.match.params.aptId}/> }}/> 
                 <Route path="/apt_add/:user" exact render = {(props) => { return <ApartmentInput userID={props.match.params.user}/> }}/> 
                 {/* <Route path="/apt_add/:user" component={ApartmentInput}/> */}
                 <Route path="/room_overview/:room" exact render = {(props) => {return <Room roomID={props.match.params.room}/> }}/>

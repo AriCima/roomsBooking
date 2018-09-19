@@ -39,7 +39,7 @@ class ApartmentsOverview extends Component {
   _renderApartments(){
     return this.state.apartments.map((apt,i) => {
       return (
-        <Link to={`/apt_overview/${apt.id}`} key={i}>
+        <Link to={`/single_apt_overview/${apt.id}`} key={i}>
           <h1>{apt.apartmentName}</h1> 
           <p>{apt.rentalType}</p>
         </Link>

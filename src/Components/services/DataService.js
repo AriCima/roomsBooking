@@ -135,19 +135,24 @@ export default class DataService {
             
         }); 
     };
-    static addApartmentNewState(userId, apartmentCode, code, sDay, eDay, guest, agency, bDays){        
+    static addApartmentNewState(userId, apartmentCode, bCode, sDay, eDay, agency, bDays, tName, tSrn, tE, tM, rPrice, rdep){        
 
         return new Promise((resolve, reject) => {
 
             firebase.firestore().collection('apt_bookings').add({
                 userId          : userId,
                 apartmentCode   : apartmentCode,
-                bookingCode     : code,
+                bookingCode     : bCode,
                 startDay        : sDay,
                 endDay          : eDay,
-                guest           : guest,
                 agency          : agency,
-                monthDays       : bDays
+                monthDays       : bDays,
+                tenantName      : tName,
+                tenantSurname   : tSrn,
+                tenantEmail     : tE,
+                tenantMobile    : tM,
+                rentPrice       : rPrice,
+                deposit         : rdep,
                 }
             )
             
