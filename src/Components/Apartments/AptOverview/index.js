@@ -17,17 +17,17 @@ class ApartmentsOverview extends Component {
       apartments: []
     };
 
-    // console.log("USERID en AptOvVIEW: ", this.state.userId)
+   
   }
 
   
   
   componentDidMount() {
-    console.log("el user en AptOverview: ", this.state.userId)
+    
     DataService.getUserApartments(this.state.userId)
     .then(apts => {
     const apartments = apts;
-    console.log("apts en aptOverview: ", apts)
+    
     this.setState({ apartments });
     })
     .catch(function (error) {    // ataja el error: no rompe la app
@@ -39,10 +39,16 @@ class ApartmentsOverview extends Component {
   _renderApartments(){
     return this.state.apartments.map((apt,i) => {
       return (
-        <Link to={`/single_apt_overview/${apt.id}`} key={i}>
-          <h1>{apt.apartmentName}</h1> 
-          <p>{apt.rentalType}</p>
-        </Link>
+        
+          <Link className="apts-row" to={`/single_apt_overview/${apt.id}`} key={i}>
+            <div className="apts-info-block">
+              <p>{apt.apartmentName}</p>
+            </div> 
+            <div className="apts-info-block-b">
+              <p>{apt.rentalType}</p>
+            </div>
+          </Link>
+        
       )
     })
   } 
@@ -51,20 +57,30 @@ class ApartmentsOverview extends Component {
   
 
     return (
-      
-      <div>
-        <div className="list">
-          {this.state.apartments.length === 0? <p>LOADING !</p> : this._renderApartments() }
+
+      <div className="apts-list">
+
+        <div className="page-title">
+          <h3>My Apartments</h3>
         </div>
 
-        <div className="add-apartment">
-          <p>Add apartment</p>
-          <div className="add-room-button">
-            <Link to={`/apt_add/${this.state.userId}`}><AddButton/></Link>
-          </div>
+        <div className="apts-list-header">
+          <ul>
+            <li>Name</li>
+            <li>Rent Type</li>
+            
+          </ul>          
         </div>
+        {this.state.apartments.length === 0? <p>LOADING !</p> : this._renderApartments() }
 
+      <div className="add-apartment">
+        <p>Add apartment</p>
+        <div className="add-apt-button">
+          <Link to={`/apt_add/${this.state.userId}`}><AddButton/></Link>
+        </div>
       </div>
+
+    </div>
 
     )
 
