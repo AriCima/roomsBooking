@@ -8,6 +8,7 @@ import Register from '../Access/Register';
 import Login from '../Access/Login';
 import Home from '../Home';
 import Apartment from '../Apartments/Apt';
+import AptBookings from '../Apartments/AptBookings'
 import Room from '../Rooms/Room';
 import RoomInput from '../Rooms/RoomInput';
 import RoomBookings from '../Rooms/RoomBookings';
@@ -97,6 +98,7 @@ class App extends Component {
                 {/* <Route path="/apt_overview/:s" exact render = {(props) => {return <Home userEmailId={user} apartmentName={props.match.params.s}/>}}/> */}
                 <Route path="/single_apt_overview/:aptId" exact render = {(props) => { return <Apartment aptID={props.match.params.aptId}/> }}/> 
                 <Route path="/apt_add/:user" exact render = {(props) => { return <ApartmentInput userID={props.match.params.user}/> }}/> 
+                <Route path="/apt_newbooking/:aptId" exact render = {(props) => { return <AptBookings userEmailId={user} aptID={props.match.params.aptId}/> }}/> 
                 {/* <Route path="/apt_add/:user" component={ApartmentInput}/> */}
                 <Route path="/room_overview/:room" exact render = {(props) => {return <Room roomID={props.match.params.room}/> }}/>
                 <Route path="/room_booking/:room" exact render = {(props) => {return <RoomBookings roomID={props.match.params.room}/> }}/>

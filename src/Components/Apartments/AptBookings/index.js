@@ -20,7 +20,7 @@ import getMonth from 'date-fns/get_month';
 import getYear from 'date-fns/get_year';
 
 // DATABASE API
-import DataService from '../../../services/DataService';
+import DataService from '../../services/DataService';
 
 
 
@@ -95,16 +95,16 @@ class AptBookings extends React.Component {
           nextYear:[0,0,0,0,0,0,0,0,0,0,0,0]},  // Próximos 2 años, cada posición indica los días "alquilados" de cada habitación.
         aptState:'',
         agency:'',
-        userId: this.props.params.userId,
-        apartmentCode: this.props.params.aptCode,
+        userId: '',
+        apartmentCode: this.props.aptID,
         newStartDate: '',
         newEndDate: '',
         apartmentState: '',
         startDateError: false,
         endDateError: false,
         overlappingError: false,
-        rentPrice: 0,
-        deposit: 0,
+        rentPrice: null,
+        deposit: null,
       };
 
       this.onChangeTenantName     = this.onChangeTenantName.bind(this);
@@ -116,7 +116,7 @@ class AptBookings extends React.Component {
       this.onChangeNewAptState    = this.onChangeNewAptState.bind(this);
       this.onChangeAgency         = this.onChangeAgency.bind(this);
       this.onChangeRentPrice      = this.onChangeRentPrice.bind(this);
-      this.onChangerentDeposit    = this.onChangerentDeposit.bind(this);
+      this.onChangeDeposit    = this.onChangeDeposit.bind(this);
 
       this.onNewBook              = this.onNewBook.bind(this);
     }
@@ -148,7 +148,7 @@ class AptBookings extends React.Component {
     onChangeRentPrice(event){
       this.setState({rentPrice: event.target.value})
     };
-    onChangeRentDeposit(event){
+    onChangeDeposit(event){
       this.setState({deposit: event.target.value})
     };
 
@@ -292,7 +292,7 @@ class AptBookings extends React.Component {
               this.state.newEndDate, 
               this.state.agency, 
               this.state.bookingDays,
-              this.state.tenanttName,
+              this.state.tenantName,
               this.state.tenantSurname,
               this.state.tenantEmail,
               this.state.tenantMobile,
@@ -325,7 +325,6 @@ class AptBookings extends React.Component {
                               margin="normal"
                               value={this.state.tenantName}
                               onChange={this.onChangeTenantName}
-                              // onChange={(e)=>{this.updateFormInput('roomNumber', e.target.value)}}
                             />
                         </div>
                         <div id="input-fields">
@@ -336,7 +335,6 @@ class AptBookings extends React.Component {
                               margin="normal"
                               value={this.state.tenantSurname}
                               onChange={this.onChangeTenantSurname}
-                              // onChange={(e)=>{this.updateFormInput('roomNumber', e.target.value)}}
                           />
                         </div>
                         <div id="input-fields">
@@ -437,7 +435,7 @@ class AptBookings extends React.Component {
                             className={classes.textField}
                             margin="normal"
                             value={this.state.deposit}
-                            onChange={this.onChangeRentDeposit}
+                            onChange={this.onChangeDeposit}
                           />
                         </div>
                     </div>
