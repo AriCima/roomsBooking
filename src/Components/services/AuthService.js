@@ -15,7 +15,7 @@ export default class AuthService {
             .catch((error) => {
                 var errorCode = error.code;
                 console.log('AUTH SERVICE::::errorCode: ', errorCode);
-                var errorMessage = error.message;
+                // var errorMessage = error.message;
                 
                 if(errorCode === "auth/wrong-password"){
                     reject('User and or Password not valid');

@@ -24,43 +24,47 @@ export default class Apartment extends React.Component {
  
   componentDidMount(){
     //console.log('Los params recibidos en Apt son: ', this.props.aptID)
-    DataService.getApartmentInfo(this.props.aptID).then(res => {
+    DataService.getApartmentInfo(this.props.aptID)
+    .then(res => {
       const apt = res;
-      //console.log("El res.data en APT es = ", res.data)
       console.log("Res: ", res)
       this.setState({ 
-        apartment : res });
-      //console.log("apt en APT = ", apt)
-      console.log("el state del apt: ", this.state)
+        apartment : res 
+      });
     })
     .catch(function (error) {    
       console.log(error);
     })
 
     DataService.getApartmentBookings(this.props.aptID).then(res => {
-      const apt = res;
-      //console.log("El res.data en APT es = ", res.data)
-      //console.log("Res: ", res)
+      // const apt = res;
       this.setState({ 
-        aptBookings : res });
-      
+        aptBookings : res 
+      });
+      // Calculations.getCurrentContract(bookings)
     })
     .catch(function (error) {    
       console.log(error);
     })
 
 
+    
+
   }
 
   _renderApartmentInfo(){
     return (
       
-      <div className="render-function"> 
+      <div className="bookings-list"> 
         <div className="apt-info-block">
           <h4>{this.state.apartment.apartmentName}</h4>
+          <h3>Property Overview</h3>
         </div>
         <div className="apt-info-block">
           <p>{this.state.apartment.street} {this.state.apartment.houseNr}, {this.state.apartment.floor}ª, {this.state.apartment.door} </p>
+        </div>
+        <div className="apt-info-block">
+          <p>{this.state.aptBookings.tenantName} {this.state.aptBookings.tenantSurname}</p>
         </div>
       </div>
     )
@@ -101,13 +105,24 @@ export default class Apartment extends React.Component {
     
     return (
 
+
       <div className="apt-overview">
       
-         <div className="apartment-info">
+        <div className="apartment-info">
 
           {this.state.apartment === null ? <p>LOADING !</p> :
           this._renderApartmentInfo()}
-        
+      
+        </div>
+
+        <div className="add-rooms">
+          
+          <p>Add rooms if you will rent them separately</p>
+            
+          <div className="add-room-button">
+            <Link to={`/apt_adRoom/${this.state.apartmentCode}`}><AddButton/></Link>
+          </div>
+
         </div>
         
 

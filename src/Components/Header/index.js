@@ -6,10 +6,9 @@ import './index.css';
 
 class Header extends Component {
    constructor(props){
-       super(props);
+    super(props);
 
     this.signOut = this.signOut.bind(this);
-
     console.log('props en el header', this.props)
 
    }

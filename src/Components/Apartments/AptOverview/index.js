@@ -19,8 +19,6 @@ class ApartmentsOverview extends Component {
 
    
   }
-
-  
   
   componentDidMount() {
     

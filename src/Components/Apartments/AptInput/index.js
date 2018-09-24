@@ -73,18 +73,26 @@ class ApartmentInput extends React.Component {
             floor: '',
             door: '',
             zip: '',
+            sqm: '',
+            rooms: '',
             rentalType: '',
+            rentPrice: '',
+            deposit: '',
         };
 
-        this.onChangeApartmentName = this.onChangeApartmentName.bind(this); 
-        this.onChangeApartmentStreet = this.onChangeApartmentStreet.bind(this);  
-        this.onChangeApartmentHouseNr = this.onChangeApartmentHouseNr.bind(this); 
-        this.onChangeApartmentFloor = this.onChangeApartmentFloor.bind(this); 
-        this.onChangeApartmentDoor = this.onChangeApartmentDoor.bind(this);
-        this.onChangeApartmentZipCode = this.onChangeApartmentZipCode.bind(this); 
-        this.onChangeRentalType =  this.onChangeRentalType.bind(this); 
+        this.onChangeApartmentName      = this.onChangeApartmentName.bind(this); 
+        this.onChangeApartmentStreet    = this.onChangeApartmentStreet.bind(this);  
+        this.onChangeApartmentHouseNr   = this.onChangeApartmentHouseNr.bind(this); 
+        this.onChangeApartmentFloor     = this.onChangeApartmentFloor.bind(this); 
+        this.onChangeApartmentDoor      = this.onChangeApartmentDoor.bind(this);
+        this.onChangeApartmentZipCode   = this.onChangeApartmentZipCode.bind(this); 
+        this.onChangeApartmentSqm       = this.onChangeApartmentSqm.bind(this); 
+        this.onChangeApartmentRooms     = this.onChangeApartmentRooms.bind(this); 
+        this.onChangeRentalType         = this.onChangeRentalType.bind(this); 
+        this.onChangeRentPrice          = this.onChangeRentPrice.bind(this); 
+        this.onChangeDeposit            = this.onChangeDeposit.bind(this); 
 
-        this.onNewApartment = this.onNewApartment.bind(this);
+        this.onNewApartment             = this.onNewApartment.bind(this);
 
     }
 
@@ -107,8 +115,20 @@ class ApartmentInput extends React.Component {
     onChangeApartmentZipCode(event){
         this.setState({zip: event.target.value})
     };
+    onChangeApartmentSqm(event){
+        this.setState({sqm: event.target.value})
+    };
+    onChangeApartmentRooms(event){
+        this.setState({rooms: event.target.value})
+    };
     onChangeRentalType(event){
         this.setState({rentalType: event.target.value})
+    };
+    onChangeRentPrice(event){
+        this.setState({rentPrice: event.target.value})
+    };
+    onChangeDeposit(event){
+        this.setState({deposit: event.target.value})
     };
 
 
@@ -138,7 +158,8 @@ class ApartmentInput extends React.Component {
         let apartmentCode = aptCode;
         
         DataService.addNewApartment(apartmentCode, newState);
-            
+        
+        
     };
 
   
@@ -173,62 +194,72 @@ class ApartmentInput extends React.Component {
                         <TextField
                             id="with-placeholder"
                             label="Street"
-                            placeholder="Street"
                             className={classes.textField}
                             margin="normal"
                             value={this.state.street}
                             onChange={this.onChangeApartmentStreet}
                         />
                     </div>
-
                     <div id="input-fields">
                         <TextField
                             id="with-placeholder"
                             label="House Nr"
-                            placeholder="House Nr"
                             className={classes.textField}
                             margin="normal"
                             value={this.state.houseNr}
                             onChange={this.onChangeApartmentHouseNr}
                         />
                     </div>
-
                     <div id="input-fields">
                         <TextField
                             id="with-placeholder"
                             label="Floor"
-                            placeholder="Floor"
                             className={classes.textField}
                             margin="normal"
                             value={this.state.floor}
                             onChange={this.onChangeApartmentFloor}
                         />
                     </div>
-
                     <div id="input-fields">
                         <TextField
                             id="with-placeholder"
                             label="Door"
-                            placeholder="Door"
                             className={classes.textField}
                             margin="normal"
                             value={this.state.door}
                             onChange={this.onChangeApartmentDoor}
                         />
                     </div>
-
                     <div id="input-fields">
                         <TextField
                             id="with-placeholder"
                             label="Zip-Code"
-                            placeholder="zipcode"
                             className={classes.textField}
                             margin="normal"
                             value={this.state.zip}
                             onChange={this.onChangeApartmentZipCode}
                         />
                     </div>
-
+                    <div id="input-fields">
+                        <TextField
+                            id="with-placeholder"
+                            label="Sqm"
+                            className={classes.textField}
+                            margin="normal"
+                            value={this.state.sqm}
+                            onChange={this.onChangeApartmentSqm}
+                        />
+                    </div>
+                    <div id="input-fields">
+                        <TextField
+                            id="with-placeholder"
+                            label="Nr of bedrooms"
+                            className={classes.textField}
+                            margin="normal"
+                            value={this.state.rooms}
+                            onChange={this.onChangeApartmentRooms}
+                        />
+                    </div>
                     <div id="input-fields-select">
                         <TextField
                             select
@@ -244,7 +275,26 @@ class ApartmentInput extends React.Component {
                             ))}
                         </TextField>
                     </div>
-
+                    <div id="input-fields">
+                        <TextField
+                            id="with-placeholder"
+                            label="Standard Rent Price"
+                            className={classes.textField}
+                            margin="normal"
+                            value={this.state.rentPrice}
+                            onChange={this.onChangeRentPrice}
+                        />
+                    </div>
+                    <div id="input-fields">
+                        <TextField
+                            id="with-placeholder"
+                            label="Standard Deposit"
+                            className={classes.textField}
+                            margin="normal"
+                            value={this.state.deposit}
+                            onChange={this.onChangeDeposit}
+                        />
+                    </div>
                    
                     
                 </div>

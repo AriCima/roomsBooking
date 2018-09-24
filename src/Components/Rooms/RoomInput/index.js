@@ -72,6 +72,7 @@ class RoomInput extends React.Component {
 
         this.state = { 
             userId: '',
+            apartmentCode: this.props.aptID,
             roomNumber: '',
             roomCode: '',
             sqm: '',
@@ -109,15 +110,12 @@ class RoomInput extends React.Component {
     onChangeExterior(event){
         this.setState({exterior: event.target.value})
     }
-
     onChangePrivateBathroom(event){
         this.setState({privateBathroom: event.target.value})
     }
-
     onChangeBalcony(event){
         this.setState({balcony: event.target.value})
     }
-
     onChangeprice(event){
         this.setState({price: event.target.value})
     }
@@ -133,10 +131,6 @@ class RoomInput extends React.Component {
         if(!error){
            
             newState.userId = this.props.userEmailId.id;
-
-            //console.log("NewState luego antes de enviar info al firebase", newState);
-            
-            //console.log('Request enviado \n El state del RoomInput es: ', this.state);
 
             // GENERATE ROOM CODE
             const letters = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
@@ -159,7 +153,7 @@ class RoomInput extends React.Component {
 
             //
 
-            DataService.addNewRoom(newState.roomNumber, newState);
+            DataService.addNewRoom(newState.roomCode, newState);
             
             
         }
@@ -170,7 +164,7 @@ class RoomInput extends React.Component {
   render() {
     const { classes } = this.props;
 
-    console.log('la props id en RoomInput: ', this.props.userEmailId);
+    console.log('RoomInput apartmentCode: ',this.props.aptID);
 
     return (
 
@@ -178,6 +172,7 @@ class RoomInput extends React.Component {
 
             <div className="form-title">
                 <h4>INPUT NEW ROOM</h4>
+                <p>Apartment Code: {this.state.apartmentCode}</p>
             </div>
 
             <form  id="form-format" className={classes.container} noValidate autoComplete="off" onSubmit={this.onNewRoom}>

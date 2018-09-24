@@ -27,22 +27,15 @@ export default class DataService {
     };
     static getUserContactInfo(userId){
 
-        // console.log('el argumento recibido en dataservice: ', userId)
-
         return new Promise((resolve, reject) => {
 
             firebase.firestore().collection('users').doc(userId).get()
 
             .then((result) => {
-                // console.log('el Result es: ', result)
-                // console.log('el Result.data() es: ', result.data())
                 resolve(result.data());   // OBTENGO TODO LO QUE TENGO ALMACENADO DE ÉSTE USUARIO
             })
-
             .catch((error) => {
-               
                 reject('Usuario no existe');
-
             })
             
         });

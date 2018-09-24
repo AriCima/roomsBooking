@@ -44,12 +44,11 @@ class App extends Component {
       user: null
     }
 
-    // console.log("usuario: ", this.state.user)
   }
 
 
   componentWillMount(){
-
+    console.log("CdidMount APP START");
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         console.log('El user recibido de Auth es: ', user)
@@ -72,6 +71,7 @@ class App extends Component {
         });
       }
     });
+    console.log("CdidMount APP END");
   }
 
   render() {
@@ -95,16 +95,13 @@ class App extends Component {
                 <Route path="/" exact component={Login}/>
                 <Route path="/register" component={Register}/>
                 <Route path="/home" render = {(props) => { return <Home userEmailId={user}/>}}/>
-                {/* <Route path="/apt_overview/:s" exact render = {(props) => {return <Home userEmailId={user} apartmentName={props.match.params.s}/>}}/> */}
                 <Route path="/single_apt_overview/:aptId" exact render = {(props) => { return <Apartment aptID={props.match.params.aptId}/> }}/> 
-                <Route path="/apt_add/:user" exact render = {(props) => { return <ApartmentInput userID={props.match.params.user}/> }}/> 
+                <Route path="/apt_add/:user" exact render = {(props) => { console.log("props del rout", props); return <ApartmentInput prosFn={props.history} userID={props.match.params.user}/> }}/> 
+                <Route path="/apt_addRoom/:aptCode" exact render = {(props) => { return <RoomInput userEmailId={user} aptID={props.match.params.aptCode}/> }}/> 
                 <Route path="/apt_newbooking/:aptId" exact render = {(props) => { return <AptBookings userEmailId={user} aptID={props.match.params.aptId}/> }}/> 
-                {/* <Route path="/apt_add/:user" component={ApartmentInput}/> */}
                 <Route path="/room_overview/:room" exact render = {(props) => {return <Room roomID={props.match.params.room}/> }}/>
                 <Route path="/room_booking/:room" exact render = {(props) => {return <RoomBookings roomID={props.match.params.room}/> }}/>
-                {/* <Route path="/add-jam" exact render = {(props) => {return <ApartmentInput userEmailId={user}/>}}/> */}
-                <Route path="/add-room" exact render = {(props) => {return <RoomInput userEmailId={user}/>}}/>
-                {/* <Route path="/bookings" exact render = {(props) => {return <RoomState userEmailId={user} />}}/> */}
+                
               </Switch>
 
 
