@@ -17,7 +17,7 @@ export default class Calculations {
 
         let date = new Date();
 
-        for ( x in bookings){
+        for ( let x in bookings){
 
             if (isWithinRange(date, bookings.startDay, bookings.endDay)){
                 return bookings.bookingCode
@@ -27,23 +27,25 @@ export default class Calculations {
        
     };
  
-    static getMonthsOccupationInPercentage(newStartDate, newEndDate) {  
+    static getMonthsOccupationInPercentage(newStartDate, newEndDate) { 
+        
+        // https://stackoverflow.com/questions/4345045/javascript-loop-between-date-ranges
 
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dic'];
         const days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
         console.log("no hay error en el book");
      
-        NewstartDate = format(newStartDate, ['Do-MMM-YYYY']);
-        let bookStartDay = getDate(newStartDate);   //Día (en número) del final de la reserva
-        let bookStartMonth = getMonth(newStartDate);   //Mes (en número) del inicio de reserva
-        let bookStartYear = getYear(newStartDate);     // Año del inicio de reserv
+        let startDate = format(newStartDate, ['Do-MMM-YYYY']);
+        let bookStartDay = getDate(startDate);   //Día (en número) del final de la reserva
+        let bookStartMonth = getMonth(startDate);   //Mes (en número) del inicio de reserva
+        let bookStartYear = getYear(startDate);     // Año del inicio de reserv
         
 
-        NewkEndDate = format(newEndDate,['Do-MMM-YYYY']);
-        let bookEndDay = getDate(newEndDate);       //Día (en número) del inicio de la reserva
-        let bookEndMonth = getMonth(newEndDate);    //Mes (en número) del final de la reserva
-        let bookEndYear = getYear(newEndDate);      // Año del final de la reserva
+        let endDate = format(newEndDate,['Do-MMM-YYYY']);
+        let bookEndDay = getDate(endDate);       //Día (en número) del inicio de la reserva
+        let bookEndMonth = getMonth(endDate);    //Mes (en número) del final de la reserva
+        let bookEndYear = getYear(endDate);      // Año del final de la reserva
 
 
         let newBookingDays = {
@@ -95,23 +97,23 @@ export default class Calculations {
     static generateCode(){
      // GENERATE BOOKING CODE
      const letters = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-     let code = [];
+     let codeArray = [];
 
      for (let l=0; l<4; l++){
         let capital = Math.round(Math.random()*10);
         let random = Math.round(Math.random()*26);
 
         if(Number.isInteger(capital/2)){
-            code[l]=(letters[random]).toUpperCase();
+            codeArray[l]=(letters[random]).toUpperCase();
         } else {
-            code[l]=letters[random];
+            codeArray[l]=letters[random];
         }
      }
 
      let d = new Date();
      let t = d.getTime().toString().slice(-8);  // el bookCode = milisegundos
 
-     let code = code.join("").concat(t);
+     let code = codeArray.join("").concat(t);
 
      // CHECK POINT
      // console.log('El code generado es: ', code
@@ -121,11 +123,12 @@ export default class Calculations {
     }
 
     static bookingsDatesValidation(newStartDate, newEndDate){
-        let newStartDate = new Date(this.state.newStartDate);
-        let newEndDate = new Date(this.state.newEndDate);
+        
+        let startDate = new Date(newStartDate);
+        let endDate = new Date(newEndDate);
        
-        if(!isDate(newStartDate)){
-             validationResult = {
+        if(!isDate(startDate)){
+             let validationResult = {
                 error : true,
                 message : 'Start Date Error'
             }
@@ -133,8 +136,8 @@ export default class Calculations {
             
         };
 
-        if(!isValid(newEndDate)){
-            validationResult = {
+        if(!isDate(endDate)){
+            let validationResult = {
                 error : true,
                 message : 'The end Date is not valid'
             }
@@ -142,22 +145,30 @@ export default class Calculations {
             return validationResult
         };
 
-        if(!isAfter(newEndDate, newStartDate) || isEqual(newEndDate, newStartDate)){
-            validationResult = {
+        if(isAfter(newStartDate, newEndDate) ){
+            let validationResult = {
                 error : true,
                 message : 'End date must be greater than Start Date'
             }
 
+            
             return validationResult
 
         };
 
-        if(areRangesOverlapping(newStartDate, newEndDate, this.state.currentBookStartDate,  this.state.currentBookEndDate)){
-            validationResult = {
-                error : true,
-                message : 'The range overlaps with a BOOKED range'
-            }
-            return validationResult 
-        };
+        // if(areRangesOverlapping(startDate, endDate, this.state.currentBookStartDate,  this.state.currentBookEndDate)){
+        //     let validationResult = {
+        //         error : true,
+        //         message : 'The range overlaps with a BOOKED range'
+        //     }
+        //     return validationResult 
+        // };
+        
+        let validationResult = {
+                error : false,
+                message : "Dates are OK"
+        }
+
+        return validationResult
     }
 }

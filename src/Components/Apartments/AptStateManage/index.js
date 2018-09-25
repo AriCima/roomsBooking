@@ -94,23 +94,20 @@ class ApartmentState extends React.Component {
             overlappingError: false,
         };
 
-        this.onNewBook                      = this.onNewBook.bind(this);
+        this.onNewBook = this.onNewBook.bind(this);
     }
 
 
     onChangeState(field, value){
-        let requestInfo = this.state;
-        requestInfo[field] = value;
-        this.setState(requestInfo)
-        //console.log('el requestInfo es: ', requestInfo);
+        let bookInfo = this.state;
+        booktInfo[field] = value;
+        this.setState(bookInfo)
+    
     };
-
-
 
     onNewBook(e){
         e.preventDefault();
         let error = false;
-        let newState = this.state;
 
         validation = Calculations.bookingsDatesValidation();
         error = validation.error;
@@ -125,8 +122,10 @@ class ApartmentState extends React.Component {
          this.state.bookingDays = Calculations.getMonthsOccupationInPercentage()
 
          //CHECKPOINT
-         console.log(' AptState bookingInfo: ',  this.state.bookingInfo);
-         console.log(' Apt State roomNumber = ', newState.roomNumber);
+         console.log(' AptState bookingDays: ',  this.state.bookingDays);
+
+         let newState = this.state;
+         console.log('newSate en el AptBookings: ', newState)
 
          DataService.addRoomNewState(this.state.userId, this.state.roomNumber,this.state.bookingCode,  this.state.newStartDate, this.state.newEndDate, this.state.guest, this.state.agency, this.state.bookingDays);  
         };

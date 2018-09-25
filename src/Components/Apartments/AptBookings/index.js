@@ -8,19 +8,22 @@ import TextField from '@material-ui/core/TextField';
 import classNames from 'classnames';
 import Button from '@material-ui/core/Button';
 
-//DATE-FNS
-import isDate from 'date-fns/is_date';
-import isValid from 'date-fns/is_valid';
-import isAfter from 'date-fns/is_after';
-import isEqual from 'date-fns/is_equal';
-import format from 'date-fns/format';
-import areRangesOverlapping from 'date-fns/are_ranges_overlapping';
-import getDate from 'date-fns/get_date';
-import getMonth from 'date-fns/get_month';
-import getYear from 'date-fns/get_year';
+// //DATE-FNS
+// import isDate from 'date-fns/is_date';
+// import isValid from 'date-fns/is_valid';
+// import isAfter from 'date-fns/is_after';
+// import isEqual from 'date-fns/is_equal';
+// import format from 'date-fns/format';
+// import areRangesOverlapping from 'date-fns/are_ranges_overlapping';
+// import getDate from 'date-fns/get_date';
+// import getMonth from 'date-fns/get_month';
+// import getYear from 'date-fns/get_year';
 
 // DATABASE API
 import DataService from '../../services/DataService';
+
+// CALCULATIONS
+import Calculations from '../../services/Calculations';
 
 
 
@@ -81,376 +84,218 @@ const aptStates = [
   
 
 class AptBookings extends React.Component {
-    constructor(props){
-      super(props);
+  constructor(props){
+    super(props);
 
-      this.state = { 
-        bookingCode: null,
-        tenantName:'',
-        tenantSurname: '',
-        tenantEmail: '',
-        tenantMobile:'',
-        bookingDays: {
-          currentYear: [0,0,0,0,0,0,0,0,0,0,0,0],
-          nextYear:[0,0,0,0,0,0,0,0,0,0,0,0]},  // Próximos 2 años, cada posición indica los días "alquilados" de cada habitación.
-        aptState:'',
-        agency:'',
+    this.state = { 
         userId: '',
         apartmentCode: this.props.aptID,
-        newStartDate: '',
-        newEndDate: '',
+        bookingCode: null,
+        checkIn: '',
+        checkOut: '',
+        tenantName:'',
+        tenantSurname:'',
+        tenantEmail:'',
+        tenantMobile:'',
         apartmentState: '',
-        startDateError: false,
-        endDateError: false,
-        overlappingError: false,
-        rentPrice: null,
-        deposit: null,
-      };
-
-      this.onChangeTenantName     = this.onChangeTenantName.bind(this);
-      this.onChangeTenantSurname  = this.onChangeTenantSurname.bind(this);
-      this.onChangeTenantEmail    = this.onChangeTenantEmail.bind(this);
-      this.onChangeTenantMobile   = this.onChangeTenantMobile.bind(this);
-      this.onChangeNewStartDate   = this.onChangeNewStartDate.bind(this); 
-      this.onChangeNewEndDate     = this.onChangeNewEndDate.bind(this); 
-      this.onChangeNewAptState    = this.onChangeNewAptState.bind(this);
-      this.onChangeAgency         = this.onChangeAgency.bind(this);
-      this.onChangeRentPrice      = this.onChangeRentPrice.bind(this);
-      this.onChangeDeposit    = this.onChangeDeposit.bind(this);
-
-      this.onNewBook              = this.onNewBook.bind(this);
-    }
-
-    onChangeTenantName(event){
-      this.setState({tenantName: event.target.value})
-    };
-    onChangeTenantSurname(event){
-      this.setState({tenantSurname: event.target.value})
-    };
-    onChangeTenantEmail(event){
-      this.setState({tenantEmail: event.target.value})
-    };
-    onChangeTenantMobile(event){
-      this.setState({tenantMobile: event.target.value})
-    };
-    onChangeNewStartDate(event){
-      this.setState({newStartDate: event.target.value})
-    };
-    onChangeNewEndDate(event){
-      this.setState({newEndDate: event.target.value})
-    };
-    onChangeNewAptState(event){
-      this.setState({aptState: event.target.value})
-    };
-    onChangeAgency(event){
-      this.setState({agency: event.target.value})
-    };
-    onChangeRentPrice(event){
-      this.setState({rentPrice: event.target.value})
-    };
-    onChangeDeposit(event){
-      this.setState({deposit: event.target.value})
+        agency:'',
+        rentPrice: '',
+        deposit: '',
     };
 
+    this.onNewBook = this.onNewBook.bind(this);
+}
 
-    onNewBook(e){
-        e.preventDefault();
-        let error = false;
-        let newState = this.state;
 
-        console.log("this.state en AptBooking", this.state);
+onChangeState(field, value){
+    let bookInfo = this.state;
+    bookInfo[field] = value;
+    this.setState(bookInfo)
 
-        let newStartDate = new Date(this.state.newStartDate);
-        let newEndDate = new Date(this.state.newEndDate);
-       
-        if(!isDate(newStartDate)){
-            this.setState({startDateError: true})
-            error = true;
-            console.log('The start Date is not an instance of Date')
-        };
+};
 
-        if(!isValid(newEndDate)){
-            this.setState({endDateError: true});
-            error = true;
-            console.log('The end Date is not valid')
-        };
+onNewBook(e){
+    e.preventDefault();
+    let error = false;
 
-        if(!isAfter(newEndDate, newStartDate) || isEqual(newEndDate, newStartDate)){
-            this.setState({endDateError: true});
-            error = true;
-            alert('End date must be greater than Start Date')
-        };
+    let validation = Calculations.bookingsDatesValidation();
+    console.log('Validation en AptBooking', validation)
+    error = validation.error;
 
-        if(areRangesOverlapping(newStartDate, newEndDate, this.state.currentBookStartDate,  this.state.currentBookEndDate)){
-            this.setState({overlappingError: true});
-            error = true;
-            console.log('The range overlaps with a BOOKED range')
-        };
+    if(error){
+     alert(validation.message);
+    } else {
 
-        if(!error){
-            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dic'];
-            const days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+     this.state.bookingCode = Calculations.generateCode()
+     //this.state.bookingDays = Calculations.getMonthsOccupationInPercentage()
 
-            console.log("no hay error en el book");
-         
-            newState.userId = this.props.userEmailId.id;
-            this.state.currentBookStartDate = format(newStartDate, ['Do-MMM-YYYY']);
-            let bookStartDay = getDate(newStartDate);   //Día (en número) del final de la reserva
-            let bookStartMonth = getMonth(newStartDate);   //Mes (en número) del inicio de reserva
-            let bookStartYear = getYear(newStartDate);     // Año del inicio de reserva
+     //CHECKPOINT
+     console.log('bookingCode: ', this.state.bookingCode)
+     //console.log(' AptState bookingDays: ',  this.state.bookingDays);
 
-            // CHECKPOINT
-            // console.log('RoomStateManagemetn día inicial: ',bookStartDay)
-            // console.log('RoomStateManagemetn mes inicial: ',months[bookStartMonth])
+     let newState = this.state;
+     console.log('newSate en el AptBookings: ', newState)
+
+
+     DataService.addApartmentNewState(newState);  
+     //DataService.addApartmentNewState(this.state.userId, this.state.apartmentCode, this.state.bookingCode,  this.state.checkIn, this.state.checkOut, this.state.agency, this.state.guestName, this.state.guestSurname, this.state.guestEmail, this.state.guestTel, this.state.guestTel, this.state.rentPrice, this.state.deposit );  
+    };
+};
+
+
+render() {
+const { classes } = this.props;
+
+return (
+
+    <div className="room-state">
+
+        <p>{this.props.apartmentCode}</p>
+        <p>{this.props.apartmentName}</p>
+
+        <div className="form-container">
+
+            <form  className={classes.container} noValidate autoComplete="off" onSubmit={this.onNewBook}>
             
+                <div id="input-area">
 
-            this.state.currentBookEndDate = format(newEndDate,['Do-MMM-YYYY']);
-            let bookEndDay = getDate(newEndDate);       //Día (en número) del inicio de la reserva
-            let bookEndMonth = getMonth(newEndDate);    //Mes (en número) del final de la reserva
-            let bookEndYear = getYear(newEndDate);      // Año del final de la reserva
-
-            // GENERATE BOOKING CODE
-            const letters = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-            let code = [];
-
-            for (let l=0; l<4; l++){
-                let capital = Math.round(Math.random()*10);
-                let random = Math.round(Math.random()*26);
-
-                if(Number.isInteger(capital/2)){
-                    code[l]=(letters[random]).toUpperCase();
-                } else {
-                    code[l]=letters[random];
-                }
-            }
-
-            let d = new Date();
-            let t = d.getTime().toString().slice(-8);  // el bookCode = milisegundos
-
-            let bCode = code.join("").concat(t);
-            
-            // CHECK POINT
-            // console.log('El bookingCode generado es: ', generatedBookingCode)
-
-
-
-            let newBookingDays = {
-                currentYear: [0,0,0,0,0,0,0,0,0,0,0,0],
-                nextYear:[0,0,0,0,0,0,0,0,0,0,0,0]
-            };
-
-            if(bookStartYear == bookEndYear){
-
-                for (let i = bookStartMonth; i<= bookEndMonth; i++){
-                    if (i == bookStartMonth){
-                    newBookingDays.currentYear[i] = Math.round((((days[i]-bookStartDay)/days[i])*100))
-                    } else if (i === bookEndMonth){             
-                        newBookingDays.currentYear[i] = Math.round(((bookEndDay/days[i])*100))
-                    } else if (bookStartMonth < i && i < bookEndMonth){
-                        newBookingDays.currentYear[i] = 100;
-                    }else {
-                        newBookingDays[i] = 0;
-                    }
-                };
-
-                this.state.bookingCode = bCode;
-                this.state.bookingDays = newBookingDays;
-
-            } else if ( bookStartYear < bookEndYear){
-
-                for (let j = bookStartMonth; j<= 11; j++){
-                    if (j == bookStartMonth){
-                        newBookingDays.currentYear[j] = Math.round((((days[j]-bookStartDay) /days[j])*100))
-                    } else {
-                        newBookingDays.currentYear[j] = 100;
-                    }
-                }
-
-                for (let k = 0; k<= bookEndMonth; k++){
-                    if (k < bookEndMonth){
-                        newBookingDays.nextYear[k] = 100;
-                    } else if (k === bookEndMonth){             
-                        newBookingDays.nextYear[k] = Math.round(((bookEndDay/days[k])*100))
-                    }
-                }
-
-                this.state.bookingCode = bCode;
-                this.state.bookingDays = newBookingDays;
-            };
-           
-        
-
-            //CHECKPOINT
-            console.log(' this.state.bookingInfo: ',  this.state.bookingInfo);
-            console.log("newState.roomNumber = ", newState.roomNumber);
-
-            DataService.addApartmentNewState(
-              this.state.userId, 
-              this.state.apartmentCode, 
-              this.state.bookingCode,  
-              this.state.newStartDate, 
-              this.state.newEndDate, 
-              this.state.agency, 
-              this.state.bookingDays,
-              this.state.tenantName,
-              this.state.tenantSurname,
-              this.state.tenantEmail,
-              this.state.tenantMobile,
-              this.state.rentPrice,
-              this.state.deposit,
-            );  
-        };
-    };
-   
-
-  render() {
-    const { classes } = this.props;
-
-    return (
-
-        <div className="room-state">
-
-
-            <div className="form-container">
-
-                <form  className={classes.container} noValidate autoComplete="off" onSubmit={this.onNewBook}>
-                
-                    <div id="input-area">
-
-                        <div id="input-fields">
-                          <TextField
-                              id="with-placeholder"
-                              label="Tenant Name"
-                              className={classes.textField}
-                              margin="normal"
-                              value={this.state.tenantName}
-                              onChange={this.onChangeTenantName}
-                            />
-                        </div>
-                        <div id="input-fields">
-                          <TextField
-                              id="with-placeholder"
-                              label="Tenant Surname"
-                              className={classes.textField}
-                              margin="normal"
-                              value={this.state.tenantSurname}
-                              onChange={this.onChangeTenantSurname}
-                          />
-                        </div>
-                        <div id="input-fields">
-                          <TextField
-                              id="with-placeholder"
-                              label="Tenant Email"
-                              className={classes.textField}
-                              margin="normal"
-                              value={this.state.tenantEmail}
-                              onChange={this.onChangeTenantEmail}
-                              // onChange={(e)=>{this.updateFormInput('roomNumber', e.target.value)}}
-                          />
-                        </div>
-                        <div id="input-fields">
-                          <TextField
-                              id="with-placeholder"
-                              label="Tenant Mobile"
-                              className={classes.textField}
-                              margin="normal"
-                              value={this.state.tenantMobilel}
-                              onChange={this.onChangeTenantMobile}
-                              // onChange={(e)=>{this.updateFormInput('roomNumber', e.target.value)}}
-                          />
-                        </div>
-
-                        <div id="input-fields-select">
-                          <TextField
+                    <div id="input-fields-select">
+                        <TextField
                             id="date"
-                            label="Start Date"
+                            label="Check-In"
                             type="date"
                             defaultValue="dd/mm/yyyy"
                             className={classes.textField}
-                            value={this.state.newStartDate}
-                            onChange={this.onChangeNewStartDate}
+                            value={this.state.checkIn}
+                            onChange={(e)=>{this.onChangeState('checkIn', e.target.value)}}
                             InputLabelProps={{
-                              shrink: true,
+                                shrink: true,
                             }}
-                            />
-                        </div>
+                        />
+                    </div>
 
-                        <div id="input-fields-select">
-                          <TextField
+                    <div id="input-fields-select">
+                        <TextField
                             id="date"
-                            label="End Date"
+                            label="Chec-kOut"
                             type="date"
                             defaultValue="dd/mm/yyyy"
                             className={classes.textField}
-                            value={this.state.newEndDate}
-                            onChange={this.onChangeNewEndDate}
+                            value={this.state.checkOut}
+                            onChange={(e)=>{this.onChangeState('checkOut', e.target.value)}}
                             InputLabelProps={{
-                              shrink: true,
+                                shrink: true,
                             }}
-                          />
-                        </div>
-                        
-                        <div id="input-fields-select">
-                          <TextField
+                        />
+                    </div>
+                    
+                    <div id="input-fields-select">
+                        <TextField
                             select
-                            label="Room State"
+                            label="State"
                             className={classNames(classes.margin, classes.textField)}
-                            value={this.state.aptState}
-                            onChange={this.onChangeNewAptState}
-                          >
+                            value={this.state.apartmentState}
+                            onChange={(e)=>{this.onChangeState('apartmentState', e.target.value)}}
+                        >
                             {aptStates.map(option => (
-                              <MenuItem key={option.value} value={option.value}>
-                                {option.label}
-                              </MenuItem>
+                                <MenuItem key={option.value} value={option.value}>
+                                    {option.label}
+                                </MenuItem>
                             ))}
-                          </TextField>
-                        </div>
+                        </TextField>
+                    </div>
 
+                     <div id="input-fields">
+                        <TextField
+                            id="with-placeholder"
+                            label="Name"
+                            placeholder="Guest Name"
+                            className={classes.textField}
+                            margin="normal"
+                            value={this.state.tenantName}
+                            onChange={(e)=>{this.onChangeState('tenantName', e.target.value)}}
+                        />
+                    </div>
+                    <div id="input-fields">
+                        <TextField
+                            id="with-placeholder"
+                            label="Surname"
+                            placeholder="Guest SurnName"
+                            className={classes.textField}
+                            margin="normal"
+                            value={this.state.tenantSurname}
+                            onChange={(e)=>{this.onChangeState('tenantSurname', e.target.value)}}
+                        />
+                    </div>
+                    <div id="input-fields">
+                        <TextField
+                            id="with-placeholder"
+                            label="Email"
+                            placeholder="Email"
+                            className={classes.textField}
+                            margin="normal"
+                            value={this.state.tenantEmail}
+                            onChange={(e)=>{this.onChangeState('tenantEmail', e.target.value)}}
+                        />
+                    </div>
+                    <div id="input-fields">
+                        <TextField
+                            id="with-placeholder"
+                            label="Telephone"
+                            placeholder="Tel"
+                            className={classes.textField}
+                            margin="normal"
+                            value={this.state.tenantMobile}
+                            onChange={(e)=>{this.onChangeState('tenantMobile', e.target.value)}}
+                        />
+                    </div>
 
-                        <div id="input-fields">
-                          <TextField
+                    <div id="input-fields">
+                        <TextField
                             id="with-placeholder"
                             label="Agency"
                             placeholder="Agency"
                             className={classes.textField}
                             margin="normal"
                             value={this.state.agency}
-                            onChange={this.onChangeAgency}
-                          />
-                        </div>
-                        <div id="input-fields">
-                          <TextField
+                            onChange={(e)=>{this.onChangeState('agency', e.target.value)}}
+                        />
+                    </div>
+                    <div id="input-fields">
+                        <TextField
                             id="with-placeholder"
-                            label="Rent Price"
+                            label="Price"
                             className={classes.textField}
                             margin="normal"
                             value={this.state.rentPrice}
-                            onChange={this.onChangeRentPrice}
-                          />
-                        </div>
-                        <div id="input-fields">
-                          <TextField
+                            onChange={(e)=>{this.onChangeState('rentPrice', e.target.value)}}
+                        />
+                    </div>
+                    <div id="input-fields">
+                        <TextField
                             id="with-placeholder"
                             label="Deposit"
                             className={classes.textField}
                             margin="normal"
                             value={this.state.deposit}
-                            onChange={this.onChangeDeposit}
-                          />
-                        </div>
+                            onChange={(e)=>{this.onChangeState('deposit', e.target.value)}}
+                        />
                     </div>
+                    
 
-                    <div className="button-area">
-                      <Button variant="contained" color="primary" className={classes.button} type="submit">
+                </div>
+
+                <div className="button-area">
+                    <Button variant="contained" color="primary" className={classes.button} type="submit">
                         Enviar
-                      </Button>
-                    </div>
-                </form>
-            </div>
-
+                    </Button>
+                </div>
+            </form>
         </div>
-    );
-  }
+
+    </div>
+);
+}
 }
 
 AptBookings.propTypes = {

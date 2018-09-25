@@ -128,24 +128,60 @@ export default class DataService {
             
         }); 
     };
-    static addApartmentNewState(userId, apartmentCode, bCode, sDay, eDay, agency, bDays, tName, tSrn, tE, tM, rPrice, rdep){        
+    // static addApartmentNewState(userId, apartmentCode, bCode, sDay, eDay, agency, tName, tSrn, tE, tM, rPrice, rdep){        
+
+    //     return new Promise((resolve, reject) => {
+
+    //         firebase.firestore().collection('apt_bookings').add({
+    //             userId          : userId,
+    //             apartmentCode   : apartmentCode,
+    //             bookingCode     : bCode,
+    //             startDay        : sDay,
+    //             endDay          : eDay,
+    //             agency          : agency,
+    //             tenantName      : tName,
+    //             tenantSurname   : tSrn,
+    //             tenantEmail     : tE,
+    //             tenantMobile    : tM,
+    //             rentPrice       : rPrice,
+    //             deposit         : rdep,
+    //             }
+    //         )
+            
+    //         .then((result) => {
+                
+    //             console.log("ROOM information succesfully merged !")
+    //             resolve(result);
+    //         })
+
+    //         .catch((error) => {
+    //             var errorCode = error.code;
+    //             console.log('User NOT added: ', errorCode);
+    //             var errorMessage = error.message;
+                
+    //         })
+            
+    //     });
+    // };
+
+
+    static addApartmentNewState(newState){        
 
         return new Promise((resolve, reject) => {
 
             firebase.firestore().collection('apt_bookings').add({
-                userId          : userId,
-                apartmentCode   : apartmentCode,
-                bookingCode     : bCode,
-                startDay        : sDay,
-                endDay          : eDay,
-                agency          : agency,
-                monthDays       : bDays,
-                tenantName      : tName,
-                tenantSurname   : tSrn,
-                tenantEmail     : tE,
-                tenantMobile    : tM,
-                rentPrice       : rPrice,
-                deposit         : rdep,
+                userId          : newState.userId,
+                apartmentCode   : newState.apartmentCode,
+                bookingCode     : newState.bookingCode,
+                checkIn        : newState.checkIn,
+                checkOut          : newState.checkOut,
+                agency          : newState.agency,
+                tenantName      : newState.tenantName,   
+                tenantSurname   : newState.tenantSurname,
+                tenantEmail     : newState.tenantEmail,  
+                tenantMobile    : newState.tenantMobile, 
+                rentPrice       : newState.rentPrice,    
+                deposit         : newState.deposit,      
                 }
             )
             
