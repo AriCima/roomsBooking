@@ -154,7 +154,7 @@ class RoomInput extends React.Component {
             //
 
             DataService.addNewRoom(newState.roomCode, newState);
-            
+            this.props.propsFn.push(`/single_apt_overview/${this.state.apartmentCode}`);
             
         }
             

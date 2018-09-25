@@ -96,8 +96,8 @@ class App extends Component {
                 <Route path="/register" component={Register}/>
                 <Route path="/home" render = {(props) => { return <Home userEmailId={user}/>}}/>
                 <Route path="/single_apt_overview/:aptId" exact render = {(props) => { return <Apartment aptID={props.match.params.aptId}/> }}/> 
-                <Route path="/apt_add/:user" exact render = {(props) => { console.log("props del rout", props); return <ApartmentInput prosFn={props.history} userID={props.match.params.user}/> }}/> 
-                <Route path="/apt_addRoom/:aptCode" exact render = {(props) => { return <RoomInput userEmailId={user} aptID={props.match.params.aptCode}/> }}/> 
+                <Route path="/apt_add/:user" exact render = {(props) => { return <ApartmentInput propsFn={props.history} userID={props.match.params.user}/> }}/> 
+                <Route path="/apt_addRoom/:aptCode" exact render = {(props) => { return <RoomInput propsFn={props.history} userEmailId={user} aptID={props.match.params.aptCode}/> }}/> 
                 <Route path="/apt_newbooking/:aptId" exact render = {(props) => { return <AptBookings userEmailId={user} aptID={props.match.params.aptId}/> }}/> 
                 <Route path="/room_overview/:room" exact render = {(props) => {return <Room roomID={props.match.params.room}/> }}/>
                 <Route path="/room_booking/:room" exact render = {(props) => {return <RoomBookings roomID={props.match.params.room}/> }}/>

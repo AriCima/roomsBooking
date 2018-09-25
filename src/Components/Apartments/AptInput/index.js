@@ -2,6 +2,7 @@ import React from 'react';
 
 // SERVICE API
 import DataService from '../../services/DataService';
+import Calculations from '../../services/Calculations';
 
 
 // MATERIAL-UI
@@ -80,85 +81,26 @@ class ApartmentInput extends React.Component {
             deposit: '',
         };
 
-        this.onChangeApartmentName      = this.onChangeApartmentName.bind(this); 
-        this.onChangeApartmentStreet    = this.onChangeApartmentStreet.bind(this);  
-        this.onChangeApartmentHouseNr   = this.onChangeApartmentHouseNr.bind(this); 
-        this.onChangeApartmentFloor     = this.onChangeApartmentFloor.bind(this); 
-        this.onChangeApartmentDoor      = this.onChangeApartmentDoor.bind(this);
-        this.onChangeApartmentZipCode   = this.onChangeApartmentZipCode.bind(this); 
-        this.onChangeApartmentSqm       = this.onChangeApartmentSqm.bind(this); 
-        this.onChangeApartmentRooms     = this.onChangeApartmentRooms.bind(this); 
-        this.onChangeRentalType         = this.onChangeRentalType.bind(this); 
-        this.onChangeRentPrice          = this.onChangeRentPrice.bind(this); 
-        this.onChangeDeposit            = this.onChangeDeposit.bind(this); 
-
         this.onNewApartment             = this.onNewApartment.bind(this);
 
     }
 
 
-    onChangeApartmentName(event){
-        this.setState({apartmentName: event.target.value})
+    onChangeState(field, value){
+        let aptInfo = this.state;
+        aptInfo[field] = value;
+        this.setState(aptInfo)
     };
-    onChangeApartmentStreet(event){
-        this.setState({street: event.target.value})
-    };
-    onChangeApartmentHouseNr(event){
-        this.setState({houseNr: event.target.value})
-    };
-    onChangeApartmentFloor(event){
-        this.setState({floor: event.target.value})
-    };
-    onChangeApartmentDoor(event){
-        this.setState({door: event.target.value})
-    };
-    onChangeApartmentZipCode(event){
-        this.setState({zip: event.target.value})
-    };
-    onChangeApartmentSqm(event){
-        this.setState({sqm: event.target.value})
-    };
-    onChangeApartmentRooms(event){
-        this.setState({rooms: event.target.value})
-    };
-    onChangeRentalType(event){
-        this.setState({rentalType: event.target.value})
-    };
-    onChangeRentPrice(event){
-        this.setState({rentPrice: event.target.value})
-    };
-    onChangeDeposit(event){
-        this.setState({deposit: event.target.value})
-    };
-
-
 
     onNewApartment(e){
         e.preventDefault();
         let newState = this.state;
 
         // GENERATE APARTMENT CODE
-        const letters = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-        let code = [];
+        let aptCode = Calculations.generateCode();
 
-        for (let l=0; l<4; l++){
-            let capital = Math.round(Math.random()*10);
-            let random = Math.round(Math.random()*26);
-
-            if(Number.isInteger(capital/2)){
-                code[l]=(letters[random]).toUpperCase();
-            } else {
-                code[l]=letters[random];
-            }
-        }
-
-        let d = new Date();
-        let t = d.getTime().toString().slice(-8);  // el Code = milisegundos
-        let aptCode = code.join("").concat(t);
-        let apartmentCode = aptCode;
-        
-        DataService.addNewApartment(apartmentCode, newState);
-        
+        DataService.addNewApartment(aptCode, newState);
+        this.props.propsFn.push(`/home/${this.state.userId}`)
         
     };
 
@@ -182,11 +124,11 @@ class ApartmentInput extends React.Component {
                         <TextField
                             id="with-placeholder"
                             label="Apartment Name"
-                            
                             className={classes.textField}
                             margin="normal"
                             value={this.state.apartmentName}
-                            onChange={this.onChangeApartmentName}
+                            //onChange={this.onChangeApartmentName}
+                            onChange={(e)=>{this.onChangeState('apartmentName', e.target.value)}}
                         />
                     </div>
 
@@ -197,7 +139,8 @@ class ApartmentInput extends React.Component {
                             className={classes.textField}
                             margin="normal"
                             value={this.state.street}
-                            onChange={this.onChangeApartmentStreet}
+                            //onChange={this.onChangeApartmentStreet}
+                            onChange={(e)=>{this.onChangeState('street', e.target.value)}}
                         />
                     </div>
                     <div id="input-fields">
@@ -207,7 +150,9 @@ class ApartmentInput extends React.Component {
                             className={classes.textField}
                             margin="normal"
                             value={this.state.houseNr}
-                            onChange={this.onChangeApartmentHouseNr}
+                            //onChange={this.onChangeApartmentHouseNr}
+                            onChange={(e)=>{this.onChangeState('houseNr', e.target.value)}}
+
                         />
                     </div>
                     <div id="input-fields">
@@ -217,7 +162,9 @@ class ApartmentInput extends React.Component {
                             className={classes.textField}
                             margin="normal"
                             value={this.state.floor}
-                            onChange={this.onChangeApartmentFloor}
+                            //onChange={this.onChangeApartmentFloor}
+                            onChange={(e)=>{this.onChangeState('floor', e.target.value)}}
+
                         />
                     </div>
                     <div id="input-fields">
@@ -227,7 +174,9 @@ class ApartmentInput extends React.Component {
                             className={classes.textField}
                             margin="normal"
                             value={this.state.door}
-                            onChange={this.onChangeApartmentDoor}
+                            //onChange={this.onChangeApartmentDoor}
+                            onChange={(e)=>{this.onChangeState('door', e.target.value)}}
+
                         />
                     </div>
                     <div id="input-fields">
@@ -237,7 +186,9 @@ class ApartmentInput extends React.Component {
                             className={classes.textField}
                             margin="normal"
                             value={this.state.zip}
-                            onChange={this.onChangeApartmentZipCode}
+                            //onChange={this.onChangeApartmentZipCode}
+                            onChange={(e)=>{this.onChangeState('zip', e.target.value)}}
+
                         />
                     </div>
                     <div id="input-fields">
@@ -247,7 +198,9 @@ class ApartmentInput extends React.Component {
                             className={classes.textField}
                             margin="normal"
                             value={this.state.sqm}
-                            onChange={this.onChangeApartmentSqm}
+                            //onChange={this.onChangeApartmentSqm}
+                            onChange={(e)=>{this.onChangeState('sqm', e.target.value)}}
+
                         />
                     </div>
                     <div id="input-fields">
@@ -257,7 +210,9 @@ class ApartmentInput extends React.Component {
                             className={classes.textField}
                             margin="normal"
                             value={this.state.rooms}
-                            onChange={this.onChangeApartmentRooms}
+                            //onChange={this.onChangeApartmentRooms}
+                            onChange={(e)=>{this.onChangeState('rooms', e.target.value)}}
+
                         />
                     </div>
                     <div id="input-fields-select">
@@ -266,7 +221,9 @@ class ApartmentInput extends React.Component {
                             label="Rental Type"
                             className={classNames(classes.margin, classes.textField)}
                             value={this.state.rentalType}
-                            onChange={this.onChangeRentalType}
+                            //onChange={this.onChangeRentalType}
+                            onChange={(e)=>{this.onChangeState('rentalType', e.target.value)}}
+
                         >
                             {rentMode.map(option => (
                                 <MenuItem key={option.value} value={option.value}>
@@ -282,7 +239,9 @@ class ApartmentInput extends React.Component {
                             className={classes.textField}
                             margin="normal"
                             value={this.state.rentPrice}
-                            onChange={this.onChangeRentPrice}
+                            //onChange={this.onChangeRentPrice}
+                            onChange={(e)=>{this.onChangeState('rentPrice', e.target.value)}}
+
                         />
                     </div>
                     <div id="input-fields">
@@ -292,7 +251,9 @@ class ApartmentInput extends React.Component {
                             className={classes.textField}
                             margin="normal"
                             value={this.state.deposit}
-                            onChange={this.onChangeDeposit}
+                            //onChange={this.onChangeDeposit}
+                            onChange={(e)=>{this.onChangeState('deposit', e.target.value)}}
+
                         />
                     </div>
                    
