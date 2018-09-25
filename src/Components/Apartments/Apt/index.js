@@ -120,7 +120,7 @@ export default class Apartment extends React.Component {
           <p>Add rooms if you will rent them separately</p>
             
           <div className="add-room-button">
-            <Link to={`/apt_adRoom/${this.state.apartmentCode}`}><AddButton/></Link>
+            <Link to={`/apt_addRoom/${this.props.aptID}`}><AddButton/></Link>
           </div>
 
         </div>

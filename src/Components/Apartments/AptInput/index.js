@@ -69,6 +69,7 @@ class ApartmentInput extends React.Component {
         this.state = { 
             userId: this.props.userID,
             apartmentName: '',
+            apartmentCode: '',
             street: '',
             houseNr: '',
             floor: '',
@@ -93,13 +94,11 @@ class ApartmentInput extends React.Component {
     };
 
     onNewApartment(e){
-        e.preventDefault();
+        e.preventDefault();       
+
         let newState = this.state;
 
-        // GENERATE APARTMENT CODE
-        let aptCode = Calculations.generateCode();
-
-        DataService.addNewApartment(aptCode, newState);
+        DataService.addNewApartment(newState);
         this.props.propsFn.push(`/home/${this.state.userId}`)
         
     };
@@ -127,7 +126,6 @@ class ApartmentInput extends React.Component {
                             className={classes.textField}
                             margin="normal"
                             value={this.state.apartmentName}
-                            //onChange={this.onChangeApartmentName}
                             onChange={(e)=>{this.onChangeState('apartmentName', e.target.value)}}
                         />
                     </div>

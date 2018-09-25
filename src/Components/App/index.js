@@ -47,7 +47,7 @@ class App extends Component {
   }
 
 
-  componentWillMount(){
+  componentDidMount(){
     console.log("CdidMount APP START");
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
