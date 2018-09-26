@@ -191,7 +191,7 @@ export default class DataService {
 
         return new Promise((resolve, reject) => {
 
-            firebase.firestore().collection('rooms').where(`apartmentId`,`==`, apartmentId).get() // Where me devuelve todos los rooms que tengan ese userId
+            firebase.firestore().collection('rooms').where(`apartmentCode`,`==`, apartmentId).get() // Where me devuelve todos los rooms que tengan ese userId
             .then((result) => {
                 let rooms=[];
                 result.docs.forEach((d) => {

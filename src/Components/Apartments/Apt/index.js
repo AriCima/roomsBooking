@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 
 // COMPONENTS
 import RoomsOverview from '../../Rooms/RoomsOverview';
-import AddButton from '../../Accessories/AddButton';
 
 // SERVICE API
 import DataService from '../../services/DataService';
@@ -23,7 +21,7 @@ export default class Apartment extends React.Component {
   }
  
   componentDidMount(){
-    //console.log('Los params recibidos en Apt son: ', this.props.aptID)
+    
     DataService.getApartmentInfo(this.props.aptID)
     .then(res => {
       const apt = res;

@@ -35,6 +35,7 @@ export default class RoomsOverview extends React.Component {
   }
 
   componentDidMount(){
+    console.log("cDIDMount TRIGGERED")
     DataService.getApartmentRooms(this.state.apartmentCode).then(
       (roomsReceived) => {
         console.log("Rooms received", roomsReceived)
@@ -48,7 +49,7 @@ export default class RoomsOverview extends React.Component {
   }
 
   _renderRooms(){
-      
+      console.log("_renderRooms TRIGGERED")
     return this.state.rooms.map((room,i) => {
         return (
 
