@@ -1,81 +1,66 @@
 .apt-overview{
-    background-color: red;
     margin-top: 60px;
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
 }
 
-.render-function{
-    box-sizing: border-box;
-    width: 60%;
-    margin-top: 60px;
+.paque{
+    width: 100%;
+}
+
+.apt-render-fn{
+    width: 100%;
+    margin: 20px 0 20px 20px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    background-color: yellow;
 }
 
-h4{
-    margin: 10 0 10 20px;
-    font-size: 22px;
+.apt-info-block{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    font-family: helvetica;
+}
+
+.info-block-text{
+    width: 100%;
+    margin: 0;
+}
+
+
+.apt-info-block .info-block-text h4{
+    margin: 10px 0 0 20px;
+    font-size: 28px;
     font-weight: 550;
     color: rgb(0, 144, 248);
 }
 
-h3{
-    margin: 10 0 10 20px;
-    font-size: 20px;
-    font-weight: 550;
-    color: rgba(184,193,202, 1)
-
-}
-
-p{
-    margin: 10 0 10 20px;
-    font-size: 14px;
-    font-weight: 300;
-}
-
-.bookings-list{
-    width: 60%;
-    margin-top: 10px;
-}
-
-.bookings-list-header{
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    background-color: rgb(0, 144, 248);
-}
-
-.bookings-list-header ul{
+.address{
     width: 100%;
     margin: 0;
-    padding: 20px 0;;
-    list-style-type: none;
-    color: white;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
 }
 
-.bookings-list-header ul li{
-    margin-left: 20px;
-    width: 15%;
-    text-align: center;
+.address p{
+    margin: 5px 0 0 20px;
+    font-size: 16px;
+    padding: 0;
+    color: rgb(145, 155, 155);
 }
-.bookings-row{
+
+
+
+.rooms-listing{
+    
+    margin-top: 20px;
     width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin: 2px 0px;
 }
-
 .room-row:nth-child(even){
     background-color: rgba(0, 144, 248, 0.3);
 }
@@ -84,23 +69,3 @@ p{
     background-color: rgba(0, 144, 248, 0.6);
 }
 
-.info-block{
-    width: 15%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 20px;
-}
-
-.info-block p{
-    font-family: helvetica;
-    font-size: 18px;
-    padding: 0;
-}
-
-.add-booking-button{
-    width: 60%;
-    margin-top: 20px;
-    display: flex;
-    justify-content: flex-start;
-}
