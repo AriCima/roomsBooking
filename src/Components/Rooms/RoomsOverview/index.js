@@ -49,7 +49,7 @@ export default class RoomsOverview extends React.Component {
   }
 
   _renderRooms(){
-      console.log("_renderRooms TRIGGERED")
+      //console.log("_renderRooms TRIGGERED")
     return this.state.rooms.map((room,i) => {
         return (
 
@@ -93,6 +93,7 @@ export default class RoomsOverview extends React.Component {
         <div className="manage-rooms">
 
           <div className="rooms-list">
+
             <div className="rooms-list-header">
               <ul>
                 <li>Room Nr</li>
@@ -103,8 +104,11 @@ export default class RoomsOverview extends React.Component {
                 <li>Price (€/Mo)</li>
               </ul>          
             </div>
-            {this._renderRooms()}
-
+            
+            <div className="rooms-render">
+              {this._renderRooms()}
+            </div>
+            
             <div className="add-room-button">
               <div>
                 <p>Add rooms</p>
@@ -112,12 +116,11 @@ export default class RoomsOverview extends React.Component {
               <div>
                 <Link to={`/apt_addRoom/${this.state.apartmentCode}`}><AddButton/></Link>
               </div>
+
           </div>
         
-
           </div>
 
-          
         </div>
 
       </div>
