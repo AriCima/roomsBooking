@@ -88,7 +88,7 @@ class AptBookings extends React.Component {
     super(props);
 
     this.state = { 
-        userId: '',
+        userId: this.props.userData,
         apartmentCode: this.props.aptID,
         bookingCode: null,
         checkIn: '',
@@ -137,8 +137,8 @@ onNewBook(e){
      console.log('newSate en el AptBookings: ', newState)
 
 
-     DataService.addApartmentNewState(newState);  
-     //DataService.addApartmentNewState(this.state.userId, this.state.apartmentCode, this.state.bookingCode,  this.state.checkIn, this.state.checkOut, this.state.agency, this.state.guestName, this.state.guestSurname, this.state.guestEmail, this.state.guestTel, this.state.guestTel, this.state.rentPrice, this.state.deposit );  
+     DataService.apartmentNewBooking(newState);  
+      
     };
 };
 

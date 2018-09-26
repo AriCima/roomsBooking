@@ -48,17 +48,17 @@ class App extends Component {
 
 
   componentDidMount(){
-    console.log("CdidMount APP START");
+    //console.log("CdidMount APP START");
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        console.log('El user recibido de Auth es: ', user)
+        console.log('El user.email recibido de Auth es: ', user.email)
 
         DataService.getUserContactInfo(user.uid).then(
           (userData)=>{
-            //console.log('userData en App: ', userData);
+            console.log('userData en App: ', userData);
             userData.id = user.uid;
             this.setState({user : userData});
-            //console.log('El user luego del setState en App:', user)
+            console.log('El user luego del setState en App:', user)
           }, 
           (errorMessage)=>{
             console.log(errorMessage)
@@ -71,7 +71,7 @@ class App extends Component {
         });
       }
     });
-    console.log("CdidMount APP END");
+    
   }
 
   render() {
@@ -85,20 +85,20 @@ class App extends Component {
           <div className="app">
           
             <div className="app-header">
-              <Header user={user} />
+            <Header user={user} />}
             </div>
         
             <div className="app-body">
 
               <Switch>
                 <Route path="/landing" component={Login}/>
-                <Route path="/" exact component={Login}/>
                 <Route path="/register" component={Register}/>
+                
                 <Route path="/home" render = {(props) => { return <Home userEmailId={user}/>}}/>
-                <Route path="/single_apt_overview/:aptId" exact render = {(props) => { return <Apartment aptID={props.match.params.aptId}/> }}/> 
+                <Route path="/single_apt_overview/:aptId" exact render = {(props) => { return <Apartment aptID={props.match.params.aptId} userData={user}/> }}/> 
                 <Route path="/apt_add/:user" exact render = {(props) => { return <ApartmentInput propsFn={props.history} userID={props.match.params.user}/> }}/> 
                 <Route path="/apt_addRoom/:aptCode" exact render = {(props) => { return <RoomInput propsFn={props.history} userEmailId={user} aptID={props.match.params.aptCode}/> }}/> 
-                <Route path="/apt_newbooking/:aptId" exact render = {(props) => { return <AptBookings userEmailId={user} aptID={props.match.params.aptId}/> }}/> 
+                <Route path="/apt_newbooking/:aptId" exact render = {(props) => { return <AptBookings userData={user} aptID={props.match.params.aptId}/> }}/> 
                 <Route path="/room_overview/:room" exact render = {(props) => {return <Room roomID={props.match.params.room}/> }}/>
                 <Route path="/room_booking/:room" exact render = {(props) => {return <RoomBookings roomID={props.match.params.room}/> }}/>
                 

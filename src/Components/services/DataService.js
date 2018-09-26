@@ -129,24 +129,12 @@ export default class DataService {
         }); 
     };
 
-    static addApartmentNewState(newState){        
+    static apartmentNewBooking(newState){        
 
         return new Promise((resolve, reject) => {
 
             firebase.firestore().collection('apt_bookings').add({newState}
-                // userId          : newState.userId,
-                // apartmentCode   : newState.apartmentCode,
-                // bookingCode     : newState.bookingCode,
-                // checkIn         : newState.checkIn,
-                // checkOut         : newState.checkOut,
-                // agency          : newState.agency,
-                // tenantName      : newState.tenantName,   
-                // tenantSurname   : newState.tenantSurname,
-                // tenantEmail     : newState.tenantEmail,  
-                // tenantMobile    : newState.tenantMobile, 
-                // rentPrice       : newState.rentPrice,    
-                // deposit         : newState.deposit,      
-                // }
+
             )
             
             .then((result) => {
@@ -187,11 +175,11 @@ export default class DataService {
             
         });
     };
-    static getApartmentRooms(apartmentId){
+    static getApartmentRooms(apartmentCode){
 
         return new Promise((resolve, reject) => {
 
-            firebase.firestore().collection('rooms').where(`apartmentCode`,`==`, apartmentId).get() // Where me devuelve todos los rooms que tengan ese userId
+            firebase.firestore().collection('rooms').where(`apartmentCode`,`==`, apartmentCode).get() // Where me devuelve todos los rooms que tengan ese userId
             .then((result) => {
                 let rooms=[];
                 result.docs.forEach((d) => {

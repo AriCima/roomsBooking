@@ -8,8 +8,12 @@ class Header extends Component {
    constructor(props){
     super(props);
 
+    this.state = {
+        user : this.props.user,
+    }
+
     this.signOut = this.signOut.bind(this);
-    console.log('props en el header', this.props)
+    console.log('props.user en el header', this.props.user)
 
    }
 
@@ -22,9 +26,6 @@ class Header extends Component {
                 alert("Ups! Seems you'll have to stay longer")// An error happened.
         });
     }
-
-    
-
 
     render() {
         return (

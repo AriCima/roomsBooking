@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 
-import RoomInput from '../RoomInput';
-
 // MATERIAL UI
 import AddButton from '../../Accessories/AddButton';
 
@@ -10,9 +8,8 @@ import AddButton from '../../Accessories/AddButton';
 // SERVICE API
 import DataService from '../../services/DataService';
 
-
+//CSS
 import './index.css';
-import OccupationGraphic from '../RoomBookings/OccupationGraphic';
 
 
 const styles = theme => ({
@@ -49,10 +46,8 @@ export default class RoomsOverview extends React.Component {
   }
 
   _renderRooms(){
-      //console.log("_renderRooms TRIGGERED")
     return this.state.rooms.map((room,i) => {
         return (
-
           <Link className="room-row" key={i} to={`/room-admin/${room.roomNumber}`}> 
           
             <div className="info-block">
@@ -82,9 +77,8 @@ export default class RoomsOverview extends React.Component {
   render() {
 
     const {rooms} = this.state
-    console.log('props del Overview: ', this.props)
 
-    console.log("OccupationPercent: ", this.state.occupationPercent)
+    console.log("aptCode RoomsOverview", this.props.aptCode)
 
     return (
       
@@ -110,6 +104,7 @@ export default class RoomsOverview extends React.Component {
             </div>
             
             <div className="add-room-button">
+
               <div>
                 <p>Add rooms</p>
               </div>
@@ -117,7 +112,7 @@ export default class RoomsOverview extends React.Component {
                 <Link to={`/apt_addRoom/${this.state.apartmentCode}`}><AddButton/></Link>
               </div>
 
-          </div>
+            </div>
         
           </div>
 

@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Link } from 'react-router-dom';
 
 // COMPONENTS
 import RoomsOverview from '../../Rooms/RoomsOverview';
+
+// MATERIAL UI
+import AddButton from '../../Accessories/AddButton'
 
 // SERVICE API
 import DataService from '../../services/DataService';
@@ -14,6 +18,7 @@ export default class Apartment extends React.Component {
     super(props);
 
     this.state = {
+      user          : this.props.userData,
       apartmentCode : this.props.aptID,
       apartment     : null,
       aptBookings   : [],
@@ -61,6 +66,7 @@ export default class Apartment extends React.Component {
   
   render() {
 
+    console.log("AptCode en el Apt", this.state.apartmentCode)
     
     return (
 
@@ -79,6 +85,19 @@ export default class Apartment extends React.Component {
           <RoomsOverview aptCode={this.state.apartmentCode}/>
           
         </div>
+
+        <div className="add-room-button">
+
+          <div>
+            <p>Add Apt Booking</p>
+          </div>
+
+          <div>
+            <Link to={`/apt_newbooking/${this.state.apartmentCode}`}><AddButton/></Link>
+            <Link to={`/apt_addRoom/${this.state.apartmentCode}`}><AddButton/></Link>
+          </div>
+
+          </div>
 
       </div>
 
