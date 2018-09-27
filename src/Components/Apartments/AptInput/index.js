@@ -80,6 +80,7 @@ class ApartmentInput extends React.Component {
             rentalType: '',
             rentPrice: '',
             deposit: '',
+            type: 'Apartment'
         };
 
         this.onNewApartment             = this.onNewApartment.bind(this);

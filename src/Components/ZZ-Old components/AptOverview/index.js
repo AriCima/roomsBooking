@@ -16,8 +16,6 @@ class ApartmentsOverview extends Component {
       userId: this.props.userEmailId.id,
       apartments: []
     };
-
-   
   }
   
   componentDidMount() {

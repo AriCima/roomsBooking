@@ -72,13 +72,14 @@ class RoomInput extends React.Component {
         this.state = { 
             userId: this.props.userEmailId.id,
             apartmentCode: this.props.aptID,
+            apartmentName: '',
             roomNumber: '',
-            roomCode: '',
             sqm: '',
             exterior: false,
             privateBathroom: false,
             balcony: false,
             price: null,
+            type: 'Room'
         };
 
         this.onNewRoom = this.onNewRoom.bind(this);
@@ -90,12 +91,22 @@ class RoomInput extends React.Component {
         this.setState(roomInfo) 
     };
 
-
+    componentDidMount(){
+        DataService.getApartmentInfo(this.props.aptID)
+        .then(res => {
+        const aptName = res.apartmentName;
+        this.state.apartmentName = aptName;
+        })
+        .catch(function (error) {    
+        console.log(error);
+        })
+    };
 
     onNewRoom(e){
         e.preventDefault();
-        let newState = this.state;
 
+        let newState = this.state;
+        
         DataService.addNewRoom(newState);
         this.props.propsFn.push(`/single_apt_overview/${this.state.apartmentCode}`); 
             
