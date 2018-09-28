@@ -22,6 +22,7 @@ export default class Apartment extends React.Component {
       apartmentCode : this.props.aptID,
       apartment     : null,
       aptBookings   : [],
+      rooms         : [],
     }
   }
  
@@ -30,7 +31,7 @@ export default class Apartment extends React.Component {
     DataService.getApartmentInfo(this.props.aptID)
     .then(res => {
       const apt = res;
-      console.log("Res: ", res)
+      //console.log("Res: ", res)
       this.setState({ 
         apartment : res 
       });
@@ -39,6 +40,17 @@ export default class Apartment extends React.Component {
       console.log(error);
     })
 
+    DataService.getApartmentRooms(this.state.apartmentCode).then(
+      (roomsReceived) => {
+        //console.log("Rooms received", roomsReceived)
+
+        this.setState({rooms: roomsReceived})
+
+        console.log("Rooms del Manage state", this.state.rooms)
+
+      }
+    );  
+    
   }
 
   _renderApartmentInfo(){
@@ -62,7 +74,34 @@ export default class Apartment extends React.Component {
     )
   };
 
+  _renderRooms(){
+    return this.state.rooms.map((room,i) => {
+        return (
+          <Link className="room-row" key={i} to={`/single_room_overview/${room.id}`}> 
+          
+            <div className="info-block">
+                <p>{room.roomNumber}</p>
+            </div>
+            <div className="info-block">
+                <p>{room.sqm}</p>
+            </div>
+            <div className="info-block">
+                <p>{room.exterior}</p>
+            </div>
+            <div className="info-block">
+                <p>{room.balcony}</p>
+            </div>
+            <div className="info-block">
+                <p>{room.privateBathroom}</p>
+            </div>
+            <div className="info-block">
+                <p>{room.price}</p>
+            </div>
 
+          </Link>
+        )
+    })
+  } 
   
   render() {
 
@@ -80,24 +119,44 @@ export default class Apartment extends React.Component {
       
         </div>
 
-        <div className="rooms-listing">
+        <div className="rooms-admin">
 
-          <RoomsOverview aptCode={this.state.apartmentCode}/>
-          
+            <div className="manage-rooms">
+
+            <div className="rooms-list">
+
+              <div className="rooms-list-header">
+                <ul>
+                  <li>Room Nr</li>
+                  <li>Size (sqm)</li>
+                  <li>Exterior</li>
+                  <li>Balcony</li>
+                  <li>Private Bathroom</li>
+                  <li>Price (€/Mo)</li>
+                </ul>          
+              </div>
+              
+              <div className="rooms-render">
+                {this._renderRooms()}
+              </div>
+              
+              <div className="add-room-button">
+
+                <div>
+                  <p>Add rooms</p>
+                </div>
+                <div>
+                  <Link to={`/apt_addRoom/${this.state.apartmentCode}`}><AddButton/></Link>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
         </div>
-
-        <div className="add-room-button">
-
-          <div>
-            <p>Add Apt Booking</p>
-          </div>
-
-          <div>
-            <Link to={`/apt_newbooking/${this.state.apartmentCode}`}><AddButton/></Link>
-          </div>
-
-          </div>
-
+      
       </div>
 
     );

@@ -129,17 +129,15 @@ export default class DataService {
         }); 
     };
 
-    static apartmentNewBooking(newState){        
+    static apartmentNewBooking(newBooking){        
 
         return new Promise((resolve, reject) => {
 
-            firebase.firestore().collection('apt_bookings').add({newState}
-
-            )
+            firebase.firestore().collection('apt_bookings').add(newBooking)
             
             .then((result) => {
                 
-                console.log("ROOM information succesfully merged !")
+                console.log("AptBooking information succesfully added !")
                 resolve(result);
             })
 
@@ -207,41 +205,42 @@ export default class DataService {
             firebase.firestore().collection('rooms').doc(roomCode).get()
 
             .then((result) => {
-                if(result.docs.length > 0){
-                    resolve(result.docs[0]);
-                } else {
-                    reject('this room does not exist');
-                }
-                console.log("Result: ", result)
+                console.log('el Room REsult es: ', result)
+                console.log('el Room Result.data() es: ', result.data())
+                resolve(result.data());   // OBTENGO TODO LO QUE TENGO ALMACENADO DE ÉSTE USUARIO
             })
 
             .catch((error) => {
-                var errorCode = error.code;
-                console.log('La consulta no se pudo realizar: ', errorCode);
-                var errorMessage = error.message;
+                
+                reject('Room no existe');
+
             })
+            // .then((result) => {
+            //     if(result.docs.length > 0){
+            //         resolve(result.docs[0]);
+            //     } else {
+            //         reject('this room does not exist');
+            //     }
+            //     console.log("Result: ", result)
+            // })
+
+            // .catch((error) => {
+            //     var errorCode = error.code;
+            //     console.log('La consulta no se pudo realizar: ', errorCode);
+            //     var errorMessage = error.message;
+            // })
             
         });
     };
-    static addRoomNewState(userId, roomNumber, code, sDay, eDay, guest, agency, bDays){        
+    static roomNewBooking(newBooking){        
 
         return new Promise((resolve, reject) => {
 
-            firebase.firestore().collection('bookings').add({
-                userId      : userId,
-                roomNumber  : roomNumber,
-                bookingCode : code,
-                startDay    : sDay,
-                endDay      : eDay,
-                guest       : guest,
-                agency      : agency,
-                monthDays   : bDays
-                }
-            )
+            firebase.firestore().collection('room_bookings').add(newBooking)
             
             .then((result) => {
                 
-                console.log("ROOM information succesfully merged !")
+                console.log("ROOM NewBooking succesfully added !")
                 resolve(result);
             })
 

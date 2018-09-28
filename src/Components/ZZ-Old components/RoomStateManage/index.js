@@ -10,8 +10,7 @@ import Button from '@material-ui/core/Button';
 
 
 // DATABASE API
-import DataService from '../../services/DataService';
-import Calculations from '../../services/Calculations'
+import DataService from '../../../services/DataService';
 
 
 import './index.css'; 
@@ -68,32 +67,32 @@ const roomStates = [
 ];
   
 
-class RoomBookings extends React.Component {
+class RoomState extends React.Component {
     constructor(props){
         super(props);
 
         this.state = { 
-            userId          : '',
-            roomCode        : this.props.roomID,
-            apartmentCode   : '',
-            apartmentName   : '',
-            checkIn         : '',
-            checkOut        : '',
-            tenantName      : '',
-            tenantSurname   : '',
-            tenantEmail     : '',
-            tenantMobile    : '',
-            roomtState      : '',
-            agency          : '',
-            rentPrice       : '',
-            deposit         : '',
+            userId: this.props.userData,
+            apartmentCode: this.props.aptID,
+            apartmentName: this.props.aptName,
+            bookingCode: null,
+            checkIn: '',
+            checkOut: '',
+            tenantName:'',
+            tenantSurname:'',
+            tenantEmail:'',
+            tenantMobile:'',
+            roomtState: '',
+            agency:'',
+            rentPrice: '',
+            deposit: '',
         };
 
 
-        this.onNewBook = this.onNewBook.bind(this);
+        this.onNewBook              = this.onNewBook.bind(this);
     }
     componentDidMount(){
-        DataService.getRoomInfo(this.props.aptID)
+        DataService.getApartmentInfo(this.props.aptID)
         .then(res => {
         const aptName = res.apartmentName;
         this.state.apartmentName = aptName;
@@ -133,7 +132,7 @@ class RoomBookings extends React.Component {
             console.log('newBookingen el AptBookings: ', newBooking)
 
 
-            DataService.roomNewBooking(newBooking);  
+            DataService.apartmentNewBooking(newBooking);  
         
         };
     };
@@ -190,7 +189,7 @@ class RoomBookings extends React.Component {
                             value={this.state.roomState}
                             onChange={(e)=>{this.onChangeState('roomState', e.target.value)}}
                         >
-                            {roomStates.map(option => (
+                            {aptStates.map(option => (
                                 <MenuItem key={option.value} value={option.value}>
                                     {option.label}
                                 </MenuItem>
@@ -291,8 +290,8 @@ class RoomBookings extends React.Component {
   }
 }
 
-RoomBookings.propTypes = {
+RoomState.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(RoomBookings);
+export default withStyles(styles)(RoomState);

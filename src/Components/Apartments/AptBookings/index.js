@@ -8,17 +8,6 @@ import TextField from '@material-ui/core/TextField';
 import classNames from 'classnames';
 import Button from '@material-ui/core/Button';
 
-// //DATE-FNS
-// import isDate from 'date-fns/is_date';
-// import isValid from 'date-fns/is_valid';
-// import isAfter from 'date-fns/is_after';
-// import isEqual from 'date-fns/is_equal';
-// import format from 'date-fns/format';
-// import areRangesOverlapping from 'date-fns/are_ranges_overlapping';
-// import getDate from 'date-fns/get_date';
-// import getMonth from 'date-fns/get_month';
-// import getYear from 'date-fns/get_year';
-
 // DATABASE API
 import DataService from '../../services/DataService';
 
@@ -90,6 +79,7 @@ class AptBookings extends React.Component {
     this.state = { 
         userId: this.props.userData,
         apartmentCode: this.props.aptID,
+        apartmentName: this.props.aptName,
         bookingCode: null,
         checkIn: '',
         checkOut: '',
@@ -107,195 +97,206 @@ class AptBookings extends React.Component {
 }
 
 
-onChangeState(field, value){
-    let bookInfo = this.state;
-    bookInfo[field] = value;
-    this.setState(bookInfo)
-
-};
-
-onNewBook(e){
-    e.preventDefault();
-    let error = false;
-
-    let validation = Calculations.bookingsDatesValidation();
-    console.log('Validation en AptBooking', validation)
-    error = validation.error;
-
-    if(error){
-     alert(validation.message);
-    } else {
-
-     this.state.bookingCode = Calculations.generateCode()
-     //this.state.bookingDays = Calculations.getMonthsOccupationInPercentage()
-
-     //CHECKPOINT
-     console.log('bookingCode: ', this.state.bookingCode)
-     //console.log(' AptState bookingDays: ',  this.state.bookingDays);
-
-     let newState = this.state;
-     console.log('newSate en el AptBookings: ', newState)
-
-
-     DataService.apartmentNewBooking(newState);  
-      
+    componentDidMount(){
+        DataService.getApartmentInfo(this.props.aptID)
+        .then(res => {
+        const aptName = res.apartmentName;
+        this.state.apartmentName = aptName;
+        })
+        .catch(function (error) {    
+        console.log(error);
+        })
     };
-};
+
+    onChangeState(field, value){
+        let bookInfo = this.state;
+        bookInfo[field] = value;
+        this.setState(bookInfo)
+
+    };
+
+    onNewBook(e){
+        e.preventDefault();
+        let error = false;
+
+        let validation = Calculations.bookingsDatesValidation();
+        console.log('Validation en AptBooking', validation)
+        error = validation.error;
+
+        if(error){
+            alert(validation.message);
+        } else {
+
+            this.state.bookingCode = Calculations.generateCode()
+            //this.state.bookingDays = Calculations.getMonthsOccupationInPercentage()
+
+            //CHECKPOINT
+            console.log('bookingCode: ', this.state.bookingCode)
+            //console.log(' AptState bookingDays: ',  this.state.bookingDays);
+
+            let newBooking = this.state;
+            console.log('newBookingen el AptBookings: ', newBooking)
 
 
-render() {
-const { classes } = this.props;
+            DataService.apartmentNewBooking(newBooking);  
+        
+        };
+    };
 
-return (
 
-    <div className="room-state">
+    render() {
+    const { classes } = this.props;
 
-        <p>{this.props.apartmentCode}</p>
-        <p>{this.props.apartmentName}</p>
+    return (
 
-        <div className="form-container">
+        <div className="room-state">
 
-            <form  className={classes.container} noValidate autoComplete="off" onSubmit={this.onNewBook}>
-            
-                <div id="input-area">
+            <p>{this.props.apartmentCode}</p>
+            <p>{this.props.apartmentName}</p>
 
-                    <div id="input-fields-select">
-                        <TextField
-                            id="date"
-                            label="Check-In"
-                            type="date"
-                            defaultValue="dd/mm/yyyy"
-                            className={classes.textField}
-                            value={this.state.checkIn}
-                            onChange={(e)=>{this.onChangeState('checkIn', e.target.value)}}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
+            <div className="form-container">
+
+                <form  className={classes.container} noValidate autoComplete="off" onSubmit={this.onNewBook}>
+                
+                    <div id="input-area">
+
+                        <div id="input-fields-select">
+                            <TextField
+                                id="date"
+                                label="Check-In"
+                                type="date"
+                                defaultValue="dd/mm/yyyy"
+                                className={classes.textField}
+                                value={this.state.checkIn}
+                                onChange={(e)=>{this.onChangeState('checkIn', e.target.value)}}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                        </div>
+
+                        <div id="input-fields-select">
+                            <TextField
+                                id="date"
+                                label="Chec-kOut"
+                                type="date"
+                                defaultValue="dd/mm/yyyy"
+                                className={classes.textField}
+                                value={this.state.checkOut}
+                                onChange={(e)=>{this.onChangeState('checkOut', e.target.value)}}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                        </div>
+                        
+                        <div id="input-fields-select">
+                            <TextField
+                                select
+                                label="State"
+                                className={classNames(classes.margin, classes.textField)}
+                                value={this.state.apartmentState}
+                                onChange={(e)=>{this.onChangeState('apartmentState', e.target.value)}}
+                            >
+                                {aptStates.map(option => (
+                                    <MenuItem key={option.value} value={option.value}>
+                                        {option.label}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                        </div>
+
+                        <div id="input-fields">
+                            <TextField
+                                id="with-placeholder"
+                                label="Name"
+                                placeholder="Guest Name"
+                                className={classes.textField}
+                                margin="normal"
+                                value={this.state.tenantName}
+                                onChange={(e)=>{this.onChangeState('tenantName', e.target.value)}}
+                            />
+                        </div>
+                        <div id="input-fields">
+                            <TextField
+                                id="with-placeholder"
+                                label="Surname"
+                                placeholder="Guest SurnName"
+                                className={classes.textField}
+                                margin="normal"
+                                value={this.state.tenantSurname}
+                                onChange={(e)=>{this.onChangeState('tenantSurname', e.target.value)}}
+                            />
+                        </div>
+                        <div id="input-fields">
+                            <TextField
+                                id="with-placeholder"
+                                label="Email"
+                                placeholder="Email"
+                                className={classes.textField}
+                                margin="normal"
+                                value={this.state.tenantEmail}
+                                onChange={(e)=>{this.onChangeState('tenantEmail', e.target.value)}}
+                            />
+                        </div>
+                        <div id="input-fields">
+                            <TextField
+                                id="with-placeholder"
+                                label="Telephone"
+                                placeholder="Tel"
+                                className={classes.textField}
+                                margin="normal"
+                                value={this.state.tenantMobile}
+                                onChange={(e)=>{this.onChangeState('tenantMobile', e.target.value)}}
+                            />
+                        </div>
+
+                        <div id="input-fields">
+                            <TextField
+                                id="with-placeholder"
+                                label="Agency"
+                                placeholder="Agency"
+                                className={classes.textField}
+                                margin="normal"
+                                value={this.state.agency}
+                                onChange={(e)=>{this.onChangeState('agency', e.target.value)}}
+                            />
+                        </div>
+                        <div id="input-fields">
+                            <TextField
+                                id="with-placeholder"
+                                label="Price"
+                                className={classes.textField}
+                                margin="normal"
+                                value={this.state.rentPrice}
+                                onChange={(e)=>{this.onChangeState('rentPrice', e.target.value)}}
+                            />
+                        </div>
+                        <div id="input-fields">
+                            <TextField
+                                id="with-placeholder"
+                                label="Deposit"
+                                className={classes.textField}
+                                margin="normal"
+                                value={this.state.deposit}
+                                onChange={(e)=>{this.onChangeState('deposit', e.target.value)}}
+                            />
+                        </div>
+                        
+
                     </div>
 
-                    <div id="input-fields-select">
-                        <TextField
-                            id="date"
-                            label="Chec-kOut"
-                            type="date"
-                            defaultValue="dd/mm/yyyy"
-                            className={classes.textField}
-                            value={this.state.checkOut}
-                            onChange={(e)=>{this.onChangeState('checkOut', e.target.value)}}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
+                    <div className="button-area">
+                        <Button variant="contained" color="primary" className={classes.button} type="submit">
+                            Enviar
+                        </Button>
                     </div>
-                    
-                    <div id="input-fields-select">
-                        <TextField
-                            select
-                            label="State"
-                            className={classNames(classes.margin, classes.textField)}
-                            value={this.state.apartmentState}
-                            onChange={(e)=>{this.onChangeState('apartmentState', e.target.value)}}
-                        >
-                            {aptStates.map(option => (
-                                <MenuItem key={option.value} value={option.value}>
-                                    {option.label}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                    </div>
+                </form>
+            </div>
 
-                     <div id="input-fields">
-                        <TextField
-                            id="with-placeholder"
-                            label="Name"
-                            placeholder="Guest Name"
-                            className={classes.textField}
-                            margin="normal"
-                            value={this.state.tenantName}
-                            onChange={(e)=>{this.onChangeState('tenantName', e.target.value)}}
-                        />
-                    </div>
-                    <div id="input-fields">
-                        <TextField
-                            id="with-placeholder"
-                            label="Surname"
-                            placeholder="Guest SurnName"
-                            className={classes.textField}
-                            margin="normal"
-                            value={this.state.tenantSurname}
-                            onChange={(e)=>{this.onChangeState('tenantSurname', e.target.value)}}
-                        />
-                    </div>
-                    <div id="input-fields">
-                        <TextField
-                            id="with-placeholder"
-                            label="Email"
-                            placeholder="Email"
-                            className={classes.textField}
-                            margin="normal"
-                            value={this.state.tenantEmail}
-                            onChange={(e)=>{this.onChangeState('tenantEmail', e.target.value)}}
-                        />
-                    </div>
-                    <div id="input-fields">
-                        <TextField
-                            id="with-placeholder"
-                            label="Telephone"
-                            placeholder="Tel"
-                            className={classes.textField}
-                            margin="normal"
-                            value={this.state.tenantMobile}
-                            onChange={(e)=>{this.onChangeState('tenantMobile', e.target.value)}}
-                        />
-                    </div>
-
-                    <div id="input-fields">
-                        <TextField
-                            id="with-placeholder"
-                            label="Agency"
-                            placeholder="Agency"
-                            className={classes.textField}
-                            margin="normal"
-                            value={this.state.agency}
-                            onChange={(e)=>{this.onChangeState('agency', e.target.value)}}
-                        />
-                    </div>
-                    <div id="input-fields">
-                        <TextField
-                            id="with-placeholder"
-                            label="Price"
-                            className={classes.textField}
-                            margin="normal"
-                            value={this.state.rentPrice}
-                            onChange={(e)=>{this.onChangeState('rentPrice', e.target.value)}}
-                        />
-                    </div>
-                    <div id="input-fields">
-                        <TextField
-                            id="with-placeholder"
-                            label="Deposit"
-                            className={classes.textField}
-                            margin="normal"
-                            value={this.state.deposit}
-                            onChange={(e)=>{this.onChangeState('deposit', e.target.value)}}
-                        />
-                    </div>
-                    
-
-                </div>
-
-                <div className="button-area">
-                    <Button variant="contained" color="primary" className={classes.button} type="submit">
-                        Enviar
-                    </Button>
-                </div>
-            </form>
         </div>
-
-    </div>
-);
-}
+    );
+    }
 }
 
 AptBookings.propTypes = {
