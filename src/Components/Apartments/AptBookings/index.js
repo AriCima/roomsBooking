@@ -139,7 +139,7 @@ class AptBookings extends React.Component {
 
 
             DataService.apartmentNewBooking(newBooking);  
-        
+            this.props.propsFn.push(`/single_apt_overview/${this.state.apartmentCode}`); 
         };
     };
 

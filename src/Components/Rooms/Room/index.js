@@ -4,11 +4,6 @@ import AddButton from '../../Accessories/AddButton';
 
 // MATERIAL UI
 import TextField from '@material-ui/core/TextField';
-import classNames from 'classnames';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import FormControl from '@material-ui/core/FormControl';
 
 
 // SERVICE API
@@ -56,14 +51,16 @@ export default class Room extends React.Component {
     super(props);
 
     this.state = {
-      roomCode: this.props.roomID,
-      apartmentCode: '',
-      roomNumber: '',
-      sqm:'',
-      exterior: '',
-      privateBathroom: '',
-      balcony: '',
-      price: '',
+      roomCode          : this.props.roomID,
+      apartmentCode     : '',
+      apartmentName     : '',
+      roomNumber        : '',
+      sqm               : '',
+      exterior          : '',
+      privateBathroom   : '',
+      balcony           : '',
+      price             : '',
+      roomBookings      : [],
     }
   }
 
@@ -75,6 +72,7 @@ export default class Room extends React.Component {
 
         this.setState({
             apartmentCode   : roomsReceived.apartmentCode,
+            apartmentName   : roomsReceived.apartmentName,
             roomNumber      : roomsReceived.roomNumber,
             sqm             : roomsReceived.sqm,
             exterior        : roomsReceived.exterior,
@@ -87,21 +85,54 @@ export default class Room extends React.Component {
 
       }
     );  
+
+    DataService.getRoomBookings(this.state.roomCode)
+    .then(res => {
+        console.log('el res del getRoomBookings es: ', res)
+        this.state.roomBookings = res;
+    })
+    .catch(function (error) {    
+    console.log(error);
+    })
   }
 
+  _renderRoomsBookings(){
+    return this.state.roomBookings.map((bkngs,i) => {
+        return (
+          <Link className="room-room-row" key={i} to={`/booking_info/${bkngs.id}`}> 
+          
+            <div className="room-info-block">
+                <p>{bkngs.tenantName}</p>
+            </div>
+            <div className="room-info-block">
+                <p>{bkngs.tenantSurname}</p>
+            </div>
+            <div className="room-info-block">
+                <p>{bkngs.checkIn}</p>
+            </div>
+            <div className="room-info-block">
+                <p>{bkngs.checkOut}</p>
+            </div>
 
+          </Link>
+        )
+    })
+  } 
   
   render() {
 
     return (
-      
-        <div className="form-container">
+        <div className="Room">
+            <div className="room-pageInfo">
+                <h4>{this.state.apartmentName}<span>, Room Nr: </span>{this.state.roomNumber}</h4>
+            </div>
 
-
-             <div className="form-container">
-
+            <div className="room-form-container">
                 <form   noValidate autoComplete="off" onSubmit={this.onPayment}>
-                    <div id="input-area">
+                    <div className="room-form-title">
+                        <p>Room Info</p>
+                    </div> 
+                    <div id="room-input-area">
 
                         <div id="input-fields">
                             <TextField
@@ -127,7 +158,7 @@ export default class Room extends React.Component {
                             <TextField
                                 disabled
                                 id="with-placeholder"
-                                label="Sqm"
+                                label="Exterior"
                                 margin="normal"
                                 value={this.state.exterior}
                             />
@@ -152,18 +183,39 @@ export default class Room extends React.Component {
                     </div>
                 </form>
 
-                <div className="add-booking-button">
-                <div>
-                    <p>New Book</p>
-                </div>
-                <div>
-                    <Link to={`/room_newbooking/${this.state.roomCode}`}><AddButton/></Link>
-                </div>
-            </div>
+                <div className="room-bookings-list">
+                    <div className="room-bookings-title">
+                        <p>Room Former Bookings</p>
+                    </div> 
+                    <div className="room-bookings-list-header">
 
-            </div>
+                        <ul>
+                            <li>Name</li>
+                            <li>Surname</li>
+                            <li>Check-In</li>
+                            <li>Check-Out</li>
+                            <li>Price €/Mo</li>
+                        </ul>          
+                    </div>
+
+                    <div className="room-bookings-render">
+                    {this._renderRoomsBookings()}
+                    </div>
+
+                </div>
+
+                <div className="add-booking-button">
+                    <div>
+                        <p>New Book</p>
+                    </div>
+                    <div>
+                        <Link to={`/room_newbooking/${this.state.roomCode}`}><AddButton/></Link>
+                    </div>
+                </div>
+            
+            </div>         
+           
         </div>
-    
     );
   }
 }

@@ -253,14 +253,12 @@ export default class DataService {
             
         });
     };
-    static getRoomsOccupation(userId, roomNr){
-        console.log('getRoomOccupation launched USER: ', userId);
+    static getRoomBookings(roomCode){
 
         return new Promise((resolve, reject) => {
 
-            firebase.firestore().collection('bookings')
-            .where('userId', '==', userId)
-            .where('roomNr', '==', roomNr).get()
+            firebase.firestore().collection('room_bookings')
+            .where('roomCode', '==', roomCode).get()
 
             .then(function(querySnapshot) {
                 let info = [];
@@ -271,7 +269,7 @@ export default class DataService {
                     info.push(j);  
                 });
                 // CHECKPOINT
-                console.log("info es: ", info);
+                console.log("info de getRoomBookings es: ", info);
 
                 resolve(info);
             })

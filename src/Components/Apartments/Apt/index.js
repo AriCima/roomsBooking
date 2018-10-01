@@ -63,13 +63,36 @@ export default class Apartment extends React.Component {
             <p>{this.state.apartment.street} {this.state.apartment.houseNr}, {this.state.apartment.floor}ª, {this.state.apartment.door} </p>
           </div>
         </div>
-        <div className="apt-info-block">
-          <p>{this.state.aptBookings.tenantName} {this.state.aptBookings.tenantSurname}</p>
-        </div>
 
       </div>
     )
   };
+
+  _renderAptBookings(){
+    return this.state.aptBookings.map((bkngs,i) => {
+        return (
+          <Link className="apt-row" key={i} to={`/apt_booking_info/${bkngs.id}`}> 
+          
+            <div className="apt-info-block">
+                <p>{bkngs.tenantName}</p>
+            </div>
+            <div className="apt-info-block">
+                <p>{bkngs.tenantSurname}</p>
+            </div>
+            <div className="apt-info-block">
+                <p>{bkngs.checkIn}</p>
+            </div>
+            <div className="apt-info-block">
+                <p>{bkngs.checkOut}</p>
+            </div>
+            <div className="apt-info-block">
+                <p>{bkngs.price}</p>
+            </div>
+
+          </Link>
+        )
+    })
+  } 
 
   _renderRooms(){
     return this.state.rooms.map((room,i) => {
@@ -115,6 +138,38 @@ export default class Apartment extends React.Component {
           this._renderApartmentInfo()}
       
         </div>
+
+        <div className="apt-bookings-list">
+            <div className="apt-bookings-title">
+                <p>Apartment Former Bookings</p>
+            </div> 
+            <div className="apt-bookings-list-header">
+
+                <ul>
+                    <li>Name</li>
+                    <li>Surname</li>
+                    <li>Check-In</li>
+                    <li>Check-Out</li>
+                    <li>Preice €/Mo</li>
+                </ul>          
+            </div>
+
+            <div className="room-bookings-render">
+            {this._renderAptBookings()}
+            </div>
+
+        </div>
+
+        <div className="apt-add-booking-button">
+            <div>
+                <p>New Booking</p>
+            </div>
+            <div>
+                <Link to={`/apt_newbooking/${this.state.roomCode}`}><AddButton/></Link>
+            </div>
+        </div>
+            
+
 
         <div className="rooms-admin">
 

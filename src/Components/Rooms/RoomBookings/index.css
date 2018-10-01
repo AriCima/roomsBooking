@@ -1,18 +1,161 @@
-.picture{
-  margin-top: 2px;
+.apt-overview{
+  margin-top: 60px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 
-.months-boxes{
-  border: 1px solid lightblue;
-  height: 30px;
-  width: 80px;
+.paque{
+  width: 100%;
+}
+
+.apt-render-fn{
+  width: 100%;
+  margin: 20px 0 20px 20px;
   display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.apt-info-block{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  font-family: helvetica;
+}
+
+.info-block-text{
+  width: 100%;
+  margin: 0;
+}
+
+
+.apt-info-block .info-block-text h4{
+  margin: 10px 0 0 20px;
+  font-size: 28px;
+  font-weight: 550;
+  color: rgb(0, 144, 248);
+}
+
+.address{
+  width: 100%;
+  margin: 0;
+}
+
+.address p{
+  margin: 5px 0 0 20px;
+  font-size: 16px;
+  padding: 0;
+  color: rgb(145, 155, 155);
+}
+
+
+
+.rooms-listing{
+  margin-top: 20px;
+  width: 100%;
+}
+
+
+.rooms-admin{
+  width: 100%;
+  margin-top: 0px;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.months-boxes p{
-  padding: 0;
+
+.manage-rooms{
+  margin-top: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.rooms-list{
+  width: 100%;
+  margin-top: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.rooms-list-header{
+  width: 55%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(0, 144, 248);
+}
+
+.rooms-list-header ul{
   margin: 0;
-  color: rgba(0,0,0,0.2);
+  padding: 10px 0;;
+  list-style-type: none;
+  color: white;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.rooms-list-header ul li{
+  margin: 0 20px 0px 20px;
+  width: 20%;
+  text-align: center;
+}
+
+.rooms-render{
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.room-row{
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 2px 0px;
+}
+
+.room-row:nth-child(even){
+  background-color: rgba(0, 144, 248, 0.05);
+}
+
+.room-row:nth-child(odd){
+  background-color: rgba(0, 144, 248, 0.2);
+}
+
+.info-block{
+  width: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 20px;
+}
+
+.info-block p{
+  font-family: helvetica;
+  font-size: 18px;
+  padding: 0;
+}
+
+.add-room-button{
+  width: 55%;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start
 }

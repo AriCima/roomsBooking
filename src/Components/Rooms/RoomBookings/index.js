@@ -83,7 +83,7 @@ class RoomBookings extends React.Component {
             tenantSurname   : '',
             tenantEmail     : '',
             tenantMobile    : '',
-            roomState      : '',
+            roomState       : '',
             agency          : '',
             rentPrice       : '',
             deposit         : '',
@@ -93,14 +93,13 @@ class RoomBookings extends React.Component {
         this.onNewBook = this.onNewBook.bind(this);
     }
     componentDidMount(){
-
         DataService.getRoomInfo(this.state.roomCode)
         .then(res => {
-            console.log('el res de roomsBooking: ', res)
-        const aptName = res.apartmentName;
-        console.log('el res.apartmentNAme de roomsBooking: ', res.apartmentName)
-        this.state.apartmentName = aptName;
-        console.log('el this.state,apartmentName: ', this.state.apartmentName)
+            //console.log('el res de roomsBooking: ', res)
+        //const aptName = res.apartmentName;
+        //console.log('el res.apartmentNAme de roomsBooking: ', res.apartmentName)
+        //this.state.apartmentName = aptName;
+        //console.log('el this.state,apartmentName: ', this.state.apartmentName)
         this.setState({
             apartmentCode   : res.apartmentCode,
             apartmentName   : res.apartmentName,
@@ -110,6 +109,7 @@ class RoomBookings extends React.Component {
         .catch(function (error) {    
         console.log(error);
         })
+
     };
 
     onChangeState(field, value){
@@ -135,17 +135,17 @@ class RoomBookings extends React.Component {
             //this.state.bookingDays = Calculations.getMonthsOccupationInPercentage()
 
             //CHECKPOINT
-            console.log('bookingCode: ', this.state.bookingCode)
+            //console.log('bookingCode: ', this.state.bookingCode)
             //console.log(' AptState bookingDays: ',  this.state.bookingDays);
-
             let newBooking = this.state;
-            console.log('newBookingen el AptBookings: ', newBooking)
-
-
+            //console.log('newBookingen el RoomBookings: ', newBooking)
+            
             DataService.roomNewBooking(newBooking);  
-        
+            this.props.propsFn.push(`/single_room_overview/${this.state.roomCode}`); 
         };
     };
+
+
 
   render() {
     const { classes } = this.props;
