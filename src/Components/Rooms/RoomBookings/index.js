@@ -83,7 +83,7 @@ class RoomBookings extends React.Component {
             tenantSurname   : '',
             tenantEmail     : '',
             tenantMobile    : '',
-            roomtState      : '',
+            roomState      : '',
             agency          : '',
             rentPrice       : '',
             deposit         : '',
@@ -93,10 +93,19 @@ class RoomBookings extends React.Component {
         this.onNewBook = this.onNewBook.bind(this);
     }
     componentDidMount(){
-        DataService.getRoomInfo(this.props.aptID)
+
+        DataService.getRoomInfo(this.state.roomCode)
         .then(res => {
+            console.log('el res de roomsBooking: ', res)
         const aptName = res.apartmentName;
+        console.log('el res.apartmentNAme de roomsBooking: ', res.apartmentName)
         this.state.apartmentName = aptName;
+        console.log('el this.state,apartmentName: ', this.state.apartmentName)
+        this.setState({
+            apartmentCode   : res.apartmentCode,
+            apartmentName   : res.apartmentName,
+            userId          : res.userId,  
+        })
         })
         .catch(function (error) {    
         console.log(error);
@@ -184,6 +193,7 @@ class RoomBookings extends React.Component {
                     
                     <div id="input-fields-select">
                         <TextField
+                            id="with-placeholder"
                             select
                             label="State"
                             className={classNames(classes.margin, classes.textField)}

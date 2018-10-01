@@ -19,17 +19,37 @@ import './index.css';
 
 
 const styles = theme => ({
-  button: {
-    margin: theme.spacing.unit,
-  },
-  extendedIcon: {
-    marginRight: theme.spacing.unit,
-  },
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  }
-});
+    root: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      },
+    container: {
+      display: 'flex',
+      flexWrap: 'wrap',
+    },
+    textField: {
+      marginLeft: theme.spacing.unit,
+      marginRight: theme.spacing.unit,
+      width: 200,
+    },
+    inputStyle: {
+      color: 'rgb(237, 0, 117)',
+    },
+    menu: {
+      width: 200,
+    },
+    button: {
+      margin: theme.spacing.unit,
+      background: 'rgb(237, 0, 117)',
+    },
+    formControl: {
+      margin: theme.spacing.unit,
+      minWidth: 120,
+    },
+    selectEmpty: {
+      marginTop: theme.spacing.unit * 2,
+    },
+  });
 
 export default class Room extends React.Component {
   constructor(props){
@@ -73,118 +93,77 @@ export default class Room extends React.Component {
   
   render() {
 
-    const { classes } = this.props;
-
     return (
       
         <div className="form-container">
 
-            <div className="form-title">
-                <h4>ROOM INFO</h4>
-                <p>{this.state.roomNumber}</p>
-                <p>{this.state.balcony}</p>
-            </div>
 
-            {/* <form  id="form-format" className={classes.container} noValidate autoComplete="off" onSubmit={this.onNewRoom}>
-            
-                <div id="input-area">
+             <div className="form-container">
 
-                    <div id="input-fields">
-                        <TextField
-                            disabled
-                            id="filled-disabled"
-                            label="Room#"
-                            className={classNames(classes.margin, classes.textField)}
-                            margin="normal"
-                            value={this.state.roomNumber}
-                            //onChange={(e)=>{this.updateFormInput('roomNumber', e.target.value)}}
-                        />
-                    </div>
+                <form   noValidate autoComplete="off" onSubmit={this.onPayment}>
+                    <div id="input-area">
 
-                    <div id="input-fields">
-                        <TextField
-                            disabled
-                            id="filled-disabled"
-                            label="Sqm"
-                            className={classNames(classes.margin, classes.textField)}
-                            margin="normal"
-                            value={this.state.sqm}
-                            //onChange={(e)=>{this.updateFormInput('sqm', e.target.value)}}
-                        />
-                    </div>
-
-                    <div id="input-fields-select">
-                        <TextField
-                            disabled
-                            id="filled-disabled"
-                            label="Exterior"
-                            className={classNames(classes.margin, classes.textField)}
-                            value={this.state.exterior}
-                            //onChange={(e)=>{this.updateFormInput('exterior', e.target.value)}}
-                        >
-                        </TextField>
-                    </div>
-
-                    <div id="input-fields-select">
-                        <TextField
-                            disabled
-                            id="filled-disabled"
-                            label="Private Bathroom"
-                            className={classNames(classes.margin, classes.textField)}
-                            value={this.state.privateBathroom}
-                            //onChange={(e)=>{this.updateFormInput('privateBathroom', e.target.value)}}
-                        >
-                        </TextField>
-                    </div>
-
-                    <div id="input-fields-select">
-                        <TextField
-                            disabled
-                            id="filled-disabled"
-                            label="Balcony"
-                            className={classNames(classes.margin, classes.textField)}
-                            value={this.state.balcony}
-                            //onChange={(e)=>{this.updateFormInput('balcony', e.target.value)}}
-                        >
-                        </TextField>
-                    </div>
-                 
-                    <div id="input-fields">
-                        <FormControl fullWidth className={classes.margin}>
-                            <InputLabel htmlFor="adornment-amount">Monthly rent</InputLabel>
-                            <Input
+                        <div id="input-fields">
+                            <TextField
                                 disabled
+                                label="Room Nr"
                                 id="filled-disabled"
-                                className={classNames(classes.margin, classes.textField)}
-                                value={this.state.price}
-                                //onChange={(e)=>{this.updateFormInput('price', e.target.value)}}
-                                startAdornment={<InputAdornment position="start">€</InputAdornment>}
+                                margin="normal"
+                                variant="filled"
+                                value={this.state.roomNumber}
                             />
-                        </FormControl>
+                        </div>
+                        <div id="input-fields">
+                            <TextField
+                                disabled
+                                id="with-placeholder"
+                                label="Square mts"
+                                placeholder="Nombre cliente"
+                                margin="normal"
+                                value={this.state.sqm}
+                            />
+                        </div>
+                        <div id="input-fields">
+                            <TextField
+                                disabled
+                                id="with-placeholder"
+                                label="Sqm"
+                                margin="normal"
+                                value={this.state.exterior}
+                            />
+                        </div>
+                        <div id="input-fields">
+                            <TextField
+                                disabled
+                                id="with-placeholder"
+                                label="Private Bathroom"
+                                margin="normal"
+                                value={this.state.privateBathroom}
+                            />
+                        </div>
+                        <div id="input-fields-select">
+                            <TextField
+                                disabled
+                                label="Balcony"
+                                value={this.state.balcony}
+                            />
+                        </div>
+                        
                     </div>
-                    
-                </div>
-
-        
-
-
-            </form> */}
-
+                </form>
 
                 <div className="add-booking-button">
-                    <div>
-                        <p>New Book</p>
-                    </div>
-                    <div>
-                        <Link to={`/room_newbooking/${this.state.roomCode}`}><AddButton/></Link>
-                    </div>
+                <div>
+                    <p>New Book</p>
                 </div>
+                <div>
+                    <Link to={`/room_newbooking/${this.state.roomCode}`}><AddButton/></Link>
+                </div>
+            </div>
 
-
+            </div>
         </div>
     
-
-
     );
   }
 }

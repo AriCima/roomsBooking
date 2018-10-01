@@ -101,7 +101,7 @@ class App extends Component {
                 <Route path="/apt_newbooking/:aptId" exact render = {(props) => { return <AptBookings userData={user} aptID={props.match.params.aptId}/> }}/> 
                 
                 <Route path="/single_room_overview/:roomId" exact render = {(props) => {return <Room roomID={props.match.params.roomId}/> }}/>
-                <Route path="/room_newbooking/:room" exact render = {(props) => {return <RoomBookings roomID={props.match.params.room}/> }}/>
+                <Route path="/room_newbooking/:roomId" exact render = {(props) => {return <RoomBookings roomID={props.match.params.roomId}/> }}/>
                 
               </Switch>
 

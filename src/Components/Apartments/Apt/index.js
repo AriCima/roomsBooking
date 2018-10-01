@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
-// COMPONENTS
-import RoomsOverview from '../../Rooms/RoomsOverview';
-
 // MATERIAL UI
 import AddButton from '../../Accessories/AddButton'
 

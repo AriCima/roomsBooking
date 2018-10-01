@@ -205,7 +205,7 @@ export default class DataService {
             firebase.firestore().collection('rooms').doc(roomCode).get()
 
             .then((result) => {
-                console.log('el Room REsult es: ', result)
+                console.log('el Room Result es: ', result)
                 console.log('el Room Result.data() es: ', result.data())
                 resolve(result.data());   // OBTENGO TODO LO QUE TENGO ALMACENADO DE ÉSTE USUARIO
             })
