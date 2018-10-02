@@ -55,10 +55,10 @@ class App extends Component {
 
         DataService.getUserContactInfo(user.uid).then(
           (userData)=>{
-            console.log('userData en App: ', userData);
+            //console.log('userData en App: ', userData);
             userData.id = user.uid;
             this.setState({user : userData});
-            console.log('El user luego del setState en App:', user)
+            //console.log('El user luego del setState en App:', user)
           }, 
           (errorMessage)=>{
             console.log(errorMessage)
@@ -76,7 +76,7 @@ class App extends Component {
 
   render() {
     const { user } = this.state;
-    console.log('el user en App render: ', user)
+    //console.log('el user en App render: ', user)
     return (
       <div>
 

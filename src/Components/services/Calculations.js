@@ -1,3 +1,5 @@
+import DataService from '../services/DataService'
+
 //DATE-FNS
 import isWithinRange from 'date-fns/is_within_range'
 import isDate from 'date-fns/is_date';
@@ -13,17 +15,36 @@ import getYear from 'date-fns/get_year';
 
 export default class Calculations {
 
-    static getCurrentContract(bookings) {  
+    static getCurrentContracts(userID) {  
 
-        let date = new Date();
+        DataService.getUserAptContracts(userID)
+            .then(contracts => {
 
-        for ( let x in bookings){
+                const date = new Date();
+                let currentContracts = [];
 
-            if (isWithinRange(date, bookings.startDay, bookings.endDay)){
-                return bookings.bookingCode
+                for ( let x = 0; x<contracts.length; x++){
+
+                    if (isWithinRange(date, contracts.checkIn, contracts.checkOut)) {
+                        let contract = {};
+                        contract.Name = contracts.tenantName;
+                        contract.Surname = contracts.tenantSurname;
+                        contract.checkIn = contracts.checkIn;
+                        contract.checkOut = contracts.checkOut;
+                        contract.rentPrice = contracts.rentPrice;
+
+                        currentContracts.push(contract);
+                    }
+        
+                }
+
+                console.log('currentAptContract en e calculations', currentContracts)
+
+                return currentContracts  
             }
+        )
 
-        }
+       
        
     };
  

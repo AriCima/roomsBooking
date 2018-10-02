@@ -77,7 +77,7 @@ class AptBookings extends React.Component {
     super(props);
 
     this.state = { 
-        userId: this.props.userData,
+        userId: this.props.userData.id,
         apartmentCode: this.props.aptID,
         apartmentName: '',
         checkIn: '',
@@ -126,13 +126,6 @@ class AptBookings extends React.Component {
         if(error){
             alert(validation.message);
         } else {
-
-            //this.state.bookingCode = Calculations.generateCode()
-            //this.state.bookingDays = Calculations.getMonthsOccupationInPercentage()
-
-            //CHECKPOINT
-            //console.log('bookingCode: ', this.state.bookingCode)
-            //console.log(' AptState bookingDays: ',  this.state.bookingDays);
 
             let newBooking = this.state;
             console.log('newBooking en el AptBookings: ', newBooking)

@@ -132,13 +132,8 @@ class RoomBookings extends React.Component {
         } else {
 
             this.state.bookingCode = Calculations.generateCode()
-            //this.state.bookingDays = Calculations.getMonthsOccupationInPercentage()
-
-            //CHECKPOINT
-            //console.log('bookingCode: ', this.state.bookingCode)
-            //console.log(' AptState bookingDays: ',  this.state.bookingDays);
+           
             let newBooking = this.state;
-            //console.log('newBookingen el RoomBookings: ', newBooking)
             
             DataService.roomNewBooking(newBooking);  
             this.props.propsFn.push(`/single_room_overview/${this.state.roomCode}`); 

@@ -5,6 +5,7 @@ import AddButton from '../../Components/Accessories/AddButton';
 
 // DATA
 import DataService from '../services/DataService';
+import Calculations from '../services/Calculations';
 
 // CSS
 import './index.css';
@@ -16,9 +17,12 @@ export default class Home extends React.Component {
     super(props);
 
     this.state = {
-      userId     : this.props.userEmailId.id,
-      apartments : [],
-      rooms      : []
+      userId                  : this.props.userEmailId.id,
+      apartments              : [],
+      userAptContracts     : [],
+      currentAptContracts     : [],
+      rooms                   : [],
+      currentRoomContracts    : [],
     }
     
   };
@@ -28,14 +32,25 @@ export default class Home extends React.Component {
     
     DataService.getUserApartments(this.state.userId)
     .then(apts => {
+      console.log('apts recibidos en Home', apts)
     const apartments = apts;
     
     this.setState({ apartments });
-    })
-    .catch(function (error) {    // ataja el error: no rompe la app
+    }).catch(function (error) {   
     // handle error
     console.log(error);
     })
+
+    DataService.getUserAptContracts(this.state.userId)
+    .then(userAptContracts => {
+      console.log('userAptContracts en Home', userAptContracts)
+    
+    this.state.userContracts = userAptContracts;
+    }).catch(function (error) {    
+    
+    console.log(error);
+    })
+
   };
 
   _renderApartments(){

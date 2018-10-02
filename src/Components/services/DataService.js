@@ -90,6 +90,33 @@ export default class DataService {
             
         });
     };
+    static getUserAptContracts(userId){
+        
+        return new Promise((resolve, reject) => {
+
+            firebase.firestore().collection('apt_bookings').where(`userId`,`==`, userId).get() // Where me devuelve todos los rooms que tengan ese userId
+            .then((result) => {
+                console.log('el Result del getUserContracts', result);
+                let userContracts=[];
+                result.docs.forEach((d) => {
+                    let j = d.data();
+                    j.id=d.id;
+                    userContracts.push(j);
+                })
+                
+                resolve(userContracts);  
+                console.log('el resume userContracts), ', userContracts)
+
+            })
+
+            .catch((error) => {
+               console.log('error: ', error)
+                // reject('Usuario no existe', error)
+
+            })
+            
+        });
+    }
     static getApartmentInfo(apartmentCode){
         return new Promise((resolve, reject) => {
 
