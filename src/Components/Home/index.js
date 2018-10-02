@@ -19,7 +19,7 @@ export default class Home extends React.Component {
     this.state = {
       userId                  : this.props.userEmailId.id,
       apartments              : [],
-      userAptContracts     : [],
+      userAptContracts        : [],
       currentAptContracts     : [],
       rooms                   : [],
       currentRoomContracts    : [],
@@ -44,8 +44,11 @@ export default class Home extends React.Component {
     DataService.getUserAptContracts(this.state.userId)
     .then(userAptContracts => {
       console.log('userAptContracts en Home', userAptContracts)
-    
-    this.state.userContracts = userAptContracts;
+      let y = Calculations.getCurrentAptContracts(userAptContracts)
+      console.log('Y', y);
+
+
+    console.log('this.state.currentAptContracts', this.state.currentAptContracts)
     }).catch(function (error) {    
     
     console.log(error);
@@ -53,7 +56,9 @@ export default class Home extends React.Component {
 
   };
 
+  
   _renderApartments(){
+
     return this.state.apartments.map((apt,i) => {
       return (
         

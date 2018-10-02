@@ -15,38 +15,29 @@ import getYear from 'date-fns/get_year';
 
 export default class Calculations {
 
-    static getCurrentContracts(userID) {  
+    static getCurrentAptContracts(contracts) {  
+        console.log('input del getCurrentContract', contracts)
+        const date = new Date();
+        let currentContracts = [];
 
-        DataService.getUserAptContracts(userID)
-            .then(contracts => {
+        for ( let x = 0; x<contracts.length; x++){
 
-                const date = new Date();
-                let currentContracts = [];
+            if (isWithinRange(date, contracts[x].checkIn, contracts[x].checkOut)) {
+                let contract = {};
+                contract.Name = contracts[x].tenantName;
+                contract.Surname = contracts[x].tenantSurname;
+                contract.checkIn = contracts[x].checkIn;
+                contract.checkOut = contracts[x].checkOut;
+                contract.rentPrice = contracts[x].rentPrice;
 
-                for ( let x = 0; x<contracts.length; x++){
-
-                    if (isWithinRange(date, contracts.checkIn, contracts.checkOut)) {
-                        let contract = {};
-                        contract.Name = contracts.tenantName;
-                        contract.Surname = contracts.tenantSurname;
-                        contract.checkIn = contracts.checkIn;
-                        contract.checkOut = contracts.checkOut;
-                        contract.rentPrice = contracts.rentPrice;
-
-                        currentContracts.push(contract);
-                    }
-        
-                }
-
-                console.log('currentAptContract en e calculations', currentContracts)
-
-                return currentContracts  
+                currentContracts.push(contract);
             }
-        )
+        }
+        console.log('currentAptContract en e calculations', currentContracts)
 
-       
-       
-    };
+        return currentContracts  
+    }
+        
  
     static getMonthsOccupationInPercentage(newStartDate, newEndDate) { 
         
