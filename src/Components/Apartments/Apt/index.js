@@ -43,10 +43,21 @@ export default class Apartment extends React.Component {
 
         this.setState({rooms: roomsReceived})
 
-        console.log("Rooms del Manage state", this.state.rooms)
+        //console.log("Rooms del Manage state", this.state.rooms)
 
       }
-    );  
+    ); 
+    
+    DataService.getApartmentBookings(this.state.apartmentCode).then(
+      (bookingsReceived) => {
+        //console.log("Rooms received", roomsReceived)
+
+        this.setState({aptBookings: bookingsReceived})
+
+
+
+      }
+    ); 
     
   }
 
@@ -71,21 +82,21 @@ export default class Apartment extends React.Component {
   _renderAptBookings(){
     return this.state.aptBookings.map((bkngs,i) => {
         return (
-          <Link className="apt-row" key={i} to={`/apt_booking_info/${bkngs.id}`}> 
+          <Link className="apt-bookings-row" key={i} to={`/apt_booking_info/${bkngs.id}`}> 
           
-            <div className="apt-info-block">
+            <div className="apt-booking-info-block">
                 <p>{bkngs.tenantName}</p>
             </div>
-            <div className="apt-info-block">
+            <div className="apt-booking-info-block">
                 <p>{bkngs.tenantSurname}</p>
             </div>
-            <div className="apt-info-block">
+            <div className="apt-booking-info-block">
                 <p>{bkngs.checkIn}</p>
             </div>
-            <div className="apt-info-block">
+            <div className="apt-booking-info-block">
                 <p>{bkngs.checkOut}</p>
             </div>
-            <div className="apt-info-block">
+            <div className="apt-booking-info-block">
                 <p>{bkngs.price}</p>
             </div>
 
@@ -97,24 +108,24 @@ export default class Apartment extends React.Component {
   _renderRooms(){
     return this.state.rooms.map((room,i) => {
         return (
-          <Link className="room-row" key={i} to={`/single_room_overview/${room.id}`}> 
+          <Link className="apt-room-row" key={i} to={`/single_room_overview/${room.id}`}> 
           
-            <div className="info-block">
+            <div className="apt-room-info-block">
                 <p>{room.roomNumber}</p>
             </div>
-            <div className="info-block">
+            <div className="apt-room-info-block">
                 <p>{room.sqm}</p>
             </div>
-            <div className="info-block">
+            <div className="apt-room-info-block">
                 <p>{room.exterior}</p>
             </div>
-            <div className="info-block">
+            <div className="apt-room-info-block">
                 <p>{room.balcony}</p>
             </div>
-            <div className="info-block">
+            <div className="apt-room-info-block">
                 <p>{room.privateBathroom}</p>
             </div>
-            <div className="info-block">
+            <div className="apt-room-info-block">
                 <p>{room.price}</p>
             </div>
 
@@ -124,11 +135,8 @@ export default class Apartment extends React.Component {
   } 
   
   render() {
-
-    console.log("AptCode en el Apt", this.state.apartmentCode)
     
     return (
-
 
       <div className="apt-overview">
       
@@ -165,19 +173,21 @@ export default class Apartment extends React.Component {
                 <p>New Booking</p>
             </div>
             <div>
-                <Link to={`/apt_newbooking/${this.state.roomCode}`}><AddButton/></Link>
+                <Link to={`/apt_newbooking/${this.state.apartmentCode}`}><AddButton/></Link>
             </div>
         </div>
             
 
 
-        <div className="rooms-admin">
+        <div className="apt-rooms-admin">
 
-            <div className="manage-rooms">
+            <div className="apt-manage-rooms">
+            <div className="apt-bookings-title">
+                <p>Rooms</p>
+            </div> 
+            <div className="apt-rooms-list">
 
-            <div className="rooms-list">
-
-              <div className="rooms-list-header">
+              <div className="apt-rooms-list-header">
                 <ul>
                   <li>Room Nr</li>
                   <li>Size (sqm)</li>

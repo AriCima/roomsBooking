@@ -79,8 +79,7 @@ class AptBookings extends React.Component {
     this.state = { 
         userId: this.props.userData,
         apartmentCode: this.props.aptID,
-        apartmentName: this.props.aptName,
-        bookingCode: null,
+        apartmentName: '',
         checkIn: '',
         checkOut: '',
         tenantName:'',
@@ -98,8 +97,9 @@ class AptBookings extends React.Component {
 
 
     componentDidMount(){
-        DataService.getApartmentInfo(this.props.aptID)
+        DataService.getApartmentInfo(this.state.apartmentCode)
         .then(res => {
+        console.log('RESpuesta en el AptBookings', res)
         const aptName = res.apartmentName;
         this.state.apartmentName = aptName;
         })
@@ -127,15 +127,15 @@ class AptBookings extends React.Component {
             alert(validation.message);
         } else {
 
-            this.state.bookingCode = Calculations.generateCode()
+            //this.state.bookingCode = Calculations.generateCode()
             //this.state.bookingDays = Calculations.getMonthsOccupationInPercentage()
 
             //CHECKPOINT
-            console.log('bookingCode: ', this.state.bookingCode)
+            //console.log('bookingCode: ', this.state.bookingCode)
             //console.log(' AptState bookingDays: ',  this.state.bookingDays);
 
             let newBooking = this.state;
-            console.log('newBookingen el AptBookings: ', newBooking)
+            console.log('newBooking en el AptBookings: ', newBooking)
 
 
             DataService.apartmentNewBooking(newBooking);  
@@ -149,16 +149,13 @@ class AptBookings extends React.Component {
 
     return (
 
-        <div className="room-state">
+        <div className="apartment-booking">
 
-            <p>{this.props.apartmentCode}</p>
-            <p>{this.props.apartmentName}</p>
-
-            <div className="form-container">
+            <div className="apt-form-container">
 
                 <form  className={classes.container} noValidate autoComplete="off" onSubmit={this.onNewBook}>
                 
-                    <div id="input-area">
+                    <div id="apt-input-area">
 
                         <div id="input-fields-select">
                             <TextField
@@ -174,7 +171,6 @@ class AptBookings extends React.Component {
                                 }}
                             />
                         </div>
-
                         <div id="input-fields-select">
                             <TextField
                                 id="date"
@@ -189,7 +185,6 @@ class AptBookings extends React.Component {
                                 }}
                             />
                         </div>
-                        
                         <div id="input-fields-select">
                             <TextField
                                 select
@@ -205,7 +200,6 @@ class AptBookings extends React.Component {
                                 ))}
                             </TextField>
                         </div>
-
                         <div id="input-fields">
                             <TextField
                                 id="with-placeholder"
@@ -250,7 +244,6 @@ class AptBookings extends React.Component {
                                 onChange={(e)=>{this.onChangeState('tenantMobile', e.target.value)}}
                             />
                         </div>
-
                         <div id="input-fields">
                             <TextField
                                 id="with-placeholder"
@@ -286,7 +279,7 @@ class AptBookings extends React.Component {
 
                     </div>
 
-                    <div className="button-area">
+                    <div className="apt-booking-button">
                         <Button variant="contained" color="primary" className={classes.button} type="submit">
                             Enviar
                         </Button>

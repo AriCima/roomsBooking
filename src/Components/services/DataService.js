@@ -112,17 +112,21 @@ export default class DataService {
     static getApartmentBookings(apartmentCode){
         return new Promise((resolve, reject) => {
 
-            firebase.firestore().collection('apt_bookings')
-            .where('apartmentCode', '===', apartmentCode).get()
+            firebase.firestore().collection('apt_bookings').where(`apartmentCode`, `==`, apartmentCode).get()
             .then((result) => {
-                console.log('el Result es: ', result)
-                console.log('el Result.data() es: ', result.data())
-                resolve(result.data());   // OBTENGO TODO LO QUE TENGO ALMACENADO DE ÉSTE USUARIO
+                let aptBookings = [];
+                result.docs.forEach((d) => {
+                    let j = d.data();
+                    j.id=d.id;
+                    aptBookings.push(j);
+                })
+
+                resolve(aptBookings);   
             })
 
             .catch((error) => {
                 
-                reject('Usuario no existe');
+                reject('El apartamento no existe');
 
             })
             
