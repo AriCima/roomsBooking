@@ -16,7 +16,7 @@ import getYear from 'date-fns/get_year';
 export default class Calculations {
 
     static getCurrentAptContracts(contracts) {  
-        console.log('input del getCurrentContract', contracts)
+        
         const date = new Date();
         let currentContracts = [];
 
@@ -24,21 +24,20 @@ export default class Calculations {
 
             if (isWithinRange(date, contracts[x].checkIn, contracts[x].checkOut)) {
                 let contract = {};
-                contract.Name = contracts[x].tenantName;
-                contract.Surname = contracts[x].tenantSurname;
-                contract.checkIn = contracts[x].checkIn;
-                contract.checkOut = contracts[x].checkOut;
-                contract.rentPrice = contracts[x].rentPrice;
+                contract.apartmentCode          = contracts[x].apartmentCode;
+                contract.tenantName             = contracts[x].tenantName;
+                contract.tenantSurname          = contracts[x].tenantSurname;
+                contract.checkIn                = contracts[x].checkIn;
+                contract.checkOut               = contracts[x].checkOut;
+                contract.rentPrice              = contracts[x].rentPrice;
 
                 currentContracts.push(contract);
             }
         }
-        console.log('currentAptContract en e calculations', currentContracts)
+        //console.log('currentAptContract en e calculations', currentContracts)
 
         return currentContracts  
-    }
-        
- 
+    };
     static getMonthsOccupationInPercentage(newStartDate, newEndDate) { 
         
         // https://stackoverflow.com/questions/4345045/javascript-loop-between-date-ranges
@@ -105,7 +104,6 @@ export default class Calculations {
         
        
     };
-
     static generateCode(){
      // GENERATE BOOKING CODE
      const letters = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
@@ -132,8 +130,7 @@ export default class Calculations {
 
      return code
      
-    }
-
+    };
     static bookingsDatesValidation(newStartDate, newEndDate){
         
         let startDate = new Date(newStartDate);
@@ -182,5 +179,5 @@ export default class Calculations {
         }
 
         return validationResult
-    }
+    };
 }

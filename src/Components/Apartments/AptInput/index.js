@@ -69,7 +69,6 @@ class ApartmentInput extends React.Component {
         this.state = { 
             userId: this.props.userID,
             apartmentName: '',
-            apartmentCode: '',
             street: '',
             houseNr: '',
             floor: '',

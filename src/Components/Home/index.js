@@ -18,7 +18,7 @@ export default class Home extends React.Component {
 
     this.state = {
       userId                  : this.props.userEmailId.id,
-      apartments              : [],
+      deptos                  : [],
       userAptContracts        : [],
       currentAptContracts     : [],
       rooms                   : [],
@@ -32,10 +32,15 @@ export default class Home extends React.Component {
     
     DataService.getUserApartments(this.state.userId)
     .then(apts => {
-      console.log('apts recibidos en Home', apts)
-    const apartments = apts;
     
-    this.setState({ apartments });
+    const deptos = [];
+    for (let j = 0; j < apts.length; j++){
+      deptos[j]={apartmentName  : apts[j].apartmentName,
+                id              : apts[j].id};
+    };
+
+    this.setState({ deptos });
+    //console.log('deptos luego de aptName e ID', this.state.deptos)
     }).catch(function (error) {   
     // handle error
     console.log(error);
@@ -43,12 +48,28 @@ export default class Home extends React.Component {
 
     DataService.getUserAptContracts(this.state.userId)
     .then(userAptContracts => {
-      console.log('userAptContracts en Home', userAptContracts)
-      let y = Calculations.getCurrentAptContracts(userAptContracts)
-      console.log('Y', y);
+      //console.log('userAptContracts en Home', userAptContracts)
 
+      this.state.currentAptContracts = Calculations.getCurrentAptContracts(userAptContracts)
+      console.log('this.state.currentAptContracts', this.state.currentAptContracts);
 
-    console.log('this.state.currentAptContracts', this.state.currentAptContracts)
+      for (let y = 0; y < this.state.deptos.length; y++){
+
+        for (let k = 0; k < this.state.currentAptContracts.length; k++){
+  
+          if(this.state.deptos[y].id === this.state.currentAptContracts[k].apartmentCode){
+            this.state.deptos[y].tenantName      = this.state.currentAptContracts[k].tenantName;
+            this.state.deptos[y].tenantSurname   = this.state.currentAptContracts[k].tenantSurname;
+            this.state.deptos[y].checkIn         = this.state.currentAptContracts[k].checkIn;
+            this.state.deptos[y].checkOut        = this.state.currentAptContracts[k].checkOut;
+            this.state.deptos[y].rPrice          = this.state.currentAptContracts[k].rentPrice;
+          }
+        }
+      
+      }
+      
+      //console.log('el deptos con curretContracts:', this.state.deptos);
+
     }).catch(function (error) {    
     
     console.log(error);
@@ -59,32 +80,30 @@ export default class Home extends React.Component {
   
   _renderApartments(){
 
-    return this.state.apartments.map((apt,i) => {
-      return (
-        
-        <Link className="apts-row" to={`/single_apt_overview/${apt.id}`} key={i}>
-          <div className="apts-info-block">
-            <p>{apt.apartmentName}</p>
-          </div> 
-          <div className="apts-info-block-b">
-            <p>Rented</p>
-          </div>
-          <div className="apts-info-block-b">
-            <p>{'this.state.tenantName'}</p>
-          </div>
-          <div className="apts-info-block-b">
-            <p>{'this.state.check-in'}</p>
-          </div>
-          <div className="apts-info-block-b">
-            <p>{'this.state.check-out'}</p>
-          </div>
-          <div className="apts-info-block-b">
-            <p>{'this.state.rent'}</p>
-          </div>
-        </Link>
+    return this.state.deptos.map((dpts,j) => {
+        return (
+          <Link className="apts-row" key={j} to={`/single_apt_overview/${dpts.id}`}> 
+          
+            <div className="apts-info-block">
+                <p>{dpts.apartmentName}</p>
+            </div>
+            <div className="apts-info-block">
+                <p>{dpts.tenantName} {dpts.tenantSurname}</p>
+            </div>
+            <div className="apts-info-block">
+                <p>{dpts.checkIn}</p>
+            </div>
+            <div className="apts-info-block">
+                <p>{dpts.checkOut}</p>
+            </div>
+            <div className="apts-info-block-c">
+                <p>{dpts.rPrice}</p>
+            </div>
 
-      )
+          </Link>
+        )
     })
+    
   }; 
 
 
@@ -102,14 +121,13 @@ export default class Home extends React.Component {
           <div className="apts-list-header">
             <ul>
               <li>ID</li>
-              <li>Current State</li>
-              <li>Tenant Name</li>
+              <li>Tenant</li>
               <li>Check-In</li>
               <li>Check-Out</li>
               <li>Rent (€/Mo)</li>
             </ul>          
           </div>
-          {this.state.apartments.length === 0? <p>LOADING !</p> : this._renderApartments() }
+          {this.state.deptos.length === 0? <p>LOADING !</p> : this._renderApartments() }
 
         <div className="add-apartment">
           <p>Add apartment</p>

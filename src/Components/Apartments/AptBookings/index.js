@@ -102,6 +102,7 @@ class AptBookings extends React.Component {
         console.log('RESpuesta en el AptBookings', res)
         const aptName = res.apartmentName;
         this.state.apartmentName = aptName;
+
         })
         .catch(function (error) {    
         console.log(error);
