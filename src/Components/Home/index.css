@@ -16,6 +16,7 @@
     align-items: center;
 }
 .apts-list-header{
+    border-radius: 10px;
     width: 80%;
     display: flex;
     justify-content: flex-start;
@@ -52,6 +53,7 @@
 }
 
 .apts-row{
+    border-radius: 10px;
     width: 80%;
     display: flex;
     justify-content: flex-start;
@@ -60,10 +62,17 @@
     padding: 0;
 }
 .apts-row:nth-child(even){
-    background-color: rgba(0, 144, 248, 0.1);
+    background-color: rgba(0, 144, 248, 0.05);
 }
 .apts-row:nth-child(odd){
+    background-color: rgba(0, 144, 248, 0.1);
+}
+
+.apts-row:nth-child(even):hover{
     background-color: rgba(0, 144, 248, 0.2);
+}
+.apts-row:nth-child(odd):hover{
+    background-color: rgba(0, 144, 248, 0.4);
 }
 
 .apts-info-block{
@@ -72,6 +81,18 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+}
+
+.apts-info-block-name{
+    margin: 4px 0px 4px 20px;
+    width: 25%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.apts-info-block-name p{
+    font-size: 14px;
 }
 
 .apts-info-block-c{
@@ -84,15 +105,22 @@
 
 p{
     font-family: helvetica;
-    font-size: 18px;
+    font-size: 16px;
     padding: 0;
     margin: 0;
     color: rgb(0, 144, 248);
 }
-
+.add-apartment{
+    margin-top: 30px;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
 .add-apt-button{
     width: 60%;
-    margin-top: 20px;
+    margin-top: 5px;
     display: flex;
     justify-content: flex-start;
 }
@@ -110,10 +138,16 @@ p{
     border-bottom: 1px solid RGB(236, 236, 236);
 }
 .rooms-home-row:nth-child(even){
-    background-color: rgba(236, 236, 236, 0.1);
+    background-color: rgba(236, 236, 236, 0.05);
 }
 .rooms-home-row:nth-child(odd){
+    background-color: rgba(236, 236, 236, 0.1);
+}
+.rooms-home-row:nth-child(even):hover{
     background-color: rgba(236, 236, 236, 0.2);
+}
+.rooms-home-row:nth-child(odd):hover{
+    background-color: rgba(236, 236, 236, 0.4);
 }
 
 .rooms-home-info-block{
@@ -139,5 +173,15 @@ p{
     margin: 0;
     color: rgb(128, 128, 128);
 }
-
+.rooms-home-info-block-name {
+    margin: 4px 0px 4px 20px;
+    width: 25%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: red;
+}
+.rooms-home-info-block-name p{
+    font-size: 12px;
+}
 

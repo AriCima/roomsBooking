@@ -130,7 +130,7 @@ export default class Home extends React.Component {
             <div className="rooms-home-block">
                 <p>{rooms.roomNumber}</p>
             </div>
-            <div className="rooms-home-block">
+            <div className="rooms-home-block-name">
                 <p>{rooms.tenantName} {rooms.tenantSurname}</p>
             </div>
             <div className="rooms-home-block">
@@ -157,7 +157,7 @@ export default class Home extends React.Component {
           <div className="apts-info-block">
               <p>{dpts.apartmentName}</p>
           </div>
-          <div className="apts-info-block">
+          <div className="apts-info-block-name">
               <p>{dpts.tenantName} {dpts.tenantSurname}</p>
           </div>
           <div className="apts-info-block">

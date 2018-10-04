@@ -149,7 +149,7 @@ export default class Apartment extends React.Component {
 
         <div className="apt-bookings-list">
             <div className="apt-bookings-title">
-                <p>Apartment Former Bookings</p>
+                <p>Apartment Bookings</p>
             </div> 
             <div className="apt-bookings-list-header">
 
