@@ -68,7 +68,7 @@ export default class Apartment extends React.Component {
 
         <div className="apt-info-block">
           <div className="info-block-text">
-            <h4>{this.state.apartment.apartmentName}</h4>
+            <Link to={`/single_apt_overview/${this.state.apartmentCode}`}><h4>{this.state.apartment.apartmentName}</h4></Link>
           </div>  
           <div className="address">
             <p>{this.state.apartment.street} {this.state.apartment.houseNr}, {this.state.apartment.floor}ª, {this.state.apartment.door} </p>

@@ -87,7 +87,7 @@ class AptBookings extends React.Component {
             rentPrice       : '',
             deposit         : '',
             unitType        : 'Apartment',
-            aptBookings     : [],
+            bookings        : [],
         };
 
         this.onNewBook = this.onNewBook.bind(this);
@@ -139,34 +139,17 @@ class AptBookings extends React.Component {
         // <---
 
         // OVERLAPPING CHECK --->
-
-
-        let overlappingCheck =  Calculations.overlappingCheck(this.state.checkIn, this.state.checkOut, this.state.aptBookings);
-        
-        // for (let k=0; k < this.state.aptBookings.length; k++){
-
-        //     if(areRangesOverlapping(this.state.checkIn, this.state.checkIn, this.state.aptBookings[k].checkIn,  this.state.aptBookings[k].checkOut)){
-        //         let validationResult = {
-        //             error : true,
-        //             message : 'The range overlaps with other BOOKING'
-        //         }
-                
-        //     };
-        //     return validationResult 
-        // }
-
-        // <---
+        let overlappingCheck =  Calculations.overlappingCheck(this.state.checkIn, this.state.checkOut, this.state.bookings);
         error = overlappingCheck.error;
+        // <---
 
         if(error){
             alert(overlappingCheck.message);
         } else {
 
             let newBooking = this.state;
-            console.log('newBooking en el AptBookings: ', newBooking)
 
-            DataService.newBooking(newBooking);  
-            // DataService.apartmentNewBooking(newBooking);  
+            DataService.newBooking(newBooking);    
             this.props.propsFn.push(`/single_apt_overview/${this.state.apartmentCode}`); 
         };
     };

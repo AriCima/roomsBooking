@@ -86,7 +86,7 @@ class RoomBookings extends React.Component {
             rentPrice       : '',
             deposit         : '',
             unitType        : 'Room',
-            roomBookings    : [],
+            bookings        : [],
         };
 
         this.onNewBook = this.onNewBook.bind(this);
@@ -127,40 +127,27 @@ class RoomBookings extends React.Component {
         e.preventDefault();
         let error = false;
 
-        let validation = Calculations.bookingsDatesValidation(this.state.checkIn, this.state.checkOut);
-        //console.log('Validation en Room-Booking', validation)
-        error = validation.error;
+        // DATES VALIDATION --->
+        let datesValidation = Calculations.bookingsDatesValidation(this.state.checkIn, this.state.checkOut);
+        error = datesValidation.error;
+        if(error){
+            alert(datesValidation.message);
+        }
+        // <---
 
          // OVERLAPPING CHECK --->
-         let overlappingCheck =  Calculations.overlappingCheck(this.state.checkIn, this.state.checkIn, this.state.roomBookings);
-        
-         // for (let k=0; k < this.state.roomBookings.length; k++){
- 
-         //     if(areRangesOverlapping(this.state.checkIn, this.state.checkIn, this.state.roomBookings[k].checkIn,  this.state.aptBookings[k].checkOut)){
-         //         let validationResult = {
-         //             error : true,
-         //             message : 'The range overlaps with other BOOKING'
-         //         }
-                 
-         //     };
-         //     return validationResult 
-         // }
- 
-         // <---
+         let overlappingCheck =  Calculations.overlappingCheck(this.state.checkIn, this.state.checkOut, this.state.bookings);
          error = overlappingCheck.error;
+         // <---
 
-        // <---
 
         if(error){
             alert(overlappingCheck.message);
         } else {
-
-            this.state.bookingCode = Calculations.generateCode()
            
             let newBooking = this.state;
 
             DataService.newBooking(newBooking);  
-            //DataService.roomNewBooking(newBooking);  
             this.props.propsFn.push(`/single_room_overview/${this.state.roomCode}`); 
         };
     };
