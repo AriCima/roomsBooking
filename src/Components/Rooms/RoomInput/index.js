@@ -116,7 +116,7 @@ class RoomInput extends React.Component {
   render() {
     const { classes } = this.props;
 
-    console.log('RoomInput apartmentCode: ',this.props.aptID);
+   // console.log('RoomInput apartmentCode: ',this.props.aptID);
 
     return (
 
@@ -129,7 +129,16 @@ class RoomInput extends React.Component {
             <form  id="form-format" className={classes.container} noValidate autoComplete="off" onSubmit={this.onNewRoom}>
             
                 <div id="input-area">
-
+                <div id="input-fields">
+                        <TextField
+                            id="with-placeholder"
+                            label="Apartment"
+                            className={classes.textField}
+                            margin="normal"
+                            value={this.state.apartmentName}
+                            onChange={(e)=>{this.updateFormInput('apartmentName', e.target.value)}}
+                        />
+                    </div>
                     <div id="input-fields">
                         <TextField
                             id="with-placeholder"
@@ -204,7 +213,7 @@ class RoomInput extends React.Component {
                  
                     <div id="input-fields">
                         <FormControl fullWidth className={classes.margin}>
-                            <InputLabel htmlFor="adornment-amount">Montly rent</InputLabel>
+                            <InputLabel htmlFor="adornment-amount">Monthly rent</InputLabel>
                             <Input
                                 id="adornment-amount"
                                 value={this.state.price}

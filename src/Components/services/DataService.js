@@ -159,7 +159,6 @@ export default class DataService {
             
         }); 
     };
-
     static apartmentNewBooking(newBooking){        
 
         return new Promise((resolve, reject) => {
@@ -204,6 +203,61 @@ export default class DataService {
             
         });
     };
+    static getUserRooms(userId){
+        //console.log('El userID recibido en DataService.get apts: ', userId)
+        return new Promise((resolve, reject) => {
+
+            firebase.firestore().collection('rooms').where(`userId`,`==`, userId).get() // Where me devuelve todos los rooms que tengan ese userId
+            .then((result) => {
+            
+                let rooms=[];
+                result.docs.forEach((d) => {
+                    let j = d.data();
+                    j.id=d.id;
+                    rooms.push(j);
+                })
+                
+                resolve(rooms);  
+                //console.log('el resume get-Apartments), ', apts)
+
+            })
+
+            .catch((error) => {
+               console.log('error: ', error)
+                // reject('Usuario no existe', error)
+
+            })
+            
+        });
+    };
+    static getUserRoomsContracts(userId){
+        
+        return new Promise((resolve, reject) => {
+
+            firebase.firestore().collection('apt_bookings').where(`userId`,`==`, userId).get() // Where me devuelve todos los rooms que tengan ese userId
+            .then((result) => {
+                //console.log('el Result del getUserContracts', result);
+                let userRoomsContracts=[];
+                result.docs.forEach((d) => {
+                    let j = d.data();
+                    j.id=d.id;
+                    userRoomsContracts.push(j);
+                })
+                
+                resolve(userRoomsContracts);  
+                //console.log('el resume userContracts), ', userContracts)
+
+            })
+
+            .catch((error) => {
+               console.log('error: ', error)
+                // reject('Usuario no existe', error)
+
+            })
+            
+        });
+    }
+    stat
     static getApartmentRooms(apartmentCode){
 
         return new Promise((resolve, reject) => {
@@ -316,4 +370,53 @@ export default class DataService {
         });
 
     };
+
+    // BOOKINGS
+    static newBooking(newBooking){        
+
+        return new Promise((resolve, reject) => {
+
+            firebase.firestore().collection('bookings').add(newBooking)
+            
+            .then((result) => {
+                
+                console.log("Booking information succesfully added !")
+                resolve(result);
+            })
+
+            .catch((error) => {
+                var errorCode = error.code;
+                console.log('User NOT added: ', errorCode);
+                var errorMessage = error.message;
+                
+            })
+            
+        });
+    };
+    static getUnitBookings(unitID){
+      
+        return new Promise((resolve, reject) => {
+
+            firebase.firestore().collection('apt_bookings').where(`apartmentCode`, `==`, unitID).get()
+            .then((result) => {
+                
+                let bookings = [];
+                result.docs.forEach((d) => {
+                    let j = d.data();
+                    j.id=d.id;
+                    bookings.push(j);
+                })
+                
+                resolve(bookings);   
+            })
+
+            .catch((error) => {
+                
+                reject('The apartment / room does not exist');
+
+            })
+            
+        }); 
+    };
+
 }

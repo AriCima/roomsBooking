@@ -13,6 +13,9 @@ import Button from '@material-ui/core/Button';
 import DataService from '../../services/DataService';
 import Calculations from '../../services/Calculations'
 
+//DATE-FNS
+import areRangesOverlapping from 'date-fns/are_ranges_overlapping';
+
 
 import './index.css'; 
 
@@ -59,11 +62,6 @@ const roomStates = [
       value: 'Book',
       label: 'Book',
     },
-
-    {
-    value: 'Available',
-    label: 'Available',
-    },
     
 ];
   
@@ -73,9 +71,9 @@ class RoomBookings extends React.Component {
         super(props);
 
         this.state = { 
-            userId          : '',
-            roomCode        : this.props.roomID,
+            userId          : this.props.userData.id,
             apartmentCode   : '',
+            roomCode        : this.props.roomID,
             apartmentName   : '',
             checkIn         : '',
             checkOut        : '',
@@ -83,23 +81,19 @@ class RoomBookings extends React.Component {
             tenantSurname   : '',
             tenantEmail     : '',
             tenantMobile    : '',
-            roomState       : '',
+            unitState       : '',
             agency          : '',
             rentPrice       : '',
             deposit         : '',
+            unitType        : 'Room',
+            roomBookings    : [],
         };
-
 
         this.onNewBook = this.onNewBook.bind(this);
     }
     componentDidMount(){
         DataService.getRoomInfo(this.state.roomCode)
         .then(res => {
-            //console.log('el res de roomsBooking: ', res)
-        //const aptName = res.apartmentName;
-        //console.log('el res.apartmentNAme de roomsBooking: ', res.apartmentName)
-        //this.state.apartmentName = aptName;
-        //console.log('el this.state,apartmentName: ', this.state.apartmentName)
         this.setState({
             apartmentCode   : res.apartmentCode,
             apartmentName   : res.apartmentName,
@@ -108,6 +102,16 @@ class RoomBookings extends React.Component {
         })
         .catch(function (error) {    
         console.log(error);
+        })
+
+        DataService.getUnitBookings(this.state.roomCode)
+        .then(res => {
+            this.setState({
+                aptBookings   : res,
+            })
+            })
+            .catch(function (error) {    
+            console.log(error);
         })
 
     };
@@ -123,19 +127,40 @@ class RoomBookings extends React.Component {
         e.preventDefault();
         let error = false;
 
-        let validation = Calculations.bookingsDatesValidation();
-        console.log('Validation en Room-Booking', validation)
+        let validation = Calculations.bookingsDatesValidation(this.state.checkIn, this.state.checkOut);
+        //console.log('Validation en Room-Booking', validation)
         error = validation.error;
 
+         // OVERLAPPING CHECK --->
+         let overlappingCheck =  Calculations.overlappingCheck(this.state.checkIn, this.state.checkIn, this.state.roomBookings);
+        
+         // for (let k=0; k < this.state.roomBookings.length; k++){
+ 
+         //     if(areRangesOverlapping(this.state.checkIn, this.state.checkIn, this.state.roomBookings[k].checkIn,  this.state.aptBookings[k].checkOut)){
+         //         let validationResult = {
+         //             error : true,
+         //             message : 'The range overlaps with other BOOKING'
+         //         }
+                 
+         //     };
+         //     return validationResult 
+         // }
+ 
+         // <---
+         error = overlappingCheck.error;
+
+        // <---
+
         if(error){
-            alert(validation.message);
+            alert(overlappingCheck.message);
         } else {
 
             this.state.bookingCode = Calculations.generateCode()
            
             let newBooking = this.state;
-            
-            DataService.roomNewBooking(newBooking);  
+
+            DataService.newBooking(newBooking);  
+            //DataService.roomNewBooking(newBooking);  
             this.props.propsFn.push(`/single_room_overview/${this.state.roomCode}`); 
         };
     };
@@ -192,8 +217,8 @@ class RoomBookings extends React.Component {
                             select
                             label="State"
                             className={classNames(classes.margin, classes.textField)}
-                            value={this.state.roomState}
-                            onChange={(e)=>{this.onChangeState('roomState', e.target.value)}}
+                            value={this.state.unitState}
+                            onChange={(e)=>{this.onChangeState('unitState', e.target.value)}}
                         >
                             {roomStates.map(option => (
                                 <MenuItem key={option.value} value={option.value}>

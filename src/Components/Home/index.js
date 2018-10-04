@@ -32,11 +32,12 @@ export default class Home extends React.Component {
     
     DataService.getUserApartments(this.state.userId)
     .then(apts => {
-    
     const deptos = [];
     for (let j = 0; j < apts.length; j++){
-      deptos[j]={apartmentName  : apts[j].apartmentName,
-                id              : apts[j].id};
+      deptos[j]={
+        apartmentName  : apts[j].apartmentName,
+        id              : apts[j].id
+      };
     };
 
     this.setState({ deptos });
@@ -46,12 +47,28 @@ export default class Home extends React.Component {
     console.log(error);
     })
 
+    DataService.getUserRooms(this.state.userId)
+    .then(rs => {
+    
+      const rooms = [];
+      for (let i = 0; i < rs.length; i++){
+        rooms[i] = {
+          roomNumber  : rs[i].roomNumber,
+          id          : rs[i].id,
+        };
+      };
+    this.setState({ rooms });
+    //console.log('rooms luego de aptName e ID', this.state.rooms)
+    }).catch(function (error) {   
+    console.log(error);
+    })
+
     DataService.getUserAptContracts(this.state.userId)
     .then(userAptContracts => {
       //console.log('userAptContracts en Home', userAptContracts)
 
       this.state.currentAptContracts = Calculations.getCurrentAptContracts(userAptContracts)
-      console.log('this.state.currentAptContracts', this.state.currentAptContracts);
+      //console.log('this.state.currentAptContracts', this.state.currentAptContracts);
 
       for (let y = 0; y < this.state.deptos.length; y++){
 
@@ -71,40 +88,94 @@ export default class Home extends React.Component {
       //console.log('el deptos con curretContracts:', this.state.deptos);
 
     }).catch(function (error) {    
-    
+    console.log(error);
+    })
+
+    DataService.getUserRoomsContracts(this.state.userId)
+    .then(userRoomsContracts => {
+      //console.log('userAptContracts en Home', userAptContracts)
+
+      this.state.currentRoomsContracts = Calculations.getCurrentRoomsContracts(userRoomsContracts)
+      //console.log('this.state.currentAptContracts', this.state.currentAptContracts);
+
+      for (let y = 0; y < this.state.rooms.length; y++){
+
+        for (let k = 0; k < this.state.currentRoomsContracts.length; k++){
+  
+          if(this.state.rooms[y].id === this.state.currentRoomsContracts[k].roomCode){
+            this.state.rooms[y].tenantName      = this.state.currentRoomsContracts[k].tenantName;
+            this.state.rooms[y].tenantSurname   = this.state.currentRoomsContracts[k].tenantSurname;
+            this.state.rooms[y].checkIn         = this.state.currentRoomsContracts[k].checkIn;
+            this.state.rooms[y].checkOut        = this.state.currentRoomsContracts[k].checkOut;
+            this.state.rooms[y].rPrice          = this.state.currentRoomsContracts[k].rentPrice;
+          }
+        }
+      
+      }
+      
+      //console.log('el rooms con curretContracts:', this.state.rooms);
+
+    }).catch(function (error) {    
     console.log(error);
     })
 
   };
-
   
-  _renderApartments(){
+  _renderRooms(aptID){
 
-    return this.state.deptos.map((dpts,j) => {
+    return this.state.rooms.map((rooms,j) => {
         return (
-          <Link className="apts-row" key={j} to={`/single_apt_overview/${dpts.id}`}> 
+          <Link className="rooms-home-row" key={j} to={`/single_room_overview/${rooms.id}`}> 
           
-            <div className="apts-info-block">
-                <p>{dpts.apartmentName}</p>
+            <div className="rooms-home-block">
+                <p>{rooms.roomNumber}</p>
             </div>
-            <div className="apts-info-block">
-                <p>{dpts.tenantName} {dpts.tenantSurname}</p>
+            <div className="rooms-home-block">
+                <p>{rooms.tenantName} {rooms.tenantSurname}</p>
             </div>
-            <div className="apts-info-block">
-                <p>{dpts.checkIn}</p>
+            <div className="rooms-home-block">
+                <p>{rooms.checkIn}</p>
             </div>
-            <div className="apts-info-block">
-                <p>{dpts.checkOut}</p>
+            <div className="rooms-home-block">
+                <p>{rooms.checkOut}</p>
             </div>
-            <div className="apts-info-block-c">
-                <p>{dpts.rPrice}</p>
+            <div className="rooms-home-block-c">
+                <p>{rooms.rPrice}</p>
             </div>
-
+            
           </Link>
         )
     })
     
   }; 
+
+  _renderApartments(){
+    return this.state.deptos.map((dpts,j) => {
+      return (
+        <Link className="apts-row" key={j} to={`/single_apt_overview/${dpts.id}`}> 
+        
+          <div className="apts-info-block">
+              <p>{dpts.apartmentName}</p>
+          </div>
+          <div className="apts-info-block">
+              <p>{dpts.tenantName} {dpts.tenantSurname}</p>
+          </div>
+          <div className="apts-info-block">
+              <p>{dpts.checkIn}</p>
+          </div>
+          <div className="apts-info-block">
+              <p>{dpts.checkOut}</p>
+          </div>
+          <div className="apts-info-block-c">
+              <p>{dpts.rPrice}</p>
+          </div>
+          <div>
+            {this.state.rentalType === 'Yes' && this._renderRooms(this.state.deptos[j].id)}
+          </div>
+        </Link>
+      )
+  })
+  }
 
 
   render() {

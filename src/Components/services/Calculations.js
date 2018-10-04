@@ -3,14 +3,14 @@ import DataService from '../services/DataService'
 //DATE-FNS
 import isWithinRange from 'date-fns/is_within_range'
 import isDate from 'date-fns/is_date';
-import isValid from 'date-fns/is_valid';
 import isAfter from 'date-fns/is_after';
 import isEqual from 'date-fns/is_equal';
 import format from 'date-fns/format';
-import areRangesOverlapping from 'date-fns/are_ranges_overlapping';
 import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';
 import getYear from 'date-fns/get_year';
+import areRangesOverlapping from 'date-fns/are_ranges_overlapping';
+
 
 
 export default class Calculations {
@@ -38,6 +38,30 @@ export default class Calculations {
 
         return currentContracts  
     };
+    static getCurrentRoomsContracts(contracts) {  
+        
+        const date = new Date();
+        let currentRoomsContracts = [];
+
+        for ( let x = 0; x<contracts.length; x++){
+
+            if (isWithinRange(date, contracts[x].checkIn, contracts[x].checkOut)) {
+                let contract = {};
+                contract.roomCode               = contracts[x].roomCode;
+                contract.tenantName             = contracts[x].tenantName;
+                contract.tenantSurname          = contracts[x].tenantSurname;
+                contract.checkIn                = contracts[x].checkIn;
+                contract.checkOut               = contracts[x].checkOut;
+                contract.rentPrice              = contracts[x].rentPrice;
+
+                currentRoomsContracts.push(contract);
+            }
+        }
+        //console.log('currentAptContract en e calculations', currentContracts)
+
+        return currentRoomsContracts  
+    };
+
     static getMonthsOccupationInPercentage(newStartDate, newEndDate) { 
         
         // https://stackoverflow.com/questions/4345045/javascript-loop-between-date-ranges
@@ -134,12 +158,12 @@ export default class Calculations {
     static bookingsDatesValidation(newStartDate, newEndDate){
         
         let startDate = new Date(newStartDate);
-        let endDate = new Date(newEndDate);
+        let endDate = new Date(newEndDate);  
        
         if(!isDate(startDate)){
              let validationResult = {
                 error : true,
-                message : 'Start Date Error'
+                message : 'Check-In date Error'
             }
             return validationResult
             
@@ -148,7 +172,7 @@ export default class Calculations {
         if(!isDate(endDate)){
             let validationResult = {
                 error : true,
-                message : 'The end Date is not valid'
+                message : 'Check-Out date Error'
             }
 
             return validationResult
@@ -157,27 +181,45 @@ export default class Calculations {
         if(isAfter(newStartDate, newEndDate) ){
             let validationResult = {
                 error : true,
-                message : 'End date must be greater than Start Date'
+                message : 'Check-Out date must be greater than Check-in Date'
             }
-
-            
             return validationResult
-
         };
 
-        // if(areRangesOverlapping(startDate, endDate, this.state.currentBookStartDate,  this.state.currentBookEndDate)){
-        //     let validationResult = {
-        //         error : true,
-        //         message : 'The range overlaps with a BOOKED range'
-        //     }
-        //     return validationResult 
-        // };
-        
+        if(isEqual(newStartDate, newEndDate) ){
+            let validationResult = {
+                error : true,
+                message : 'Check-Out date must be greater than Check-in Date'
+            }
+            return validationResult
+        }
+
         let validationResult = {
-                error : false,
-                message : "Dates are OK"
+            error : false,
+            message : "Dates are OK"
         }
 
         return validationResult
+        
     };
+
+    static overlappingCheck(checkIn, checkOut, bookings){
+        for (let k=0; k < bookings.length; k++){
+            if(areRangesOverlapping(checkIn, checkOut, bookings[k].checkIn, bookings[k].checkOut )){
+                let validationResult = {
+                    error : true,
+                    message : 'The range overlaps with other BOOKING'
+                }
+                return validationResult 
+            };
+        }
+        
+        let validationResult = {
+            error : false,
+            message : "Dates are OK"
+        }
+
+        return validationResult
+       
+    }
 }

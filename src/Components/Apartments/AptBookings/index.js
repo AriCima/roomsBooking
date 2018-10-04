@@ -14,6 +14,8 @@ import DataService from '../../services/DataService';
 // CALCULATIONS
 import Calculations from '../../services/Calculations';
 
+//DATE-FNS
+import areRangesOverlapping from 'date-fns/are_ranges_overlapping';
 
 
 
@@ -62,50 +64,58 @@ const aptStates = [
     {
       value: 'Book',
       label: 'Book',
-    },
-
-    {
-    value: 'Available',
-    label: 'Available',
-    },
-    
+    },    
 ];
   
 
 class AptBookings extends React.Component {
-  constructor(props){
-    super(props);
+    constructor(props){
+        super(props);
 
-    this.state = { 
-        userId: this.props.userData.id,
-        apartmentCode: this.props.aptID,
-        apartmentName: '',
-        checkIn: '',
-        checkOut: '',
-        tenantName:'',
-        tenantSurname:'',
-        tenantEmail:'',
-        tenantMobile:'',
-        apartmentState: '',
-        agency:'',
-        rentPrice: '',
-        deposit: '',
-    };
+        this.state = { 
+            userId          : this.props.userData.id,
+            apartmentCode   : this.props.aptID,
+            apartmentName   : '',
+            checkIn         : '',
+            checkOut        : '',
+            tenantName      : '',
+            tenantSurname   : '',
+            tenantEmail     : '',
+            tenantMobile    : '',
+            unitState       : '',
+            agency          : '',
+            rentPrice       : '',
+            deposit         : '',
+            unitType        : 'Apartment',
+            aptBookings     : [],
+        };
 
-    this.onNewBook = this.onNewBook.bind(this);
-}
+        this.onNewBook = this.onNewBook.bind(this);
+    }
 
 
     componentDidMount(){
         DataService.getApartmentInfo(this.state.apartmentCode)
         .then(res => {
-        console.log('RESpuesta en el AptBookings', res)
-        const aptName = res.apartmentName;
-        this.state.apartmentName = aptName;
-
+        this.setState({
+            apartmentName   : res.apartmentName,
+        })
         })
         .catch(function (error) {    
         console.log(error);
+        })
+
+       
+        DataService.getUnitBookings(this.state.apartmentCode)
+       
+        .then(res => {
+            console.log('RES en el get uit Bookings',res)
+            this.setState({
+                aptBookings   : res,
+            })
+            })
+            .catch(function (error) {    
+            console.log(error);
         })
     };
 
@@ -120,19 +130,43 @@ class AptBookings extends React.Component {
         e.preventDefault();
         let error = false;
 
-        let validation = Calculations.bookingsDatesValidation();
-        console.log('Validation en AptBooking', validation)
-        error = validation.error;
+        // DATES VALIDATION --->
+        let datesValidation = Calculations.bookingsDatesValidation(this.state.checkIn, this.state.checkOut);
+        error = datesValidation.error;
+        if(error){
+            alert(datesValidation.message);
+        }
+        // <---
+
+        // OVERLAPPING CHECK --->
+
+
+        let overlappingCheck =  Calculations.overlappingCheck(this.state.checkIn, this.state.checkOut, this.state.aptBookings);
+        
+        // for (let k=0; k < this.state.aptBookings.length; k++){
+
+        //     if(areRangesOverlapping(this.state.checkIn, this.state.checkIn, this.state.aptBookings[k].checkIn,  this.state.aptBookings[k].checkOut)){
+        //         let validationResult = {
+        //             error : true,
+        //             message : 'The range overlaps with other BOOKING'
+        //         }
+                
+        //     };
+        //     return validationResult 
+        // }
+
+        // <---
+        error = overlappingCheck.error;
 
         if(error){
-            alert(validation.message);
+            alert(overlappingCheck.message);
         } else {
 
             let newBooking = this.state;
             console.log('newBooking en el AptBookings: ', newBooking)
 
-
-            DataService.apartmentNewBooking(newBooking);  
+            DataService.newBooking(newBooking);  
+            // DataService.apartmentNewBooking(newBooking);  
             this.props.propsFn.push(`/single_apt_overview/${this.state.apartmentCode}`); 
         };
     };
@@ -184,8 +218,8 @@ class AptBookings extends React.Component {
                                 select
                                 label="State"
                                 className={classNames(classes.margin, classes.textField)}
-                                value={this.state.apartmentState}
-                                onChange={(e)=>{this.onChangeState('apartmentState', e.target.value)}}
+                                value={this.state.unitState}
+                                onChange={(e)=>{this.onChangeState('unitState', e.target.value)}}
                             >
                                 {aptStates.map(option => (
                                     <MenuItem key={option.value} value={option.value}>

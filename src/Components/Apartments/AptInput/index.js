@@ -14,6 +14,7 @@ import classNames from 'classnames';
 import Button from '@material-ui/core/Button';
 
 import './index.css'; 
+import RoomInput from '../../Rooms/RoomInput';
 
 
 const styles = theme => ({
@@ -52,12 +53,12 @@ const styles = theme => ({
 
 const rentMode = [
     {
-      value: 'One Tenant',
-      label: 'One Tenant',
+      value: 'Yes',
+      label: 'Yes',
     },
     {
-      value: 'Multiple Tenants',
-      label: 'Multiple Tenants',
+      value: 'No',
+      label: 'No',
     },
 ];
   
@@ -76,7 +77,7 @@ class ApartmentInput extends React.Component {
             zip: '',
             sqm: '',
             rooms: '',
-            rentalType: '',
+            roomsRental: '',
             rentPrice: '',
             deposit: '',
             type: 'Apartment'
@@ -216,11 +217,11 @@ class ApartmentInput extends React.Component {
                     <div id="input-fields-select">
                         <TextField
                             select
-                            label="Rental Type"
+                            label="Rooms rent?"
                             className={classNames(classes.margin, classes.textField)}
-                            value={this.state.rentalType}
+                            value={this.state.roomsRental}
                             //onChange={this.onChangeRentalType}
-                            onChange={(e)=>{this.onChangeState('rentalType', e.target.value)}}
+                            onChange={(e)=>{this.onChangeState('roomsRental', e.target.value)}}
 
                         >
                             {rentMode.map(option => (
@@ -230,6 +231,7 @@ class ApartmentInput extends React.Component {
                             ))}
                         </TextField>
                     </div>
+                    
                     <div id="input-fields">
                         <TextField
                             id="with-placeholder"
