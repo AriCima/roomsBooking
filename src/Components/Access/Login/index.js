@@ -60,7 +60,7 @@ class Login extends Component {
                 DataService.getUserApartments(result.user.uid).then(
                     (userData)=>{
                     console.log('userData en App: ', userData);   
-                    this.props.history.push(`/user/${userData.id}`)                
+                    this.props.propsFn.push(`/home/${userData.id}`)                
                     }, 
                     (errorMessage)=>{
                     console.log(errorMessage)
@@ -69,6 +69,7 @@ class Login extends Component {
             },(error)=>{
                 this.setState({loginError: error});
             });
+            
         }
     }
 

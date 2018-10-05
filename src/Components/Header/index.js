@@ -42,7 +42,8 @@ class Header extends Component {
 
                     <div className="nav-block">
                     {!this.props.user ? <p>RENTAL MANAGEMENT APP</p>
-                        :<Link to="/home">Home</Link>
+                     :<Link to={`/home`}>Home</Link>
+                        // :<Link to={`/home/${this.state.user.id}`}>Home</Link>
                     } 
                     </div>
 

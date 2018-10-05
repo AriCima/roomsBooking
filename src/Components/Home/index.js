@@ -17,7 +17,7 @@ export default class Home extends React.Component {
     super(props);
 
     this.state = {
-      userId                  : this.props.userEmailId.id,
+      userId                  : '',
       deptos                  : [],
       userAptContracts        : [],
       currentAptContracts     : [],
@@ -29,99 +29,12 @@ export default class Home extends React.Component {
 
 
   componentDidMount() {
-    
-    DataService.getUserApartments(this.state.userId)
-    .then(apts => {
-    const deptos = [];
-    for (let j = 0; j < apts.length; j++){
-      deptos[j]={
-        apartmentName  : apts[j].apartmentName,
-        id              : apts[j].id
-      };
-    };
-
-    this.setState({ deptos });
-    //console.log('deptos luego de aptName e ID', this.state.deptos)
-    }).catch(function (error) {   
-    // handle error
-    console.log(error);
-    })
-
-    DataService.getUserRooms(this.state.userId)
-    .then(rs => {
-    
-      const rooms = [];
-      for (let i = 0; i < rs.length; i++){
-        rooms[i] = {
-          roomNumber  : rs[i].roomNumber,
-          id          : rs[i].id,
-        };
-      };
-    this.setState({ rooms });
-    //console.log('rooms luego de aptName e ID', this.state.rooms)
-    }).catch(function (error) {   
-    console.log(error);
-    })
-
-    DataService.getUserAptContracts(this.state.userId)
-    .then(userAptContracts => {
-      //console.log('userAptContracts en Home', userAptContracts)
-
-      this.state.currentAptContracts = Calculations.getCurrentAptContracts(userAptContracts)
-      //console.log('this.state.currentAptContracts', this.state.currentAptContracts);
-
-      for (let y = 0; y < this.state.deptos.length; y++){
-
-        for (let k = 0; k < this.state.currentAptContracts.length; k++){
-  
-          if(this.state.deptos[y].id === this.state.currentAptContracts[k].apartmentCode){
-            this.state.deptos[y].tenantName      = this.state.currentAptContracts[k].tenantName;
-            this.state.deptos[y].tenantSurname   = this.state.currentAptContracts[k].tenantSurname;
-            this.state.deptos[y].checkIn         = this.state.currentAptContracts[k].checkIn;
-            this.state.deptos[y].checkOut        = this.state.currentAptContracts[k].checkOut;
-            this.state.deptos[y].rPrice          = this.state.currentAptContracts[k].rentPrice;
-          }
-        }
-      
-      }
-      
-      //console.log('el deptos con curretContracts:', this.state.deptos);
-
-    }).catch(function (error) {    
-    console.log(error);
-    })
-
-    DataService.getUserRoomsContracts(this.state.userId)
-    .then(userRoomsContracts => {
-      //console.log('userAptContracts en Home', userAptContracts)
-
-      this.state.currentRoomsContracts = Calculations.getCurrentRoomsContracts(userRoomsContracts)
-      //console.log('this.state.currentAptContracts', this.state.currentAptContracts);
-
-      for (let y = 0; y < this.state.rooms.length; y++){
-
-        for (let k = 0; k < this.state.currentRoomsContracts.length; k++){
-  
-          if(this.state.rooms[y].id === this.state.currentRoomsContracts[k].roomCode){
-            this.state.rooms[y].tenantName      = this.state.currentRoomsContracts[k].tenantName;
-            this.state.rooms[y].tenantSurname   = this.state.currentRoomsContracts[k].tenantSurname;
-            this.state.rooms[y].checkIn         = this.state.currentRoomsContracts[k].checkIn;
-            this.state.rooms[y].checkOut        = this.state.currentRoomsContracts[k].checkOut;
-            this.state.rooms[y].rPrice          = this.state.currentRoomsContracts[k].rentPrice;
-          }
-        }
-      
-      }
-      
-      //console.log('el rooms con curretContracts:', this.state.rooms);
-
-    }).catch(function (error) {    
-    console.log(error);
-    })
-
+    if (this.props.userEmailId) {
+    this._loadData(this.props.userEmailId.id)
+    }
   };
   
-  _renderRooms(aptID){
+  _renderRooms(){
 
     return this.state.rooms.map((rooms,j) => {
         return (
@@ -177,9 +90,108 @@ export default class Home extends React.Component {
   })
   }
 
+ componentDidUpdate(prevProps){
+  if (!prevProps.userEmailId && this.props.userEmailId) {
+    this._loadData(this.props.userEmailId.id)
+  }
+
+  }
+ _loadData(userId){
+
+    DataService.getUserApartments(userId)
+    .then(apts => {
+    const deptos = [];
+    for (let j = 0; j < apts.length; j++){
+      deptos[j]={
+        apartmentName  : apts[j].apartmentName,
+        id              : apts[j].id
+      };
+    };
+
+    this.setState({ deptos });
+    //console.log('deptos luego de aptName e ID', this.state.deptos)
+    }).catch(function (error) {   
+    // handle error
+    console.log(error);
+    })
+
+    DataService.getUserRooms(userId)
+    .then(rs => {
+    
+      const rooms = [];
+      for (let i = 0; i < rs.length; i++){
+        rooms[i] = {
+          roomNumber  : rs[i].roomNumber,
+          id          : rs[i].id,
+        };
+      };
+    this.setState({ rooms });
+    //console.log('rooms luego de aptName e ID', this.state.rooms)
+    }).catch(function (error) {   
+    console.log(error);
+    })
+
+    DataService.getUserAptContracts(userId)
+    .then(userAptContracts => {
+      //console.log('userAptContracts en Home', userAptContracts)
+
+      this.state.currentAptContracts = Calculations.getCurrentAptContracts(userAptContracts)
+      //console.log('this.state.currentAptContracts', this.state.currentAptContracts);
+
+      for (let y = 0; y < this.state.deptos.length; y++){
+
+        for (let k = 0; k < this.state.currentAptContracts.length; k++){
+
+          if(this.state.deptos[y].id === this.state.currentAptContracts[k].apartmentCode){
+            this.state.deptos[y].tenantName      = this.state.currentAptContracts[k].tenantName;
+            this.state.deptos[y].tenantSurname   = this.state.currentAptContracts[k].tenantSurname;
+            this.state.deptos[y].checkIn         = this.state.currentAptContracts[k].checkIn;
+            this.state.deptos[y].checkOut        = this.state.currentAptContracts[k].checkOut;
+            this.state.deptos[y].rPrice          = this.state.currentAptContracts[k].rentPrice;
+          }
+        }
+      
+      }
+      
+      //console.log('el deptos con curretContracts:', this.state.deptos);
+
+    }).catch(function (error) {    
+    console.log(error);
+    })
+
+    DataService.getUserRoomsContracts(userId)
+    .then(userRoomsContracts => {
+      //console.log('userAptContracts en Home', userAptContracts)
+
+      this.state.currentRoomsContracts = Calculations.getCurrentRoomsContracts(userRoomsContracts)
+      //console.log('this.state.currentAptContracts', this.state.currentAptContracts);
+
+      for (let y = 0; y < this.state.rooms.length; y++){
+
+        for (let k = 0; k < this.state.currentRoomsContracts.length; k++){
+
+          if(this.state.rooms[y].id === this.state.currentRoomsContracts[k].roomCode){
+            this.state.rooms[y].tenantName      = this.state.currentRoomsContracts[k].tenantName;
+            this.state.rooms[y].tenantSurname   = this.state.currentRoomsContracts[k].tenantSurname;
+            this.state.rooms[y].checkIn         = this.state.currentRoomsContracts[k].checkIn;
+            this.state.rooms[y].checkOut        = this.state.currentRoomsContracts[k].checkOut;
+            this.state.rooms[y].rPrice          = this.state.currentRoomsContracts[k].rentPrice;
+          }
+        }
+      
+      }
+      
+      //console.log('el rooms con curretContracts:', this.state.rooms);
+
+    }).catch(function (error) {    
+    console.log(error);
+    })
+ }
 
   render() {
-  
+
+    if (!this.props.userEmailId) return <p>Loading  ...</p>;
+    const userId = this.props.userEmailId.id;
 
     return (
       <div>

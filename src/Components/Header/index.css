@@ -50,6 +50,12 @@ a{
     align-items: center;
 }
 
+.nav-block p{
+   color: white;
+   font-weight: 550;
+   font-size: 20px;
+}
+
 .header-right{
     width: 33%;
     display: flex;
