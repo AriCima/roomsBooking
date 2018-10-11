@@ -7,6 +7,13 @@
     font-size: 22px;
     color: rgb(0, 144, 248);
 }
+
+/* --> OVERVIEW  */
+.user-overview{
+    margin-top: 60px;
+}
+
+/* --> APARTMENTS LIST <-- */
 .apts-list{
     margin-top: 80px;
     width: 100%;
@@ -149,7 +156,6 @@ p{
 .rooms-home-row:nth-child(odd):hover{
     background-color: rgba(236, 236, 236, 0.4);
 }
-
 .rooms-home-info-block{
     margin: 4px 0px 4px 20px;
     width: 25%;
@@ -157,7 +163,6 @@ p{
     justify-content: flex-start;
     align-items: center;
 }
-
 .rooms-home-info-block-c{
     margin: 4px 0px 4px 20px;
     width: 25%;
@@ -165,7 +170,6 @@ p{
     justify-content: center;
     align-items: center;
 }
-
 p{
     font-family: helvetica;
     font-size: 18px;

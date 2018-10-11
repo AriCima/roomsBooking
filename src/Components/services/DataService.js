@@ -64,10 +64,10 @@ export default class DataService {
         });
     };
     static getUserApartments(userId){
-        //console.log('El userID recibido en DataService.get apts: ', userId)
+        console.log('El userID recibido en el getApts: ', userId)
         return new Promise((resolve, reject) => {
 
-            firebase.firestore().collection('apartments').where(`userId`,`==`, userId).get() // Where me devuelve todos los rooms que tengan ese userId
+            firebase.firestore().collection('apartments').where(`userId`,`==`, userId).get()
             .then((result) => {
             
                 let apts=[];
@@ -78,7 +78,7 @@ export default class DataService {
                 })
                 
                 resolve(apts);  
-                //console.log('el resume get-Apartments), ', apts)
+                console.log('el apts get-Apartments), ', apts)
 
             })
 
@@ -393,11 +393,12 @@ export default class DataService {
             
         });
     };
-    static getUnitBookings(unitID){
+
+    static getAptBookings(aptID){
       
         return new Promise((resolve, reject) => {
 
-            firebase.firestore().collection('apt_bookings').where(`apartmentCode`, `==`, unitID).get()
+            firebase.firestore().collection('bookings').where(`unitType`, `==`, 'Apartment').where(`apartmentCode`, `==`, aptID).get()
             .then((result) => {
                 
                 let bookings = [];
@@ -412,11 +413,39 @@ export default class DataService {
 
             .catch((error) => {
                 
-                reject('The apartment / room does not exist');
+                reject('The apartment does not exist');
 
             })
             
         }); 
     };
+
+    static getRoomBookings(roomID){
+      
+        return new Promise((resolve, reject) => {
+
+            firebase.firestore().collection('bookings').where(`unitType`, `==`, 'room').where(`roomCode`, `==`, roomID).get()
+            .then((result) => {
+                
+                let bookings = [];
+                result.docs.forEach((d) => {
+                    let j = d.data();
+                    j.id=d.id;
+                    bookings.push(j);
+                })
+                
+                resolve(bookings);   
+            })
+
+            .catch((error) => {
+                
+                reject('The apartment does not exist');
+
+            })
+            
+        }); 
+    };
+
+
 
 }

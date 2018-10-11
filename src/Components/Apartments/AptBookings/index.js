@@ -104,10 +104,8 @@ class AptBookings extends React.Component {
         .catch(function (error) {    
         console.log(error);
         })
-
        
-        DataService.getUnitBookings(this.state.apartmentCode)
-       
+        DataService.getAptBookings(this.state.apartmentCode)
         .then(res => {
             console.log('RES en el get uit Bookings',res)
             this.setState({
@@ -123,7 +121,6 @@ class AptBookings extends React.Component {
         let bookInfo = this.state;
         bookInfo[field] = value;
         this.setState(bookInfo)
-
     };
 
     onNewBook(e){

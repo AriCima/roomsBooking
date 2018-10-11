@@ -104,7 +104,7 @@ class RoomBookings extends React.Component {
         console.log(error);
         })
 
-        DataService.getUnitBookings(this.state.roomCode)
+        DataService.getRoomBookings(this.state.roomCode)
         .then(res => {
             this.setState({
                 aptBookings   : res,
