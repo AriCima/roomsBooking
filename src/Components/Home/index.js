@@ -21,7 +21,7 @@ export default class Home extends React.Component {
     super(props);
 
     this.state = {
-      userId                  : '',
+      userId                  : this.props.userID,
       apartments              : [],
       currentAptContracts     : [],
       rooms                   : [],
@@ -98,7 +98,7 @@ export default class Home extends React.Component {
         
       }
 
-      this.state.aptsIncomes = this._calculateIncomes(this.state.currentAptContracts);
+      this.state.aptsIncomes = Calculations.calculateIncomes(this.state.currentAptContracts);
       
       //console.log('el apartments con curretContracts:', this.state.apartments);
   
@@ -124,7 +124,7 @@ export default class Home extends React.Component {
         }
       
       }
-      this.state.roomsIncomes = this._calculateAIncomes(this.state.currentRoomsContracts);
+      this.state.roomsIncomes = Calculations.calculateAIncomes(this.state.currentRoomsContracts);
       //console.log('el rooms con curretContracts:', this.state.rooms);
   
     }).catch(function (error) {    
@@ -132,16 +132,6 @@ export default class Home extends React.Component {
     })
   };
 
-  _calculateIncomes(x){
-    console.log('calculate incomes TRIGGERED');
-    let incomes = 0;
-
-    for (let f = 0; f < x.length; f++){
-      incomes = incomes + Number(x[f].rentPrice);
-    }
-
-    return incomes
-  }
   _renderRooms(){
 
     return this.state.rooms.map((rooms,j) => {

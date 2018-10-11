@@ -222,4 +222,15 @@ export default class Calculations {
         return validationResult
        
     }
+
+    static calculateIncomes(x){
+        console.log('calculate incomes TRIGGERED');
+        let incomes = 0;
+    
+        for (let f = 0; f < x.length; f++){
+          incomes = incomes + Number(x[f].rentPrice);
+        }
+    
+        return incomes
+      }
 }

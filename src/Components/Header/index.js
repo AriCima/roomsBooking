@@ -54,7 +54,7 @@ class Header extends Component {
 
                     <div className="nav-block">
                         {this.props.user ? 
-                            <span onClick={this.signOut}><Link to="/landing">Sign-out</Link></span>
+                            <span onClick={this.signOut}><Link to="/login">Sign-out</Link></span>
                             :
                             <Link to="/login">Sign-In</Link>}
                     </div>

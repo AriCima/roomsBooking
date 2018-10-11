@@ -15,17 +15,16 @@ class Login extends Component {
         super(props);
 
         this.state = {
-            email: '',
-            password: '',
-            emailError: false,
-            loginError: ''
+            email       : '',
+            password    : '',
+            emailError  : false,
+            loginError  : '',
+            userId      : ''
         }
 
-
-
-        this.login = this.login.bind(this);
-        this.onChangeEmail = this.onChangeEmail.bind(this);
-        this.onChangePassword = this.onChangePassword.bind(this);
+        this.login              = this.login.bind(this);
+        this.onChangeEmail      = this.onChangeEmail.bind(this);
+        this.onChangePassword   = this.onChangePassword.bind(this);
     }
 
     onChangeEmail(event){
@@ -55,22 +54,20 @@ class Login extends Component {
 
             AuthService.login(this.state.email, this.state.password)
                 .then((result)=>{
-                    console.log('Result de Login', result)
-                
-                DataService.getUserApartments(result.user.uid).then(
-                    (userData)=>{
-                    console.log('userData en App: ', userData);   
-                    this.props.propsFn.push(`/home/${userData.id}`)                
-                    }, 
-                    (errorMessage)=>{
-                    console.log(errorMessage)
-                    }
-                )
-            },(error)=>{
-                this.setState({loginError: error});
-            });
-            
+                    // console.log('Result de Login', result)
+                   console.log('Result.user.uid de Login', result.user.uid)
+                   this.state.userId = result.user.uid;
+                   console.log('this.state.userId en el Login = ', this.state.userId);
+
+                },(error)=>{
+                    this.setState({loginError: error});
+                }
+                );
+           
+            this.props.propsFn.push(`/home/${this.state.userId}`) 
         }
+
+        
     }
 
     render(){

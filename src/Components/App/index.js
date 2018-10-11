@@ -91,12 +91,12 @@ class App extends Component {
             <div className="app-body">
 
               <Switch>
-                <Route path="/landing" component={Login}/> 
-                <Route path="/login" render = {(props) => {return <Login propsFn={props.history}/>}}/>
+                {/* <Route path="/landing" render = {(props) => {return <Login propsFn={props.history}/>}}/> */}
+                <Route path="/" render = {(props) => {return <Login propsFn={props.history}/>}}/>
                 <Route path="/register" component={Register}/>
 
-                <Route path="/home" render = {(props) => { return <Home userEmailId={user}/>}}/>
-                <Route path="/home/:userId" render = {(props) => { return <Home userEmailId={user}/>}}/>
+                {/* <Route path="/home" render = {(props) => { return <Home userEmailId={user}/>}}/> */}
+                <Route path="/home/:user" render = {(props) => { return <Home userID={props.match.params.user}/>}}/>
                 <Route path="/single_apt_overview/:aptId" exact render = {(props) => { return <Apartment aptID={props.match.params.aptId} userData={user}/> }}/> 
                 <Route path="/apt_add/:user" exact render = {(props) => { return <ApartmentInput propsFn={props.history} userID={props.match.params.user}/> }}/> 
                 <Route path="/apt_addRoom/:aptCode" exact render = {(props) => { return <RoomInput propsFn={props.history} userEmailId={user} aptID={props.match.params.aptCode}/> }}/> 
