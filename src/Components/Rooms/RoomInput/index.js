@@ -70,7 +70,7 @@ class RoomInput extends React.Component {
         super(props);
 
         this.state = { 
-            userId: this.props.userEmailId.id,
+            userId: this.props.userID,
             apartmentCode: this.props.aptID,
             apartmentName: '',
             roomNumber: '',
@@ -95,6 +95,7 @@ class RoomInput extends React.Component {
         DataService.getApartmentInfo(this.props.aptID)
         .then(res => {
         const aptName = res.apartmentName;
+        
         this.state.apartmentName = aptName;
         })
         .catch(function (error) {    
@@ -106,7 +107,7 @@ class RoomInput extends React.Component {
         e.preventDefault();
 
         let newState = this.state;
-        
+        console.log('newState en el roomInput', newState)
         DataService.addNewRoom(newState);
         this.props.propsFn.push(`/single_apt_overview/${this.state.apartmentCode}`); 
             
@@ -131,12 +132,13 @@ class RoomInput extends React.Component {
                 <div id="input-area">
                 <div id="input-fields">
                         <TextField
+                            disabled
                             id="with-placeholder"
                             label="Apartment"
                             className={classes.textField}
                             margin="normal"
                             value={this.state.apartmentName}
-                            onChange={(e)=>{this.updateFormInput('apartmentName', e.target.value)}}
+                            // onChange={(e)=>{this.updateFormInput('apartmentName', e.target.value)}}
                         />
                     </div>
                     <div id="input-fields">
