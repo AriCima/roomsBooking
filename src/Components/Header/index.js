@@ -13,7 +13,8 @@ class Header extends Component {
     }
 
     this.signOut = this.signOut.bind(this);
-    console.log('props.user en el header', this.props.user)
+    console.log('this.props.user en el constructor del header', this.props.user)
+    console.log('this.state.user en el constructor del header', this.state.user)
 
    }
 
@@ -28,6 +29,8 @@ class Header extends Component {
     }
 
     render() {
+        //console.log('props.user en el header', this.props.user)
+        console.log('el this.state.user en render del header: ', this.state.user)
         return (
 
             <div className="header">
@@ -42,8 +45,7 @@ class Header extends Component {
 
                     <div className="nav-block">
                     {!this.props.user ? <p>RENTAL MANAGEMENT APP</p>
-                     :<Link to={`/home`}>Home</Link>
-                        // :<Link to={`/home/${this.state.user.id}`}>Home</Link>
+                        :<Link to={`/home/${this.props.user.uid}`}>Home</Link>
                     } 
                     </div>
 

@@ -15,11 +15,11 @@ class Login extends Component {
         super(props);
 
         this.state = {
+            userId      : '',
             email       : '',
             password    : '',
             emailError  : false,
             loginError  : '',
-            userId      : ''
         }
 
         this.login              = this.login.bind(this);
@@ -55,16 +55,16 @@ class Login extends Component {
             AuthService.login(this.state.email, this.state.password)
                 .then((result)=>{
                     // console.log('Result de Login', result)
-                   console.log('Result.user.uid de Login', result.user.uid)
+                   //console.log('Result.user.uid de Login', result.user.uid)
                    this.state.userId = result.user.uid;
                    console.log('this.state.userId en el Login = ', this.state.userId);
-
+                   this.props.propsFn.push(`/home/${this.state.userId}`) 
                 },(error)=>{
                     this.setState({loginError: error});
                 }
-                );
+            );
            
-            this.props.propsFn.push(`/home/${this.state.userId}`) 
+            
         }
 
         

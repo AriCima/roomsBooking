@@ -48,22 +48,23 @@ class App extends Component {
 
 
   componentDidMount(){
-    //console.log("CdidMount APP START");
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        console.log('El user.email recibido de Auth es: ', user.email)
 
-        DataService.getUserContactInfo(user.uid).then(
-          (userData)=>{
-            //console.log('userData en App: ', userData);
-            userData.id = user.uid;
-            this.setState({user : userData});
-            //console.log('El user luego del setState en App:', user)
-          }, 
-          (errorMessage)=>{
-            console.log(errorMessage)
-          }
-        )
+        this.setState({user : user});
+
+        console.log('El user en el state del App: ', this.state.user)
+        // DataService.getUserContactInfo(user.uid).then(
+        //   (userData)=>{
+        //     //console.log('userData en App: ', userData);
+        //     userData.id = user.uid;
+        //     this.setState({user : userData});
+        //     //console.log('El user luego del setState en App:', user)
+        //   }, 
+        //   (errorMessage)=>{
+        //     console.log(errorMessage)
+        //   }
+        // )
       
       } else {
         this.setState({
@@ -92,7 +93,7 @@ class App extends Component {
 
               <Switch>
                 {/* <Route path="/landing" render = {(props) => {return <Login propsFn={props.history}/>}}/> */}
-                <Route path="/" render = {(props) => {return <Login propsFn={props.history}/>}}/>
+                <Route path="/login" render = {(props) => {return <Login propsFn={props.history}/>}}/>
                 <Route path="/register" component={Register}/>
 
                 {/* <Route path="/home" render = {(props) => { return <Home userEmailId={user}/>}}/> */}

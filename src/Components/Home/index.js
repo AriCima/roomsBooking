@@ -34,11 +34,13 @@ export default class Home extends React.Component {
 
 
   componentDidMount() {
-    if (this.props.userEmailId) {
-    this._loadData(this.props.userEmailId.id);
-    let inc = this._calculateIncomes(this.state.currentAptContracts, this.state.currentRoomsContracts );
-    this.state.aptsIncomes = inc[0];
-    this.state.roomsIncomes = inc[1];
+    if (this.state.userId) {
+    this._loadData(this.state.userId);
+    let inc = Calculations.calculateIncomes(this.state.currentAptContracts, this.state.currentRoomsContracts );
+    this.setState({
+      aptsIncomes : inc[0],
+      roomsIncomes : inc[1]
+    })
     }
   };
 
@@ -83,8 +85,6 @@ export default class Home extends React.Component {
     
       this.state.currentAptContracts = Calculations.getCurrentAptContracts(userAptContracts)
       
-    
-      
       for (let y = 0; y < this.state.apartments.length; y++){
         for (let k = 0; k < this.state.currentAptContracts.length; k++){
           if(this.state.apartments[y].id === this.state.currentAptContracts[k].apartmentCode){
@@ -95,12 +95,10 @@ export default class Home extends React.Component {
             this.state.apartments[y].rPrice          = this.state.currentAptContracts[k].rentPrice;
           }
         }
-        
       }
 
       this.state.aptsIncomes = Calculations.calculateIncomes(this.state.currentAptContracts);
       
-      //console.log('el apartments con curretContracts:', this.state.apartments);
   
     }).catch(function (error) {    
     console.log(error);
@@ -124,8 +122,8 @@ export default class Home extends React.Component {
         }
       
       }
-      this.state.roomsIncomes = Calculations.calculateAIncomes(this.state.currentRoomsContracts);
-      //console.log('el rooms con curretContracts:', this.state.rooms);
+      this.state.roomsIncomes = Calculations.calculateIncomes(this.state.currentRoomsContracts);
+      
   
     }).catch(function (error) {    
     console.log(error);
@@ -186,17 +184,13 @@ export default class Home extends React.Component {
       )
   })
   };
-  componentDidUpdate(prevProps){
-    if (!prevProps.userEmailId && this.props.userEmailId) {
-      this._loadData(this.props.userEmailId.id);
-    }
 
-  };
-
+  
   render() {
 
-    if (!this.props.userEmailId) return <p>Loading  ...</p>;
-    const userId = this.props.userEmailId.id;
+    console.log('this.state.userId del render Home: ', this.state.userId)
+    if (!this.props.userID) return <p>Loading  ...</p>;
+    const userId = this.props.userID;
 
     return (
       <div>
