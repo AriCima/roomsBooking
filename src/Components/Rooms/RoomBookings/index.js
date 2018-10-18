@@ -146,8 +146,8 @@ class RoomBookings extends React.Component {
         } else {
            
             let newBooking = this.state;
-
-            DataService.newBooking(newBooking);  
+            console.log('newBooking en el room booking', newBooking)
+            DataService.roomNewBooking(newBooking);  
             this.props.propsFn.push(`/single_room_overview/${this.state.roomCode}`); 
         };
     };

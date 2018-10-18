@@ -13,8 +13,8 @@ class Header extends Component {
     }
 
     this.signOut = this.signOut.bind(this);
-    console.log('this.props.user en el constructor del header', this.props.user)
-    console.log('this.state.user en el constructor del header', this.state.user)
+    // console.log('this.props.user en el constructor del header', this.props.user)
+    // console.log('this.state.user en el constructor del header', this.state.user)
 
    }
 
@@ -30,7 +30,7 @@ class Header extends Component {
 
     render() {
         //console.log('props.user en el header', this.props.user)
-        console.log('el this.state.user en render del header: ', this.state.user)
+        //console.log('el this.state.user en render del header: ', this.state.user)
         return (
 
             <div className="header">

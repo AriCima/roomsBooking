@@ -53,7 +53,7 @@ class App extends Component {
 
         this.setState({user : user});
 
-        console.log('El user en el state del App: ', this.state.user)
+        //console.log('El user en el state del App: ', this.state.user)
         // DataService.getUserContactInfo(user.uid).then(
         //   (userData)=>{
         //     //console.log('userData en App: ', userData);

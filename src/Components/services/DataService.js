@@ -234,7 +234,7 @@ export default class DataService {
         
         return new Promise((resolve, reject) => {
 
-            firebase.firestore().collection('apt_bookings').where(`userId`,`==`, userId).get() // Where me devuelve todos los rooms que tengan ese userId
+            firebase.firestore().collection('room_bookings').where(`userId`,`==`, userId).get() // Where me devuelve todos los rooms que tengan ese userId
             .then((result) => {
                 //console.log('el Result del getUserContracts', result);
                 let userRoomsContracts=[];
@@ -257,7 +257,6 @@ export default class DataService {
             
         });
     }
-    stat
     static getApartmentRooms(apartmentCode){
 
         return new Promise((resolve, reject) => {

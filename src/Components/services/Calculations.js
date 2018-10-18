@@ -42,7 +42,7 @@ export default class Calculations {
         
         const date = new Date();
         let currentRoomsContracts = [];
-
+        console.log('input del get CurrentRoomsContracts', contracts)
         for ( let x = 0; x<contracts.length; x++){
 
             if (isWithinRange(date, contracts[x].checkIn, contracts[x].checkOut)) {
@@ -57,11 +57,10 @@ export default class Calculations {
                 currentRoomsContracts.push(contract);
             }
         }
-        //console.log('currentAptContract en e calculations', currentContracts)
+        console.log('currentRoomsContract en calculations', currentRoomsContracts)
 
         return currentRoomsContracts  
     };
-
     static getMonthsOccupationInPercentage(newStartDate, newEndDate) { 
         
         // https://stackoverflow.com/questions/4345045/javascript-loop-between-date-ranges
@@ -221,10 +220,9 @@ export default class Calculations {
 
         return validationResult
        
-    }
-
+    };
     static calculateIncomes(x){
-        console.log('calculate incomes TRIGGERED');
+        // console.log('calculate incomes TRIGGERED');
         let incomes = 0;
     
         for (let f = 0; f < x.length; f++){
@@ -232,5 +230,24 @@ export default class Calculations {
         }
     
         return incomes
-      }
+    };
+
+    static mergeApartmentsRooms(apts, rms){
+        console.log('merge apts & rooms TRIGGERED');
+        for (let x = 0; x < apts.length; x++){
+          apts[x].rooms = [];
+    
+          for (let z = 0; z < rms.length; z++){
+            //   console.log('apts[x].id = ', apts[x].id);
+            //   console.log('rms[z].apartmentCode = ', rms[z].apartmentCode);
+            if (apts[x].id === rms[z].apartmentCode){
+              apts[x].rooms.push(rms[z])
+            }
+          }
+        }
+        console.log('apartments with rooms: ', apts)   
+
+        return apts
+    }
+
 }
