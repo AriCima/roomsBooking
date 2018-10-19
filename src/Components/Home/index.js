@@ -140,12 +140,13 @@ export default class Home extends React.Component {
       if (this.state.rooms[r].apartmentCode === aptID)
       roomsToRender.push(this.state.rooms[r])
     };
-    console.log('roomsToRender: ', roomsToRender);
+    //console.log('roomsToRender: ', roomsToRender);
+    
     return roomsToRender.map((rooms,j) => {
         return (
           <Link className="rooms-home-row" key={j} to={`/single_room_overview/${rooms.id}`}> 
           
-            <div className="rooms-home-block">
+            <div className="rooms-home-block-nr">
                 <p>{rooms.roomNumber}</p>
             </div>
             <div className="rooms-home-block-name">
@@ -168,92 +169,9 @@ export default class Home extends React.Component {
   }; 
 
   _renderApartments(){
-
-
-    // for (let m = 0; m< this.state.apartments.length; m++){
-
-    //   if (this.state.apartments[m].roomsRental === 'YES'){
-
-    //     let roomsToRender = [];
-    //     for( let y = 0; y<this.state.rooms.length; y++){
-    //       if(this.state.rooms[y].apartmentCode === this.state.apartment[m].id){
-    //         roomsToRender.push(this.state.rooms[y])
-    //       }
-          
-    //       // https://thinkster.io/tutorials/iterating-and-rendering-loops-in-react
-
-    //       return (
-    //         <div>
-    //           <Link className="apts-row" to={`/single_apt_overview/${this.state.apartments[m].id}`}> 
-    //         <div className="apt-header">
-    //           <div className="apts-info-block">
-    //               <p>{this.state.apartments[m].apartmentName}</p>
-    //           </div>
-    //           <div className="apts-info-block-name">
-    //               <p>{this.state.apartments[m].tenantName} {this.state.apartments[m].tenantSurname}</p>
-    //           </div>
-    //           <div className="apts-info-block">
-    //               <p>{this.state.apartments[m].checkIn}</p>
-    //           </div>
-    //           <div className="apts-info-block">
-    //               <p>{this.state.apartments[m].checkOut}</p>
-    //           </div>
-    //           <div className="apts-info-block-c">
-    //               <p>{this.state.apartments[m].rPrice}</p>
-    //           </div>
-    //         </div>
-    //       </Link>
-    //           <Link className="apts-row" key={j} to={`/single_room_overview/${roomsToRender[y].id}`}>
-    //         <div className="home-rooms-rows">
-    //           <div className="rooms-home-block">
-    //             <p>{roomsToRender[y].roomNumber}</p>
-    //           </div>
-    //           <div className="rooms-home-block-name">
-    //             <p>{roomsToRender[y].tenantName} {this.state.rooms[y].tenantSurname}</p>
-    //           </div>
-    //           <div className="rooms-home-block">
-    //             <p>{roomsToRender[y].checkIn}</p>
-    //           </div>
-    //           <div className="rooms-home-block">
-    //             <p>{roomsToRender[y].checkOut}</p>
-    //           </div>
-    //           <div className="rooms-home-block-c">
-    //             <p>{roomsToRender[y].rPrice}</p>
-    //           </div>
-    //         </div>
-    //       </Link>
-    //       </div>
-    //       ) 
-          
-
-    //     }
-    //   }else{
-    //     render(
-    //       <Link className="apts-row" to={`/single_apt_overview/${this.state.apartments[m].id}`}> 
-    //         <div className="apt-header">
-    //           <div className="apts-info-block">
-    //               <p>{this.state.apartments[m].apartmentName}</p>
-    //           </div>
-    //           <div className="apts-info-block-name">
-    //               <p>{this.state.apartments[m].tenantName} {this.state.apartments[m].tenantSurname}</p>
-    //           </div>
-    //           <div className="apts-info-block">
-    //               <p>{this.state.apartments[m].checkIn}</p>
-    //           </div>
-    //           <div className="apts-info-block">
-    //               <p>{this.state.apartments[m].checkOut}</p>
-    //           </div>
-    //           <div className="apts-info-block-c">
-    //               <p>{this.state.apartments[m].rPrice}</p>
-    //           </div>
-    //         </div>
-    //       </Link>
-    //     )
-    //   }
-    // }
-
-      return this.state.apartments.map((dpts,j) => {
-        return (
+    return this.state.apartments.map((dpts,j) => {
+      return (
+        <div className="list-container">
           <Link className="apts-row" key={j} to={`/single_apt_overview/${dpts.id}`}> 
           
             <div className="apts-info-block">
@@ -271,11 +189,12 @@ export default class Home extends React.Component {
             <div className="apts-info-block-c">
                 <p>{dpts.rPrice}</p>
             </div>
-            <div>
-              { this._renderRooms(dpts.id)}
-            </div>
           </Link>
-        )
+            <div className="home-rooms-list">
+              {this._renderRooms(dpts.id)}
+            </div>
+        </div>
+      )
     })
   };
 
@@ -295,22 +214,24 @@ export default class Home extends React.Component {
 
         </div>
 
-        <div className="apts-list">
+        <div className="units-list">
 
           <div className="page-title">
             <h3>My Apartments</h3>
           </div>
 
-          <div className="apts-list-header">
+          <div className="units-list-header">
             <ul>
               <li>ID</li>
               <li>Tenant</li>
               <li>Check-In</li>
               <li>Check-Out</li>
               <li>Rent (€/Mo)</li>
-            </ul>          
+            </ul>     
           </div>
-          {this.state.apartments.length === 0? <p>LOADING !</p> : this._renderApartments() }
+          <div className="units-list-super-container">
+            {this.state.apartments.length === 0? <p>LOADING !</p> : this._renderApartments() }     
+          </div>
 
         <div className="add-apartment">
           <p>Add apartment</p>

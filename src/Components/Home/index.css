@@ -13,8 +13,12 @@
     margin-top: 60px;
 }
 
-/* --> APARTMENTS LIST <-- */
-.apts-list{
+
+
+/* --> UNITS LIST <-- */
+
+
+.units-list{
     margin-top: 80px;
     width: 100%;
     display: flex;
@@ -22,7 +26,7 @@
     justify-content: flex-start;
     align-items: center;
 }
-.apts-list-header{
+.units-list-header{
     border-radius: 10px;
     width: 80%;
     display: flex;
@@ -31,7 +35,7 @@
     background-color: rgb(0, 144, 248);
     margin-bottom: 2px;
 }
-.apts-list-header ul{
+.units-list-header ul{
     width: 100%;
     margin: 0;
     padding: 20px 0;
@@ -42,16 +46,14 @@
     justify-content: flex-start;
     align-items: center;
 }
-
-.apts-list-header ul li{
+.units-list-header ul li{
     margin: 4px 0px 4px 20px;
     width: 25%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
 }
-
-.apts-list-header ul li:last-child{
+.units-list-header ul li:last-child{
     margin: 4px 0px 4px 20px;
     width: 25%;
     display: flex;
@@ -59,14 +61,28 @@
     align-items: center;
 }
 
-.apts-row{
+/* --> LIST CONTAINER <-- */
+.units-list-super-container{
     border-radius: 10px;
     width: 80%;
     display: flex;
+    flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+}
+.list-container{
+    width: 100%; 
+}
+
+/* --> Apartments Rows <-- */
+.apts-row{
+    width: 100%;
+    border-radius: 10px;
     margin: 4px 0px;
     padding: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 }
 .apts-row:nth-child(even){
     background-color: rgba(0, 144, 248, 0.05);
@@ -74,14 +90,12 @@
 .apts-row:nth-child(odd){
     background-color: rgba(0, 144, 248, 0.1);
 }
-
 .apts-row:nth-child(even):hover{
     background-color: rgba(0, 144, 248, 0.2);
 }
 .apts-row:nth-child(odd):hover{
     background-color: rgba(0, 144, 248, 0.4);
 }
-
 .apts-info-block{
     margin: 4px 0px 4px 20px;
     width: 25%;
@@ -89,7 +103,6 @@
     justify-content: flex-start;
     align-items: center;
 }
-
 .apts-info-block-name{
     margin: 4px 0px 4px 20px;
     width: 25%;
@@ -97,11 +110,9 @@
     justify-content: flex-start;
     align-items: center;
 }
-
 .apts-info-block-name p{
-    font-size: 14px;
+    font-size: 16px;
 }
-
 .apts-info-block-c{
     margin: 4px 0px 4px 20px;
     width: 25%;
@@ -109,7 +120,6 @@
     justify-content: center;
     align-items: center;
 }
-
 p{
     font-family: helvetica;
     font-size: 16px;
@@ -134,58 +144,71 @@ p{
 
 /* ------------- ROOMS -------------- */
 
-
+.home-rooms-list{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: rgba(236, 236, 236, 0.05);
+}
 .rooms-home-row{
-    width: 80%;
+    width: 100%;
+    margin: 0px;
+    padding: 0;
+    border-bottom: 1px solid RGB(236, 236, 236);
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin: 4px 0px;
-    padding: 0;
-    border-bottom: 1px solid RGB(236, 236, 236);
 }
-.rooms-home-row:nth-child(even){
-    background-color: rgba(236, 236, 236, 0.05);
-}
-.rooms-home-row:nth-child(odd){
-    background-color: rgba(236, 236, 236, 0.1);
-}
-.rooms-home-row:nth-child(even):hover{
+.rooms-home-row:hover{
     background-color: rgba(236, 236, 236, 0.2);
 }
-.rooms-home-row:nth-child(odd):hover{
-    background-color: rgba(236, 236, 236, 0.4);
-}
-.rooms-home-info-block{
+
+.rooms-home-block{
     margin: 4px 0px 4px 20px;
     width: 25%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
 }
-.rooms-home-info-block-c{
+p{
+    font-family: helvetica;
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+    color: rgb(128, 128, 128);
+}
+.rooms-home-block-nr{
+    margin: 4px 0px 4px 20px;
+    width: 25%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.rooms-home-block-nr p{
+    font-family: helvetica;
+    font-size: 16px;
+    color: rgb(128, 128, 128);
+    margin-left: 40px;
+}
+.rooms-home-block-c{
     margin: 4px 0px 4px 20px;
     width: 25%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-p{
-    font-family: helvetica;
-    font-size: 18px;
-    padding: 0;
-    margin: 0;
-    color: rgb(128, 128, 128);
-}
-.rooms-home-info-block-name {
+
+.rooms-home-block-name {
     margin: 4px 0px 4px 20px;
     width: 25%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    background-color: red;
 }
-.rooms-home-info-block-name p{
-    font-size: 12px;
+.rooms-home-block-name p{
+    font-size: 16px;
+    margin-left: 10px;
 }
 

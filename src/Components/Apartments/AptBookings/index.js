@@ -73,7 +73,7 @@ class AptBookings extends React.Component {
         super(props);
 
         this.state = { 
-            userId          : this.props.userData.id,
+            userId          : this.props.userID,
             apartmentCode   : this.props.aptID,
             apartmentName   : '',
             checkIn         : '',
@@ -111,8 +111,8 @@ class AptBookings extends React.Component {
             this.setState({
                 aptBookings   : res,
             })
-            })
-            .catch(function (error) {    
+        })
+        .catch(function (error) {    
             console.log(error);
         })
     };
@@ -145,8 +145,8 @@ class AptBookings extends React.Component {
         } else {
 
             let newBooking = this.state;
-
-            DataService.newBooking(newBooking);    
+            delete newBooking.bookings;
+            DataService.apartmentNewBooking(newBooking);    
             this.props.propsFn.push(`/single_apt_overview/${this.state.apartmentCode}`); 
         };
     };
