@@ -26,8 +26,11 @@ export default class Home extends React.Component {
       aptsWithRooms           : [],
       aptsIncomes             : null,
       roomsIncomes            : null,
+      aptsExpenses            : null,
+      roomsExpenses           : null,
+      currentMonth            : Calculations.getCurrentMonth()
     }
-    
+ 
   };
 
 
@@ -126,9 +129,10 @@ export default class Home extends React.Component {
     console.log(error);
     })
 
+    //this.state.currentMonth = Calculations.getCurrentMonth()
+
    
   };
-
   
 
  _renderRooms(aptID){
@@ -198,6 +202,8 @@ export default class Home extends React.Component {
     })
   };
 
+  
+
 
   render() {
 
@@ -206,18 +212,49 @@ export default class Home extends React.Component {
     //const userId = this.props.userID;
 
     return (
-      <div>
+      <div className="home-super-container">
 
-        <div className="user-overview">
-         
-          <p>TOTAL INCOMES = {this.state.aptsIncomes + this.state.roomsIncomes}</p>
+        <div className="e-figures">
+
+          <div className="e-figures-left">
+            <div className="chart-title">
+              <p>{this.state.currentMonth} Economic Overview</p>
+            </div>
+            <div className="user-overview">
+            <div className="overview-block">
+              <div className="overview-block-feature">
+                <p>Gross Incomes</p>  
+              </div>
+              <div className="overview-block-value">
+                <p>{this.state.aptsIncomes + this.state.roomsIncomes}</p>
+              </div>
+            </div>
+
+            <div className="overview-block underlined">
+              <div className="overview-block-feature">
+                <p>Expenses</p>
+              </div>
+              <div className="overview-block-value">
+              <p>{this.state.aptsExpenses + this.state.roomsExpenses}</p>
+              </div>
+            </div>
+
+            <div className="overview-block">
+              <div className="overview-block-feature">
+                <p><span>EBDITA</span></p>
+              </div>
+              <div className="overview-block-value">
+                <p><span>{this.state.aptsIncomes + this.state.roomsIncomes - (this.state.aptsExpenses + this.state.roomsExpenses)}</span></p>
+              </div>
+            </div>
+          </div>
 
         </div>
-
+        </div>
         <div className="units-list">
 
           <div className="page-title">
-            <h3>My Apartments</h3>
+            <h3>Rentals Overview</h3>
           </div>
 
           <div className="units-list-header">

@@ -8,18 +8,92 @@
     color: rgb(0, 144, 248);
 }
 
-/* --> OVERVIEW  */
-.user-overview{
-    margin-top: 60px;
+.home-super-container{
+    margin-top: 70px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
 }
 
 
+.e-figures{
+    width: 80%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.e-figures-left{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: flex-start;
+}
+/* --> OVERVIEW  */
+.chart-title{
+    width: 30%;
+    padding: 3px 0;
+    margin-bottom: 2px;
+    background-color: rgba(242, 242, 242, 1);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chart-title p{
+    font-weight: 700;
+}
+
+.user-overview{
+    width: 30%;
+    background-color: rgba(242, 242, 242, 0.6);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+
+.overview-block{
+    width: 100%;
+    margin: 15px 0 15px 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.overview-block .underlined{
+    border-bottom: 1ps solid black;
+}
+
+.overview-block-feature{
+    width: 70%;
+    margin-left: 2%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.overview-block-value{
+    margin-left: 2%;
+    width: 30%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.overview-block span{
+    font-weight: 700;
+}
 
 /* --> UNITS LIST <-- */
 
-
 .units-list{
-    margin-top: 80px;
+    margin-top: 40px;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -164,7 +238,6 @@ p{
 .rooms-home-row:hover{
     background-color: rgba(236, 236, 236, 0.2);
 }
-
 .rooms-home-block{
     margin: 4px 0px 4px 20px;
     width: 25%;
@@ -199,7 +272,6 @@ p{
     justify-content: center;
     align-items: center;
 }
-
 .rooms-home-block-name {
     margin: 4px 0px 4px 20px;
     width: 25%;

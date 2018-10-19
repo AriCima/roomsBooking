@@ -127,6 +127,50 @@ export default class Calculations {
         
        
     };
+    static getCurrentMonth(){
+        const date = new Date();
+        let month = date.getMonth()
+        let currentMonth = ''
+       
+        switch(month) {
+            case 0:
+                currentMonth = 'January'
+                break;
+            case 1:
+                currentMonth = 'February'
+                break;
+            case 2:
+                currentMonth = 'March'
+                break;
+            case 3:
+                currentMonth = 'April'
+                break;
+            case 4:
+                currentMonth = 'May'
+                break;
+            case 5:
+                currentMonth = 'June'
+                break;
+            case 6:
+                currentMonth = 'July'
+                break;
+            case 7:
+                currentMonth = 'August'
+                break;
+            case 8:
+                currentMonth = 'September'
+                break;
+            case 9:
+                currentMonth = 'October'
+                break;
+            case 10:
+                currentMonth = 'November'
+                break;
+            default:
+                currentMonth = 'Dicember'
+        }
+        return currentMonth
+    }
     static generateCode(){
      // GENERATE BOOKING CODE
      const letters = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
@@ -201,7 +245,6 @@ export default class Calculations {
         return validationResult
         
     };
-
     static overlappingCheck(checkIn, checkOut, bookings){
         for (let k=0; k < bookings.length; k++){
             if(areRangesOverlapping(checkIn, checkOut, bookings[k].checkIn, bookings[k].checkOut )){
@@ -231,7 +274,6 @@ export default class Calculations {
     
         return incomes
     };
-
     static mergeApartmentsRooms(apts, rms){
         console.log('merge apts & rooms TRIGGERED');
         for (let x = 0; x < apts.length; x++){
