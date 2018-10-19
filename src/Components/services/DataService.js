@@ -159,27 +159,7 @@ export default class DataService {
             
         }); 
     };
-    static apartmentNewBooking(newBooking){        
 
-        return new Promise((resolve, reject) => {
-
-            firebase.firestore().collection('apt_bookings').add(newBooking)
-            
-            .then((result) => {
-                
-                console.log("AptBooking information succesfully added !")
-                resolve(result);
-            })
-
-            .catch((error) => {
-                var errorCode = error.code;
-                console.log('User NOT added: ', errorCode);
-                var errorMessage = error.message;
-                
-            })
-            
-        });
-    };
 
     // ROOMS
     static addNewRoom(roomInfo) { 
@@ -316,27 +296,7 @@ export default class DataService {
             
         });
     };
-    static roomNewBooking(newBooking){        
 
-        return new Promise((resolve, reject) => {
-
-            firebase.firestore().collection('room_bookings').add(newBooking)
-            
-            .then((result) => {
-                
-                console.log("ROOM NewBooking succesfully added !")
-                resolve(result);
-            })
-
-            .catch((error) => {
-                var errorCode = error.code;
-                console.log('User NOT added: ', errorCode);
-                var errorMessage = error.message;
-                
-            })
-            
-        });
-    };
     static getRoomBookings(roomCode){
 
         return new Promise((resolve, reject) => {
@@ -371,15 +331,16 @@ export default class DataService {
     };
 
     // BOOKINGS
-    static newBooking(newBooking){        
+
+    static apartmentNewBooking(newBooking){        
 
         return new Promise((resolve, reject) => {
 
-            firebase.firestore().collection('bookings').add(newBooking)
+            firebase.firestore().collection('apt_bookings').add(newBooking)
             
             .then((result) => {
                 
-                console.log("Booking information succesfully added !")
+                console.log("AptBooking information succesfully added !")
                 resolve(result);
             })
 
@@ -392,7 +353,27 @@ export default class DataService {
             
         });
     };
+    static roomNewBooking(newBooking){        
 
+        return new Promise((resolve, reject) => {
+
+            firebase.firestore().collection('room_bookings').add(newBooking)
+            
+            .then((result) => {
+                
+                console.log("ROOM NewBooking succesfully added !")
+                resolve(result);
+            })
+
+            .catch((error) => {
+                var errorCode = error.code;
+                console.log('User NOT added: ', errorCode);
+                var errorMessage = error.message;
+                
+            })
+            
+        });
+    };
     static getAptBookings(aptID){
       
         return new Promise((resolve, reject) => {

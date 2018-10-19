@@ -1,4 +1,5 @@
 import React from 'react';
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 // MATERIAL-UI
 import PropTypes from 'prop-types';
@@ -74,6 +75,7 @@ class RoomBookings extends React.Component {
             userId          : this.props.userData.id,
             apartmentCode   : '',
             roomCode        : this.props.roomID,
+            roomNumber      : '',
             apartmentName   : '',
             checkIn         : '',
             checkOut        : '',
@@ -98,6 +100,7 @@ class RoomBookings extends React.Component {
             apartmentCode   : res.apartmentCode,
             apartmentName   : res.apartmentName,
             userId          : res.userId,  
+            roomNumber      : res.roomNumber,
         })
         })
         .catch(function (error) {    
@@ -146,7 +149,10 @@ class RoomBookings extends React.Component {
         } else {
            
             let newBooking = this.state;
-            console.log('newBooking en el room booking', newBooking)
+            delete newBooking.bookings;
+            delete newBooking.aptBookings;
+
+            //console.log('newBooking en el room booking', newBooking)
             DataService.roomNewBooking(newBooking);  
             this.props.propsFn.push(`/single_room_overview/${this.state.roomCode}`); 
         };

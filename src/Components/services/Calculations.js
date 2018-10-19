@@ -87,10 +87,10 @@ export default class Calculations {
             nextYear:[0,0,0,0,0,0,0,0,0,0,0,0]
         };
 
-        if(bookStartYear == bookEndYear){
+        if(bookStartYear === bookEndYear){
 
             for (let i = bookStartMonth; i<= bookEndMonth; i++){
-                if (i == bookStartMonth){
+                if (i === bookStartMonth){
                 newBookingDays.currentYear[i] = Math.round((((days[i]-bookStartDay)/days[i])*100))
                 } else if (i === bookEndMonth){             
                     newBookingDays.currentYear[i] = Math.round(((bookEndDay/days[i])*100))
@@ -106,7 +106,7 @@ export default class Calculations {
         } else if ( bookStartYear < bookEndYear){
 
             for (let j = bookStartMonth; j<= 11; j++){
-                if (j == bookStartMonth){
+                if (j === bookStartMonth){
                     newBookingDays.currentYear[j] = Math.round((((days[j]-bookStartDay) /days[j])*100))
                 } else {
                     newBookingDays.currentYear[j] = 100;

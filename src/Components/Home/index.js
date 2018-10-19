@@ -73,11 +73,12 @@ export default class Home extends React.Component {
     }).catch(function (error) {   
     console.log(error);
     })
-  
-    DataService.getUserAptContracts(userId)  // Once contracts are here, we get the CURRENT APT CONTRACT
+    // We get all Apt Contracts saved
+    DataService.getUserAptContracts(userId)  
     .then(userAptContracts => {
-      //console.log('userAptContracts en Home', userAptContracts)
+
     
+      //Once contracts are here, we get the CURRENT APT CONTRACT
       this.state.currentAptContracts = Calculations.getCurrentAptContracts(userAptContracts)
       
       for (let y = 0; y < this.state.apartments.length; y++){
@@ -92,6 +93,7 @@ export default class Home extends React.Component {
         }
       }
 
+      // Get Incomes from all User's apartments
       this.state.aptsIncomes = Calculations.calculateIncomes(this.state.currentAptContracts);
   
     }).catch(function (error) {    
@@ -129,41 +131,41 @@ export default class Home extends React.Component {
 
   
 
-//  _renderRooms(aptID){
+ _renderRooms(aptID){
 
-//    console.log('_renderRooms TRIGGERED')
-//   //   let roomsToRender = []
+   console.log('_renderRooms TRIGGERED')
+    let roomsToRender = []
 
-//   //   for (let r = 0; r < this.state.rooms.length; r++){
-//   //     if (this.state.rooms[r].apartmentCode === aptID)
-//   //     roomsToRender.push(this.state.rooms[r])
-//   //   };
-//   //   console.log('roomsToRender: ', roomsToRender);
-//   //   return roomsToRender.map((rooms,j) => {
-//   //       return (
-//   //         <Link className="rooms-home-row" key={j} to={`/single_room_overview/${rooms.id}`}> 
+    for (let r = 0; r < this.state.rooms.length; r++){
+      if (this.state.rooms[r].apartmentCode === aptID)
+      roomsToRender.push(this.state.rooms[r])
+    };
+    console.log('roomsToRender: ', roomsToRender);
+    return roomsToRender.map((rooms,j) => {
+        return (
+          <Link className="rooms-home-row" key={j} to={`/single_room_overview/${rooms.id}`}> 
           
-//   //           <div className="rooms-home-block">
-//   //               <p>{rooms.roomNumber}</p>
-//   //           </div>
-//   //           <div className="rooms-home-block-name">
-//   //               <p>{rooms.tenantName} {rooms.tenantSurname}</p>
-//   //           </div>
-//   //           <div className="rooms-home-block">
-//   //               <p>{rooms.checkIn}</p>
-//   //           </div>
-//   //           <div className="rooms-home-block">
-//   //               <p>{rooms.checkOut}</p>
-//   //           </div>
-//   //           <div className="rooms-home-block-c">
-//   //               <p>{rooms.rPrice}</p>
-//   //           </div>
+            <div className="rooms-home-block">
+                <p>{rooms.roomNumber}</p>
+            </div>
+            <div className="rooms-home-block-name">
+                <p>{rooms.tenantName} {rooms.tenantSurname}</p>
+            </div>
+            <div className="rooms-home-block">
+                <p>{rooms.checkIn}</p>
+            </div>
+            <div className="rooms-home-block">
+                <p>{rooms.checkOut}</p>
+            </div>
+            <div className="rooms-home-block-c">
+                <p>{rooms.rPrice}</p>
+            </div>
             
-//   //         </Link>
-//   //       )
-//   //   })
+          </Link>
+        )
+    })
     
-//   }; 
+  }; 
 
   _renderApartments(){
 
@@ -270,7 +272,7 @@ export default class Home extends React.Component {
                 <p>{dpts.rPrice}</p>
             </div>
             <div>
-              {/* {dpts.roomsRental === 'Yes' && this._renderRooms(dpts.id)} */}
+              { this._renderRooms(dpts.id)}
             </div>
           </Link>
         )
