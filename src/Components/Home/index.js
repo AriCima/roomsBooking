@@ -76,6 +76,7 @@ export default class Home extends React.Component {
     }).catch(function (error) {   
     console.log(error);
     })
+    
     // We get all Apt Contracts saved
     DataService.getUserAptContracts(userId)  
     .then(userAptContracts => {
@@ -83,9 +84,11 @@ export default class Home extends React.Component {
     
       //Once contracts are here, we get the CURRENT APT CONTRACT
       this.state.currentAptContracts = Calculations.getCurrentAptContracts(userAptContracts)
-      
+      console.log('this.state.currentAptContracts', this.state.currentAptContracts)
+
       for (let y = 0; y < this.state.apartments.length; y++){
         for (let k = 0; k < this.state.currentAptContracts.length; k++){
+          console.log('id vs aptCode',this.state.apartments[y].id , this.state.currentAptContracts[k].apartmentCode)
           if(this.state.apartments[y].id === this.state.currentAptContracts[k].apartmentCode){
             this.state.apartments[y].tenantName      = this.state.currentAptContracts[k].tenantName;
             this.state.apartments[y].tenantSurname   = this.state.currentAptContracts[k].tenantSurname;
@@ -95,6 +98,8 @@ export default class Home extends React.Component {
           }
         }
       }
+
+      //console.log(console.log('this.state.apartments después del for for', this.state.apartments))
 
       // Get Incomes from all User's apartments
       this.state.aptsIncomes = Calculations.calculateIncomes(this.state.currentAptContracts);
@@ -107,7 +112,7 @@ export default class Home extends React.Component {
     .then(userRoomsContracts => {
       
       this.state.currentRoomsContracts = Calculations.getCurrentRoomsContracts(userRoomsContracts)
-    
+      console.log('this.state.currentRoomsContracts', this.state.currentRoomsContracts)
       for (let y = 0; y < this.state.rooms.length; y++){
         for (let k = 0; k < this.state.currentRoomsContracts.length; k++){
           // console.log('this.state.rooms[y].id', this.state.rooms[y].id);
@@ -121,56 +126,17 @@ export default class Home extends React.Component {
           }
         }
       }
-      console.log('this.state.rooms', this.state.rooms)
+      // console.log('this.state.rooms', this.state.rooms)
 
+      // Get Incomes from all User's apartments
       this.state.roomsIncomes = Calculations.calculateIncomes(this.state.currentRoomsContracts);
   
     }).catch(function (error) {    
     console.log(error);
     })
-
-    //this.state.currentMonth = Calculations.getCurrentMonth()
-
    
   };
   
-
- _renderRooms(aptID){
-
-   console.log('_renderRooms TRIGGERED')
-    let roomsToRender = []
-
-    for (let r = 0; r < this.state.rooms.length; r++){
-      if (this.state.rooms[r].apartmentCode === aptID)
-      roomsToRender.push(this.state.rooms[r])
-    };
-    //console.log('roomsToRender: ', roomsToRender);
-    
-    return roomsToRender.map((rooms,j) => {
-        return (
-          <Link className="rooms-home-row" key={j} to={`/single_room_overview/${rooms.id}`}> 
-          
-            <div className="rooms-home-block-nr">
-                <p>{rooms.roomNumber}</p>
-            </div>
-            <div className="rooms-home-block-name">
-                <p>{rooms.tenantName} {rooms.tenantSurname}</p>
-            </div>
-            <div className="rooms-home-block">
-                <p>{rooms.checkIn}</p>
-            </div>
-            <div className="rooms-home-block">
-                <p>{rooms.checkOut}</p>
-            </div>
-            <div className="rooms-home-block-c">
-                <p>{rooms.rPrice}</p>
-            </div>
-            
-          </Link>
-        )
-    })
-    
-  }; 
 
   _renderApartments(){
     return this.state.apartments.map((dpts,j) => {
@@ -203,7 +169,42 @@ export default class Home extends React.Component {
   };
 
   
+  _renderRooms(aptID){
 
+    console.log('_renderRooms TRIGGERED')
+     let roomsToRender = []
+ 
+     for (let r = 0; r < this.state.rooms.length; r++){
+       if (this.state.rooms[r].apartmentCode === aptID)
+       roomsToRender.push(this.state.rooms[r])
+     };
+     //console.log('roomsToRender: ', roomsToRender);
+     
+     return roomsToRender.map((rooms,j) => {
+         return (
+           <Link className="rooms-home-row" key={j} to={`/single_room_overview/${rooms.id}`}> 
+           
+             <div className="rooms-home-block-nr">
+                 <p>{rooms.roomNumber}</p>
+             </div>
+             <div className="rooms-home-block-name">
+                 <p>{rooms.tenantName} {rooms.tenantSurname}</p>
+             </div>
+             <div className="rooms-home-block">
+                 <p>{rooms.checkIn}</p>
+             </div>
+             <div className="rooms-home-block">
+                 <p>{rooms.checkOut}</p>
+             </div>
+             <div className="rooms-home-block-c">
+                 <p>{rooms.rPrice}</p>
+             </div>
+             
+           </Link>
+         )
+     })
+     
+   }; 
 
   render() {
 
@@ -251,6 +252,7 @@ export default class Home extends React.Component {
 
         </div>
         </div>
+        
         <div className="units-list">
 
           <div className="page-title">

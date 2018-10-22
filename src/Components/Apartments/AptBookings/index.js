@@ -146,6 +146,10 @@ class AptBookings extends React.Component {
 
             let newBooking = this.state;
             delete newBooking.bookings;
+            delete newBooking.aptBookings;
+
+
+            console.log('newBooking en el aptBooking', newBooking)
             DataService.apartmentNewBooking(newBooking);    
             this.props.propsFn.push(`/single_apt_overview/${this.state.apartmentCode}`); 
         };

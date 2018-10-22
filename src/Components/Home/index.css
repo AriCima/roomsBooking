@@ -50,7 +50,7 @@
 
 .user-overview{
     width: 30%;
-    background-color: rgba(242, 242, 242, 0.6);
+    background-color: rgba(242, 242, 242, 0.3);
     border-radius: 10px;
     display: flex;
     flex-direction: column;
