@@ -84,11 +84,9 @@ export default class Home extends React.Component {
     
       //Once contracts are here, we get the CURRENT APT CONTRACT
       this.state.currentAptContracts = Calculations.getCurrentAptContracts(userAptContracts)
-      console.log('this.state.currentAptContracts', this.state.currentAptContracts)
 
       for (let y = 0; y < this.state.apartments.length; y++){
         for (let k = 0; k < this.state.currentAptContracts.length; k++){
-          console.log('id vs aptCode',this.state.apartments[y].id , this.state.currentAptContracts[k].apartmentCode)
           if(this.state.apartments[y].id === this.state.currentAptContracts[k].apartmentCode){
             this.state.apartments[y].tenantName      = this.state.currentAptContracts[k].tenantName;
             this.state.apartments[y].tenantSurname   = this.state.currentAptContracts[k].tenantSurname;
@@ -112,11 +110,8 @@ export default class Home extends React.Component {
     .then(userRoomsContracts => {
       
       this.state.currentRoomsContracts = Calculations.getCurrentRoomsContracts(userRoomsContracts)
-      console.log('this.state.currentRoomsContracts', this.state.currentRoomsContracts)
       for (let y = 0; y < this.state.rooms.length; y++){
         for (let k = 0; k < this.state.currentRoomsContracts.length; k++){
-          // console.log('this.state.rooms[y].id', this.state.rooms[y].id);
-          // console.log('this.state.currentRoomsContracts[k].roomCode', this.state.currentRoomsContracts[k].roomCode)
           if(this.state.rooms[y].id === this.state.currentRoomsContracts[k].roomCode){
             this.state.rooms[y].tenantName      = this.state.currentRoomsContracts[k].tenantName;
             this.state.rooms[y].tenantSurname   = this.state.currentRoomsContracts[k].tenantSurname;
@@ -169,8 +164,6 @@ export default class Home extends React.Component {
   };
 
   _renderRooms(aptID){
-
-    console.log('_renderRooms TRIGGERED')
      let roomsToRender = []
  
      for (let r = 0; r < this.state.rooms.length; r++){

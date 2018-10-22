@@ -108,6 +108,9 @@ export default class Room extends React.Component {
             <div className="standard-list-info-block">
                 <p>{bkngs.checkOut}</p>
             </div>
+            <div className="standard-list-info-block-price">
+                <p>{bkngs.rentPrice}</p>
+            </div>
 
           </Link>
         )

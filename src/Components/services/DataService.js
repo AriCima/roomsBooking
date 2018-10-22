@@ -64,7 +64,6 @@ export default class DataService {
         });
     };
     static getUserApartments(userId){
-        console.log('El userID recibido en el getApts: ', userId)
         return new Promise((resolve, reject) => {
 
             firebase.firestore().collection('apartments').where(`userId`,`==`, userId).get()
@@ -78,8 +77,6 @@ export default class DataService {
                 })
                 
                 resolve(apts);  
-                console.log('el apts get-Apartments), ', apts)
-
             })
 
             .catch((error) => {
@@ -123,8 +120,6 @@ export default class DataService {
             firebase.firestore().collection('apartments').doc(apartmentCode).get()
 
             .then((result) => {
-                console.log('el Result es: ', result)
-                console.log('el Result.data() es: ', result.data())
                 resolve(result.data());   // OBTENGO TODO LO QUE TENGO ALMACENADO DE ÉSTE USUARIO
             })
 
@@ -252,8 +247,6 @@ export default class DataService {
                 })
                 
                 resolve(rooms);  
-                console.log('el resume del rooms list), ', rooms)
-
             })
 
             .catch((error) => {
@@ -276,7 +269,6 @@ export default class DataService {
             })    
         });
     };
-
     static getRoomBookings(roomCode){
         return new Promise((resolve, reject) => {
 

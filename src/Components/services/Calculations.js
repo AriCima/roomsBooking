@@ -16,7 +16,6 @@ import areRangesOverlapping from 'date-fns/are_ranges_overlapping';
 export default class Calculations {
 
     static getCurrentAptContracts(contracts) {  
-        
         const date = new Date();
         let currentContracts = [];
 
@@ -34,8 +33,6 @@ export default class Calculations {
                 currentContracts.push(contract);
             }
         }
-        //console.log('currentAptContract en e calculations', currentContracts)
-
         return currentContracts  
     };
     static getCurrentRoomsContracts(contracts) {  
@@ -129,47 +126,51 @@ export default class Calculations {
     };
     static getCurrentMonth(){
         const date = new Date();
-        let month = date.getMonth()
+        let day = date.getDay()
+        let monthNr = date.getMonth()
         let currentMonth = ''
        
-        switch(month) {
+        switch(monthNr) {
             case 0:
-                currentMonth = 'January'
+                currentMonth = 'Jan'
                 break;
             case 1:
-                currentMonth = 'February'
+                currentMonth = 'Feb'
                 break;
             case 2:
-                currentMonth = 'March'
+                currentMonth = 'Mar'
                 break;
             case 3:
-                currentMonth = 'April'
+                currentMonth = 'Apr'
                 break;
             case 4:
                 currentMonth = 'May'
                 break;
             case 5:
-                currentMonth = 'June'
+                currentMonth = 'Jun'
                 break;
             case 6:
-                currentMonth = 'July'
+                currentMonth = 'Jul'
                 break;
             case 7:
-                currentMonth = 'August'
+                currentMonth = 'Aug'
                 break;
             case 8:
-                currentMonth = 'September'
+                currentMonth = 'Sep'
                 break;
             case 9:
-                currentMonth = 'October'
+                currentMonth = 'Oct'
                 break;
             case 10:
-                currentMonth = 'November'
+                currentMonth = 'Nov'
                 break;
             default:
-                currentMonth = 'Dicember'
+                currentMonth = 'Dic'
         }
-        return currentMonth
+
+        let currentDay = [day, monthNr, currentMonth]
+
+        return currentDay
     }
     static generateCode(){
      // GENERATE BOOKING CODE

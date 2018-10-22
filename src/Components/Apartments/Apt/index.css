@@ -13,7 +13,7 @@
 
 /* BOOKINGS LISTING */
 /* Bookings Header*/
-.apt-bookings-list{
+.standard-list{
     width: 100%;
     margin-top: 0px;
     display: flex;
@@ -21,20 +21,20 @@
     justify-content: center;
     align-items: center;
 }
-.apt-bookings-title{
+.standard-list-title{
     width: 55%;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     margin-bottom: 10px;
 }
-.apt-bookings-title p{
+.standard-list-title p{
     margin: 10px 0 0 0px;
     font-size: 20px;
     padding: 0;
     color: rgb(145, 155, 155);
 }
-.apt-bookings-list-header{
+.standard-list-list-header{
     border-radius: 10px;
     width: 55%;
     display: flex;
@@ -42,7 +42,7 @@
     align-items: center;
     background-color: rgb(0, 144, 248);
 }
-.apt-bookings-list-header ul{
+.standard-list-header ul{
     width: 100%;
     margin: 0;
     padding: 10px 0;;
@@ -52,14 +52,16 @@
     justify-content: flex-start;
     align-items: center;
 }
-.apt-bookings-list-header ul li{
-    margin: 0 20px 0px 20px;
-    width: 40%;
-    text-align: center;
+.standard-list-header ul li{
+    margin: 0 2.5% 0px 2.5%;
+    width: 15%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 }
 
-/* _renderAptBookigs */
-.apt-bookings-row{
+/* _render functions */
+.standard-list-row{
     border-radius: 10px;
     width: 55%;
     display: flex;
@@ -68,42 +70,53 @@
     margin: 4px 0px;
     padding: 0;
 }
-.apt-bookings-row:nth-child(even){
+.standard-list-row:nth-child(even){
     background-color: rgba(0, 144, 248, 0.05);
 }
-.apt-bookings-row:nth-child(even):hover{
+.standard-list-row:nth-child(even):hover{
     background-color: rgba(0, 144, 248, 0.2);
 }
-.apt-bookings-row:nth-child(odd){
+.standard-list-row:nth-child(odd){
     background-color: rgba(0, 144, 248, 0.1);
 }
-.apt-bookings-row:nth-child(odd):hover{
+.standard-list-row:nth-child(odd):hover{
     background-color: rgba(0, 144, 248, 0.4);
 }
-.apt-booking-info-block{
-    width: 40%;
+.standard-list-info-block{
+    width: 15%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    margin: 0px 20px 0px 20px;
-
-
+    margin: 0 1.5% 0px 3.5%;
 }
-.apt-booking-info-block p{
+.standard-list-info-block p{
     font-family: helvetica;
     font-size: 18px;
     padding: 0;
-    margin: 0;
-    color: rgb(145, 155, 155);
+    margin-left: 35%;
 }
-.apt-add-booking-button{
-    width: 55%;
+.standard-list-info-block-price{
+    width: 15%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 0 5% 0px 0;
+}
+.standard-add-button{
+    width: 80%;
     margin: 20px 0 40px 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start
 }
+
+#button-info p{
+    display: block;
+    
+}
+
+
 
 /* ROOMS LISTING */
 
@@ -158,38 +171,15 @@
     align-items: center;
 
 }
-/* _roomsRender */ 
-
-.apt-room-row{
+#empty-list{
+    width: 80%;  
     border-radius: 10px;
-    width: 100%;
+    height: 120px;
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin: 4px 0px;
-    
+    align-items: center; 
+    background-color: rgba(246, 246, 246, 0.8);
 }
-.apt-room-row:nth-child(even){
-    background-color: rgba(0, 144, 248, 0.05);
-}
-.apt-room-row:nth-child(odd){
-    background-color: rgba(0, 144, 248, 0.2);
-} 
-.apt-room-row:nth-child(even):hover{
-    background-color: rgba(0, 144, 248, 0.1);
-}
-.apt-room-row:nth-child(odd):hover{
-    background-color: rgba(0, 144, 248, 0.4);
-} 
-.apt-room-info-block{
-    width: 90px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 10px 0px 10px;
-}
-.apt-roominfo-block p{
-    font-family: helvetica;
-    font-size: 18px;
-    padding: 0;
+#empty-list p{
+    font-size: 20px;
 }
