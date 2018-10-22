@@ -20,7 +20,6 @@
     padding: 0;
     color: rgb(145, 155, 155);
 }
-
 .room-form-container{
     width: 100%;
     margin-top: 20px;
@@ -28,23 +27,22 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+} 
+.form-width{
+    width: 80%;
 }
-
-  
 .room-form-title{
     width: 80%;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-}
-  
+} 
 .room-form-title p{
     margin: 10px 0 0 0px;
     font-size: 20px;
     padding: 0;
     color: rgb(145, 155, 155);
 }
-
 #room-input-area{
     background-color: rgba(0, 144, 248, 0.1);
     width: 100%;
@@ -55,8 +53,8 @@
     flex-wrap: wrap;
 }
 
-.apt-bookings-list{
-    width: 100%;
+.room-bookings-list{
+    width: 80%;
     margin-top: 20px;
     display: flex;
     flex-direction: column;
@@ -64,82 +62,21 @@
     align-items: center;
 }
 
-.room-bookings-title{
-    width: 70%;
+.standard-list-title{
+    margin: 20px 0 10px 0;
+    width: 80%;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
 }
-.room-bookings-title p{
+.standard-list-title p{
     margin: 10px 0 0 0px;
     font-size: 20px;
     padding: 0;
     color: rgb(145, 155, 155);
 }
-.room-bookings-list-header{
-    border-radius: 10px;
-    width: 70%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    background-color: rgb(0, 144, 248);
-}
-.room-bookings-list-header ul{
-    width: auto;
-    margin: 0;
-    padding: 10px 0;;
-    list-style-type: none;
-    color: white;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
-.room-bookings-list-header ul li{
-    margin: 0 0 0 20px;
-    width: 120px;
-    text-align: left;
 
-}
-.room-bookings-render{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.room-room-row{
-    border-radius: 10px;
-    width: 70%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin: 2px 0px;
-}
-.room-room-row:nth-child(even){
-    background-color: rgba(0, 144, 248, 0.05);
-}
-.room-room-row:nth-child(even):hover{
-    background-color: rgba(0, 144, 248, 0.1);
-}
-.room-room-row:nth-child(odd){
-    background-color: rgba(0, 144, 248, 0.1);
-}
-.room-room-row:nth-child(odd):hover{
-    background-color: rgba(0, 144, 248, 0.4);
-}
-.room-info-block{
-    width: 120px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin: 0 0 0 20px;
 
-}
-.room-info-block p{
-    font-family: helvetica;
-    font-size: 16px;
-    padding: 0;
-}
 .add-booking-button{
     width: 55%;
     margin-top: 20px;
@@ -147,4 +84,90 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start
+}
+
+/* ROOMS LISTING */
+
+/* Rooms Header*/
+
+.standard-list{
+    width: 100%;
+    margin-top: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.standard-list-header{
+    border-radius: 10px;
+    width: 80%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: rgb(0, 144, 248);
+}
+.standard-list-header ul{
+   width: 100%;
+    margin: 0;
+    padding: 10px 0;;
+    list-style-type: none;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.standard-list-header ul li{
+    margin: 0 2.5% 0px 2.5%;
+    width: 15%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.standard-list-header ul li p{
+    margin-left: 35%;
+    color: white;
+}
+/* _roomsRender */ 
+
+.standard-list-render{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.standard-list-row{
+    border-radius: 10px;
+    width: 80%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 4px 0px;
+    
+}
+.standard-list-row:nth-child(even){
+    background-color: rgba(0, 144, 248, 0.05);
+}
+.standard-list-row:nth-child(odd){
+    background-color: rgba(0, 144, 248, 0.2);
+} 
+.standard-list:nth-child(even):hover{
+    background-color: rgba(0, 144, 248, 0.1);
+}
+.standard-list:nth-child(odd):hover{
+    background-color: rgba(0, 144, 248, 0.4);
+} 
+.standard-list-info-block{
+    width: 15%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0 2.5% 0px 2.5%;
+}
+.standard-list-info-block p{
+    font-family: helvetica;
+    font-size: 18px;
+    padding: 0;
+    margin-left: 35%;
 }

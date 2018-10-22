@@ -81,36 +81,31 @@ export default class Room extends React.Component {
             price           : roomsReceived.price,
         })
 
-      }
-    );  
-
+      });  
     DataService.getRoomBookings(this.state.roomCode)
-    
     .then((bookingsReceived) => {
-
-        console.log('el res del getRoomBookings es: ', bookingsReceived)
         this.setState({roomBookings: bookingsReceived})
     })
     .catch(function (error) {    
-    console.log(error);
+      console.log(error);
     })
   }
 
   _renderRoomsBookings(){
     return this.state.roomBookings.map((bkngs,i) => {
         return (
-          <Link className="room-room-row" key={i} to={`/booking_info/${bkngs.id}`}> 
+          <Link className="standard-list-row" key={i} to={`/booking_info/${bkngs.id}`}> 
           
-            <div className="room-info-block">
+            <div className="standard-list-info-block">
                 <p>{bkngs.tenantName}</p>
             </div>
-            <div className="room-info-block">
+            <div className="standard-list-info-block">
                 <p>{bkngs.tenantSurname}</p>
             </div>
-            <div className="room-info-block">
+            <div className="standard-list-info-block">
                 <p>{bkngs.checkIn}</p>
             </div>
-            <div className="room-info-block">
+            <div className="standard-list-info-block">
                 <p>{bkngs.checkOut}</p>
             </div>
 
@@ -123,12 +118,14 @@ export default class Room extends React.Component {
 
     return (
         <div className="Room">
+
             <div className="room-pageInfo">
                 <h4>{this.state.apartmentName}<span>, Room Nr: </span>{this.state.roomNumber}</h4>
             </div>
 
             <div className="room-form-container">
-                <form   noValidate autoComplete="off" onSubmit={this.onPayment}>
+
+                <form   className="form-width" noValidate autoComplete="off" onSubmit={this.onPayment}>
                     <div className="room-form-title">
                         <p>Room Info</p>
                     </div> 
@@ -183,22 +180,22 @@ export default class Room extends React.Component {
                     </div>
                 </form>
 
-                <div className="room-bookings-list">
-                    <div className="room-bookings-title">
-                        <p>Bookings</p>
-                    </div> 
-                    <div className="room-bookings-list-header">
+                <div className="standard-list">
 
+                    <div className="standard-list-title">
+                        <p>Room Bookings</p>
+                    </div> 
+                    <div className="standard-list-header">
                         <ul>
-                            <li>Name</li>
-                            <li>Surname</li>
-                            <li>Check-In</li>
-                            <li>Check-Out</li>
-                            <li>Price €/Mo</li>
+                            <li><p>Name</p></li>
+                            <li><p>Surname</p></li>
+                            <li><p>Check-In</p></li>
+                            <li><p>Check-Out</p></li>
+                            <li><p>Rent €/Mo</p></li>
                         </ul>          
                     </div>
 
-                    <div className="room-bookings-render">
+                    <div className="standard-list-render">
                     {this._renderRoomsBookings()}
                     </div>
 
