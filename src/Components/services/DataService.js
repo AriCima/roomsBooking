@@ -139,7 +139,8 @@ export default class DataService {
     static getApartmentBookings(apartmentCode){
         return new Promise((resolve, reject) => {
 
-            firebase.firestore().collection('apt_bookings').where(`apartmentCode`, `==`, apartmentCode).get()
+            firebase.firestore().collection('apt_bookings')
+            .where(`apartmentCode`, `==`, apartmentCode).get()
             .then((result) => {
                 let aptBookings = [];
                 result.docs.forEach((d) => {
@@ -267,68 +268,41 @@ export default class DataService {
         return new Promise((resolve, reject) => {
 
             firebase.firestore().collection('rooms').doc(roomCode).get()
-
             .then((result) => {
-                console.log('el Room Result es: ', result)
-                console.log('el Room Result.data() es: ', result.data())
                 resolve(result.data());   // OBTENGO TODO LO QUE TENGO ALMACENADO DE ÉSTE USUARIO
             })
-
             .catch((error) => {
-                
                 reject('Room no existe');
-
-            })
-            // .then((result) => {
-            //     if(result.docs.length > 0){
-            //         resolve(result.docs[0]);
-            //     } else {
-            //         reject('this room does not exist');
-            //     }
-            //     console.log("Result: ", result)
-            // })
-
-            // .catch((error) => {
-            //     var errorCode = error.code;
-            //     console.log('La consulta no se pudo realizar: ', errorCode);
-            //     var errorMessage = error.message;
-            // })
-            
+            })    
         });
     };
 
     static getRoomBookings(roomCode){
-
         return new Promise((resolve, reject) => {
 
             firebase.firestore().collection('room_bookings')
-            .where('roomCode', '==', roomCode).get()
-
-            .then(function(querySnapshot) {
-                let info = [];
-                querySnapshot.forEach((d) => {
-                   
+            .where(`roomCode`, `==`, roomCode).get()
+            .then((result) => {
+                let roomBookings = [];
+                result.docs.forEach((d) => {
                     let j = d.data();
                     j.id=d.id;
-                    info.push(j);  
-                });
-                // CHECKPOINT
-                console.log("info de getRoomBookings es: ", info);
+                    roomBookings.push(j);
+                })
 
-                resolve(info);
+                resolve(roomBookings);   
             })
 
             .catch((error) => {
-                var errorCode = error.code;
-                console.log('La consulta no se pudo realizar: ', errorCode);
-                var errorMessage = error.message;
-                console.log('porque el error es: ',errorMessage )
                 
+                reject('The room does not exist');
+
             })
             
-        });
-
+        }); 
     };
+
+    
 
     // BOOKINGS
 
@@ -399,12 +373,11 @@ export default class DataService {
             
         }); 
     };
-
     static getRoomBookings(roomID){
-      
+      console.log('Rooms booked TRIGGERED with roomCode', roomID)
         return new Promise((resolve, reject) => {
 
-            firebase.firestore().collection('bookings').where(`unitType`, `==`, 'room').where(`roomCode`, `==`, roomID).get()
+            firebase.firestore().collection('room_bookings').where(`roomCode`, `==`, roomID).get()
             .then((result) => {
                 
                 let bookings = [];
@@ -414,6 +387,7 @@ export default class DataService {
                     bookings.push(j);
                 })
                 
+                console.log('los roombookings en obtenidos en Data son: ', bookings)
                 resolve(bookings);   
             })
 
@@ -425,7 +399,4 @@ export default class DataService {
             
         }); 
     };
-
-
-
 }

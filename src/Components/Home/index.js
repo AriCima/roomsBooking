@@ -168,7 +168,6 @@ export default class Home extends React.Component {
     })
   };
 
-  
   _renderRooms(aptID){
 
     console.log('_renderRooms TRIGGERED')

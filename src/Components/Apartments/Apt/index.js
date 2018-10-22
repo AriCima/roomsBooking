@@ -48,8 +48,8 @@ export default class Apartment extends React.Component {
       }
     ); 
     
-    DataService.getApartmentBookings(this.state.apartmentCode).then(
-      (bookingsReceived) => {
+    DataService.getApartmentBookings(this.state.apartmentCode)
+    .then((bookingsReceived) => {
         //console.log("Rooms received", roomsReceived)
 
         this.setState({aptBookings: bookingsReceived})

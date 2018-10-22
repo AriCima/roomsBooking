@@ -69,7 +69,6 @@ export default class Room extends React.Component {
     
     DataService.getRoomInfo(this.state.roomCode).then(
       (roomsReceived) => {
-        console.log("Rooms received", roomsReceived)
 
         this.setState({
             apartmentCode   : roomsReceived.apartmentCode,
@@ -82,15 +81,15 @@ export default class Room extends React.Component {
             price           : roomsReceived.price,
         })
 
-        console.log("ApartmentCode en Room", this.state.roomCode)
-
       }
     );  
 
     DataService.getRoomBookings(this.state.roomCode)
-    .then(res => {
-        console.log('el res del getRoomBookings es: ', res)
-        this.state.roomBookings = res;
+    
+    .then((bookingsReceived) => {
+
+        console.log('el res del getRoomBookings es: ', bookingsReceived)
+        this.setState({roomBookings: bookingsReceived})
     })
     .catch(function (error) {    
     console.log(error);
@@ -186,7 +185,7 @@ export default class Room extends React.Component {
 
                 <div className="room-bookings-list">
                     <div className="room-bookings-title">
-                        <p>Room Former Bookings</p>
+                        <p>Bookings</p>
                     </div> 
                     <div className="room-bookings-list-header">
 
