@@ -36,11 +36,11 @@ export default class OccupationGraphic extends React.Component {
       
         (roomsOccupationReceived) => {
 
-        console.log("Rooms Occupation received", roomsOccupationReceived)
+        //console.log("Rooms Occupation received", roomsOccupationReceived)
 
         this.setState({occupation: roomsOccupationReceived})
 
-        console.log("Rooms del Manage state", this.state.occupation)
+        //console.log("Rooms del Manage state", this.state.occupation)
 
       }
     );  
@@ -139,25 +139,21 @@ export default class OccupationGraphic extends React.Component {
             background: `linear-gradient(
                 to right, 
                 rgba(128,128,128,0.3),
-                rgba(128,128,128,0.3) 50%,
+                rgba(128,128,128,0.3) ${this.percent}%,
                 rgba(255,0,0,0.3) 50%,
                 rgba(255,0,0,0.3)
             )`,
         }     
 
-        for (var i = 0; i<12; i++){
-
-
-        }
         
-            return( 
+        return( 
 
-                <div className="months-boxes" style={divStyle}>
-                    <p>Aug</p>
-                </div>
-                
+            <div className="months-boxes" style={divStyle}>
+                <p>Aug</p>
+            </div>
+            
 
-            )
+        )
         
     }
 

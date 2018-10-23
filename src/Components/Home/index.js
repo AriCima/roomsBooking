@@ -140,10 +140,10 @@ export default class Home extends React.Component {
           <Link className="apts-row" key={j} to={`/single_apt_overview/${dpts.id}`}> 
           
             <div className="apts-info-block">
-                <p>{dpts.apartmentName}</p>
+               <p>{dpts.apartmentName}</p>
             </div>
             <div className="apts-info-block-name">
-                <p>{dpts.tenantName} {dpts.tenantSurname}</p>
+                { dpts.tenantName === undefined ? <p><span>Vacant</span></p>: <p>{dpts.tenantName} {dpts.tenantSurname}</p>}
             </div>
             <div className="apts-info-block">
                 <p>{dpts.checkIn}</p>
@@ -180,7 +180,7 @@ export default class Home extends React.Component {
                  <p>{rooms.roomNumber}</p>
              </div>
              <div className="rooms-home-block-name">
-                 <p>{rooms.tenantName} {rooms.tenantSurname}</p>
+              {rooms.tenantName === undefined ? <p><span>Vacant</span></p>:<p>{rooms.tenantName} {rooms.tenantSurname}</p>}
              </div>
              <div className="rooms-home-block">
                  <p>{rooms.checkIn}</p>

@@ -291,6 +291,6 @@ export default class Calculations {
         console.log('apartments with rooms: ', apts)   
 
         return apts
-    }
+    };
 
 }

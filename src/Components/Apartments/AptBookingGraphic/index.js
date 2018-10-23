@@ -16,7 +16,7 @@ export default class CurrentAptContract extends React.Component {
     this.state = {
       user                 : this.props.userData,
       apartmentCode        : this.props.aptID,
-      aptContracts         : [],
+      aptBookings          : [],
       currentDay           : Calculations.getCurrentMonth()[0],
       currentMonth         : Calculations.getCurrentMonth()[1],
       months               : Calculations.getCurrentMonth()[2],
@@ -31,57 +31,61 @@ export default class CurrentAptContract extends React.Component {
 
     if (this.state.apartmentCode) {
       this._loadData(this.state.apartmentCode);
+      
     }
-
-
   };
 
   _loadData(aptCode){
     DataService.getApartmentBookings(aptCode)  
     .then(contracts => {
       //Once contracts are here, we get the CURRENT APT CONTRACT
-      this.state.aptContracts = contracts
+      this.state.aptBookings = contracts
+
+      this._generateCalendar(contracts)
+
 
     }).catch(function (error) {    
     console.log(error);
     })
   }
 
-  _renderApartmentInfo(){
-    return (
-      
-      <div className="apt-render-fn"> 
+  _generateCalendar(x){
+    console.log('x en el generate calendar: ', x)
 
-        <p>HERE GOES THE CURRENT BOOKING GRAPHIC</p>
-          
-      </div>
-    )
-  };
+    //https://stackoverflow.com/questions/4345045/javascript-loop-between-date-ranges
+
+    var bookedDays = [];
+    for (let i = 0; i < x.length; i++ ){
+      for (var d = new Date(x[i].checkIn); d <= new Date(x[i].checkOut); d.setDate(d.getDate() + 1)) {
+
+        bookedDays.push(new Date(d));
+
+      }
+    }
+    console.log('bookedDays', bookedDays)
+    return bookedDays
+  }
 
   _renderAptBookings(){
-        <div className="apt-render-fn"> 
+    <div className="apt-render-fn"> 
 
-            <p>HERE GOES THE CURRENT BOOKING GRAPHIC</p>
-            
-        </div>
-
-        for( let m = this.state.currentMonth; m <11 ; m++){
-
-        }
-
+      <p>HERE GOES THE CURRENT BOOKING GRAPHIC</p>
+        
+    </div>
   } 
 
   
   render() {
-    
+    console.log('this.state.aptBookings', this.state.aptBookings)
     return (
 
       <div className="apt-overview">
       
         <div className="paque">
 
-          {this.state.aptContract.length === 0 ? <p>LOADING !</p> :
-          this._renderApartmentInfo()}
+          {this.state.aptBookings.length === 0 ? <p>LOADING !</p> :
+          
+          <p>here goes the graphic</p>}
       
         </div>
       
