@@ -14,80 +14,131 @@ export default class CurrentAptContract extends React.Component {
     super(props);
 
     this.state = {
-      user                 : this.props.userData,
-      apartmentCode        : this.props.aptID,
-      aptBookings          : [],
-      currentDay           : Calculations.getCurrentMonth()[0],
-      currentMonth         : Calculations.getCurrentMonth()[1],
-      months               : Calculations.getCurrentMonth()[2],
-      daysOfMonth          : [31, 28, 31, 30,
-                              31, 30, 31, 31,
-                              30, 31, 30, 31],
-      
+      user          : this.props.userData,
+      apartmentCode : this.props.aptID,
+      aptBookings   : [],
+      bookedDays    : [],
+      currentDay    : Calculations.getCurrentMonth()[0],
+      currentMonth  : Calculations.getCurrentMonth()[1],
+      twelveMonths  : this._generate12MonthsArrays()[0],       // --> 12 months in nr starting from now
+      yearMonths    : this._generate12MonthsArrays()[1],       // --> 12 months in letters starting from now
+      daysOfMonth   : [31, 28, 31, 30,
+                       31, 30, 31, 31,
+                       30, 31, 30, 31],
     }
   };
  
   componentDidMount(){
-
     if (this.state.apartmentCode) {
-      this._loadData(this.state.apartmentCode);
-      
+      this._loadData(this.state.apartmentCode); 
     }
   };
 
   _loadData(aptCode){
     DataService.getApartmentBookings(aptCode)  
     .then(contracts => {
-      //Once contracts are here, we get the CURRENT APT CONTRACT
       this.state.aptBookings = contracts
-
-      this._generateCalendar(contracts)
-
-
+      this._getBookedDays(contracts)
     }).catch(function (error) {    
     console.log(error);
     })
   }
 
-  _generateCalendar(x){
-    console.log('x en el generate calendar: ', x)
-
-    //https://stackoverflow.com/questions/4345045/javascript-loop-between-date-ranges
+  _getBookedDays(x){
+    
+    // Get days between two dates:  https://stackoverflow.com/questions/4345045/javascript-loop-between-date-ranges
 
     var bookedDays = [];
     for (let i = 0; i < x.length; i++ ){
       for (var d = new Date(x[i].checkIn); d <= new Date(x[i].checkOut); d.setDate(d.getDate() + 1)) {
-
         bookedDays.push(new Date(d));
-
       }
     }
-    console.log('bookedDays', bookedDays)
-    return bookedDays
+    this.state.bookedDays = bookedDays
   }
 
-  _renderAptBookings(){
-    <div className="apt-render-fn"> 
+  // generate 12 months arrays (one in numbers, other in letters) starting today
+  _generate12MonthsArrays(){
+    let months  =  ['Jan', 'Feb', 'Mar', 'Apr',
+                    'May', 'Jun', 'Jul', 'Aug', 
+                    'Sep', 'Oct', 'Nov', 'Dic'];
+    let today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth()+1; //January is 0!
+    let yyyy = today.getFullYear();
+    
+    let twelveMonths = [];
+    
+    //  --> Create an Array with of 12 months (in numbers) starting TODAY
+    for (let l=0; l<= 11; l++){
+      let k = mm+l;
+      twelveMonths.push(k);
 
-      <p>HERE GOES THE CURRENT BOOKING GRAPHIC</p>
+      if(twelveMonths[l]>=12){
+        let trans = twelveMonths[l] - 12;
+        twelveMonths[l] = trans;
+      }
+
+    } // <--
+
+    let yearMonths = [];
+    //  --> Create an Array with of 12 months (in Names) starting TODAY
+    for (let p=0; p <= 11; p++){
+       
+       let j = '';
+      if(Number(twelveMonths[p]) === 0){
+        j = months[11];
+       yearMonths.push(j);
+
+      } else{
+        j = months[Number(twelveMonths[p])-1]
+        yearMonths.push(j)
+      //console.log('months letters', months[Number(twelveMonths[l]-1)])
+      }
+    }
+
+    let oneYearMonths = [twelveMonths, yearMonths]
+
+    return oneYearMonths    
+  }; 
+
+  _renderMonths(y){ // y = this.state.yearMonth
+
+    return y.map((months,i) => {
+      return (
         
-    </div>
-  } 
+        <div className="month-container" key={i}>
+          
+            <div className="month-name">
+              <p>{months[i]}</p>
+            </div>
+          
+            <div className="days-container">
+              <p>renderDays</p>
+            </div>
+          
+        </div>
+
+      )
+  })
+  }
 
   
   render() {
-    console.log('this.state.aptBookings', this.state.aptBookings)
+    let y = this._generate12MonthsArrays()[1]
     return (
 
-      <div className="apt-overview">
+      <div className="graphic-area">
       
-        <div className="paque">
+        
 
-          {this.state.aptBookings.length === 0 ? <p>LOADING !</p> :
+        {this.state.yearMonth === [] ? <p>LOADING !</p> :
+
+        <div className="graphic-contanier" >
+          {this._renderMonths(y)}
+        </div>}
           
-          <p>here goes the graphic</p>}
-      
-        </div>
+        
       
       </div>
 

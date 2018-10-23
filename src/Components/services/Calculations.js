@@ -124,8 +124,8 @@ export default class Calculations {
         
        
     };
-    static getCurrentMonth(){
-        const date = new Date();
+    static getCurrentMonth(x){
+        const date = new Date(x);
         let day = date.getDay()
         let monthNr = date.getMonth()
         let currentMonth = ''
