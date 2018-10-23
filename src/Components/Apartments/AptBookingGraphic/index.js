@@ -110,7 +110,7 @@ export default class CurrentAptContract extends React.Component {
         <div className="month-container" key={i}>
           
             <div className="month-name">
-              <p>{months[i]}</p>
+              <p>{months}</p>
             </div>
           
             <div className="days-container">
@@ -125,7 +125,10 @@ export default class CurrentAptContract extends React.Component {
 
   
   render() {
+    
     let y = this._generate12MonthsArrays()[1]
+
+    console.log('y = ', y);
     return (
 
       <div className="graphic-area">
