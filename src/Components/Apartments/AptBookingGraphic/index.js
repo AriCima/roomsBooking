@@ -59,10 +59,10 @@ export default class CurrentAptContract extends React.Component {
   _generate12MonthsArrays(){
     let months  =  ['Jan', 'Feb', 'Mar', 'Apr',
                     'May', 'Jun', 'Jul', 'Aug', 
-                    'Sep', 'Oct', 'Nov', 'Dic'];
+                    'Sep', 'Oct', 'Nov', 'Dec'];
     let today = new Date();
     let dd = today.getDate();
-    let mm = today.getMonth()+1; //January is 0!
+    let mm = today.getMonth(); //January is 0!
     
     
     let twelveMonths = [];
@@ -84,15 +84,15 @@ export default class CurrentAptContract extends React.Component {
     for (let p=0; p <= 11; p++){
        
        let j = '';
-      if(Number(twelveMonths[p]) === 0){
-        j = months[11];
-       yearMonths.push(j);
+      // if(Number(twelveMonths[p]) === 0){
+      //   j = months[11];
+      //  yearMonths.push(j);
 
-      } else{
-        j = months[Number(twelveMonths[p])-1]
-        yearMonths.push(j)
+      // } else{
+        j = months[Number(twelveMonths[p])];
+        yearMonths.push(j);
       //console.log('months letters', months[Number(twelveMonths[l]-1)])
-      }
+      //}
     }
 
     let oneYearMonths = [twelveMonths, yearMonths]
@@ -124,7 +124,7 @@ export default class CurrentAptContract extends React.Component {
   _renderDays(x){
     let months  =  ['Jan', 'Feb', 'Mar', 'Apr',
                     'May', 'Jun', 'Jul', 'Aug', 
-                    'Sep', 'Oct', 'Nov', 'Dic'];
+                    'Sep', 'Oct', 'Nov', 'Dec'];
     let daysOfMonth  = [31, 28, 31, 30,
                         31, 30, 31, 31,
                         30, 31, 30, 31];
@@ -135,24 +135,24 @@ export default class CurrentAptContract extends React.Component {
     let days = daysOfMonth[monthIndex];
     let completeMonth = []; 
 
-
-
-    // for (var d = monthStart; d <= monthEnd; d.setDate(d.getDate() + 1)){
     
+    // GENERAMOS LOS DIAS DE CADA MES CON SUS ESTILOS
     for (var d = 0; d < days; d++){
        
-      let day = yyyy + ', ' + (d+1) +', ' + x;  
+      let day = yyyy + ', ' + (d+1) +', ' + x;  // first day of the current month
       
+      console.log(' vemos day = ', day)
       let g = new Date(day);
+      console.log('vemos g = ', g)
+      // asignamos style
+      let todayShort = today.getDate() + '-' + Number(today.getMonth()+1) + '-' + today.getFullYear();
+      let gShort = g.getDate() + '-' + Number(g.getMonth()+1)+ '-' + g.getFullYear();
+      
       g.background = 'rgba(124,252,0,0.6)';
-
-      //console.log('vemos g = ', g);
-
-      console.log('this.state.bookedDays antes del for :', this.state.bookedDays)
+      g.width = (100 / days) + 'px';
+      
+      // VERIFICAMOS SI CADA DIA SE ENCUENTRA ENTRE ALGUN CHECKIN Y CHECKOUT
       for (var r = 0; r < this.state.aptBookings.length; r++){
-
-        console.log('bookedDays = ', this.state.bookedDays[r])
-        console.log('el g con que se compara = ', g)
 
         let checkin = new Date (this.state.aptBookings[r].checkIn);
         let checkout = new Date (this.state.aptBookings[r].checkOut);
@@ -163,6 +163,10 @@ export default class CurrentAptContract extends React.Component {
 
         }
       }
+      if( gShort === todayShort){
+        g.background = 'rgb(255,255,0)';
+      }
+
 
       completeMonth.push(g);
 
@@ -172,7 +176,7 @@ export default class CurrentAptContract extends React.Component {
 
       return (
         
-        <div className="single-day" key={i} style={{background: days.background}}>
+        <div className="single-day" key={i} style={{background: days.background, width:days.width}}>
           {/* {days.toLocaleDateString()} */}
         </div>
       )
@@ -182,6 +186,7 @@ export default class CurrentAptContract extends React.Component {
   render() {
     console.log('el bookings = ', this.state.aptBookings)
     console.log('el booked days = ', this.state.bookedDays)
+
     let y = this._generate12MonthsArrays()[1]
 
     return (
