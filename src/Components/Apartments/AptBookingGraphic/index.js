@@ -144,7 +144,7 @@ export default class CurrentAptContract extends React.Component {
       let day = yyyy + ', ' + (d+1) +', ' + x;  
       
       let g = new Date(day);
-      g.background = 'rgba(124,252,0,0.4)';
+      g.background = 'rgba(124,252,0,0.6)';
 
       //console.log('vemos g = ', g);
 

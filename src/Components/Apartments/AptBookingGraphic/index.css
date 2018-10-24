@@ -37,7 +37,7 @@
 .days-container{
     width: 100px;
     height: 60px;
-    border-left: 1px solid rgba(236, 236, 236, 1);
+    /* border-left: 1px solid rgba(236, 236, 236, 1); */
     display: flex;
     justify-content: flex-start;
     align-items: center;
