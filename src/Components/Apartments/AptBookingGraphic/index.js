@@ -22,9 +22,7 @@ export default class CurrentAptContract extends React.Component {
       currentMonth  : Calculations.getCurrentMonth()[1],
       twelveMonths  : this._generate12MonthsArrays()[0],       // --> 12 months in nr starting from now
       yearMonths    : this._generate12MonthsArrays()[1],       // --> 12 months in letters starting from now
-      daysOfMonth   : [31, 28, 31, 30,
-                       31, 30, 31, 31,
-                       30, 31, 30, 31],
+      
     }
   };
  
@@ -65,7 +63,7 @@ export default class CurrentAptContract extends React.Component {
     let today = new Date();
     let dd = today.getDate();
     let mm = today.getMonth()+1; //January is 0!
-    let yyyy = today.getFullYear();
+    
     
     let twelveMonths = [];
     
@@ -114,7 +112,7 @@ export default class CurrentAptContract extends React.Component {
             </div>
           
             <div className="days-container">
-              <p>renderDays</p>
+              {this._renderDays(months)}
             </div>
           
         </div>
@@ -123,12 +121,69 @@ export default class CurrentAptContract extends React.Component {
   })
   }
 
+  _renderDays(x){
+    let months  =  ['Jan', 'Feb', 'Mar', 'Apr',
+                    'May', 'Jun', 'Jul', 'Aug', 
+                    'Sep', 'Oct', 'Nov', 'Dic'];
+    let daysOfMonth  = [31, 28, 31, 30,
+                        31, 30, 31, 31,
+                        30, 31, 30, 31];
+
+    let today = new Date()
+    let yyyy = today.getFullYear();
+    let monthIndex = months.indexOf(x);
+    let days = daysOfMonth[monthIndex];
+    let completeMonth = []; 
+
+
+
+    // for (var d = monthStart; d <= monthEnd; d.setDate(d.getDate() + 1)){
+    
+    for (var d = 0; d < days; d++){
+       
+      let day = yyyy + ', ' + (d+1) +', ' + x;  
+      
+      let g = new Date(day);
+      g.background = 'rgba(124,252,0,0.4)';
+
+      //console.log('vemos g = ', g);
+
+      console.log('this.state.bookedDays antes del for :', this.state.bookedDays)
+      for (var r = 0; r < this.state.aptBookings.length; r++){
+
+        console.log('bookedDays = ', this.state.bookedDays[r])
+        console.log('el g con que se compara = ', g)
+
+        let checkin = new Date (this.state.aptBookings[r].checkIn);
+        let checkout = new Date (this.state.aptBookings[r].checkOut);
+
+        if ( g >= checkin && g <= checkout){
+
+          g.background = 'red'
+
+        }
+      }
+
+      completeMonth.push(g);
+
+    }
+
+    return completeMonth.map((days,i) => {
+
+      return (
+        
+        <div className="single-day" key={i} style={{background: days.background}}>
+          {/* {days.toLocaleDateString()} */}
+        </div>
+      )
+    })
+  };
   
   render() {
-    
+    console.log('el bookings = ', this.state.aptBookings)
+    console.log('el booked days = ', this.state.bookedDays)
     let y = this._generate12MonthsArrays()[1]
 
-    console.log('y = ', y);
     return (
 
       <div className="graphic-area">
@@ -137,7 +192,7 @@ export default class CurrentAptContract extends React.Component {
 
         {this.state.yearMonth === [] ? <p>LOADING !</p> :
 
-        <div className="graphic-contanier" >
+        <div className="graphic-contanier">
           {this._renderMonths(y)}
         </div>}
           
