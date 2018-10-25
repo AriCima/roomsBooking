@@ -143,7 +143,7 @@ export default class Home extends React.Component {
                <p>{dpts.apartmentName}</p>
             </div>
             <div className="apts-info-block-name">
-                { dpts.tenantName === undefined ? <p><span>Vacant</span></p>: <p>{dpts.tenantName} {dpts.tenantSurname}</p>}
+                { !dpts.tenantName && dpts.roomsRental === 'NO'? <p><span>Vacant</span></p>: <p>{dpts.tenantName} {dpts.tenantSurname}</p>}
             </div>
             <div className="apts-info-block">
                 <p>{dpts.checkIn}</p>
@@ -200,6 +200,7 @@ export default class Home extends React.Component {
 
   render() {
 
+    console.log('apartmentsArray = ', this.state.apartments)
     //console.log('this.state.userId del render Home: ', this.state.userId)
     if (!this.props.userID) return <p>Loading  ...</p>;
     //const userId = this.props.userID;
@@ -211,7 +212,7 @@ export default class Home extends React.Component {
 
           <div className="e-figures-left">
             <div className="chart-title">
-              <p>{this.state.currentMonth} Economic Overview</p>
+              <p>Economic Overview: {this.state.currentMonth} </p>
             </div>
             <div className="user-overview">
             <div className="overview-block">

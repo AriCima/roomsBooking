@@ -188,9 +188,12 @@
     font-size: 16px;
 }
 .apts-info-block-name p span{
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 550;
-    color: red;
+    background-color: red;
+    color: white;
+    border-radius: 10px;
+    padding: 0 5px;
 }
 .apts-info-block-c{
     margin: 4px 0px 4px 20px;
@@ -291,8 +294,10 @@ p{
 }
 
 .rooms-home-block-name p span{
-    font-size: 16px;
-    margin-left: 10px;
-    color: red;
+    font-size: 14px;
     font-weight: 550;
+    background-color: red;
+    color: white;
+    border-radius: 10px;
+    padding: 0 5px;
 }
