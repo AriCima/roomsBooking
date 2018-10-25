@@ -7,7 +7,7 @@
 }
 
 .graphic-contanier{
-    width: 620px;
+    width: 650px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -23,12 +23,12 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: rgba(236, 236, 236, 0.2);
-    margin-bottom: 10px;
+    background-color: rgba(236, 236, 236, 0.4);
+    margin-bottom: 20px;
 }
 .month-name{
     width: 100px;
-    height: 30px;
+    height: 20px;
     border-left: 1px solid rgba(236, 236, 236, 1);
     display: flex;
     flex-direction: column;
@@ -37,7 +37,7 @@
 }
 .days-container{
     width: 100px;
-    height: 60px;
+    height: 30px;
     /* border-left: 1px solid rgba(236, 236, 236, 1); */
     display: flex;
     justify-content: flex-start;
