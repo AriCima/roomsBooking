@@ -1,12 +1,13 @@
 .graphic-area{
     width: 650px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
 }
 
 .graphic-contanier{
-    width: 100%;
+    width: 620px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
