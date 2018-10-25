@@ -124,54 +124,15 @@ export default class Calculations {
         
        
     };
-    static getCurrentMonth(x){
-        const date = new Date(x);
-        let day = date.getDay()
+    static getCurrentMonth(){
+        let months  =  ['Jan', 'Feb', 'Mar', 'Apr','May', 'Jun', 'Jul', 'Aug','Sep', 'Oct', 'Nov', 'Dec'];
+        const date = new Date();
         let monthNr = date.getMonth()
-        let currentMonth = ''
+        let currentMonth = months[monthNr]
        
-        switch(monthNr) {
-            case 0:
-                currentMonth = 'Jan'
-                break;
-            case 1:
-                currentMonth = 'Feb'
-                break;
-            case 2:
-                currentMonth = 'Mar'
-                break;
-            case 3:
-                currentMonth = 'Apr'
-                break;
-            case 4:
-                currentMonth = 'May'
-                break;
-            case 5:
-                currentMonth = 'Jun'
-                break;
-            case 6:
-                currentMonth = 'Jul'
-                break;
-            case 7:
-                currentMonth = 'Aug'
-                break;
-            case 8:
-                currentMonth = 'Sep'
-                break;
-            case 9:
-                currentMonth = 'Oct'
-                break;
-            case 10:
-                currentMonth = 'Nov'
-                break;
-            default:
-                currentMonth = 'Dic'
-        }
-
-        let currentDay = [day, monthNr, currentMonth]
-
-        return currentDay
+        return currentMonth
     }
+
     static generateCode(){
      // GENERATE BOOKING CODE
      const letters = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
