@@ -20,8 +20,8 @@ export default class CurrentAptContract extends React.Component {
       bookedDays    : [],
       currentDay    : Calculations.getCurrentMonth()[0],
       currentMonth  : Calculations.getCurrentMonth()[1],
-      twelveMonths  : this._generate12MonthsArrays()[0],       // --> 12 months in nr starting from now
-      yearMonths    : this._generate12MonthsArrays()[1],       // --> 12 months in letters starting from now
+      // twelveMonths  : this._generate12MonthsArrays()[0],       // --> 12 months in nr starting from now
+      // yearMonths    : this._generate12MonthsArrays()[1],       // --> 12 months in letters starting from now
       
     }
   };
@@ -55,140 +55,210 @@ export default class CurrentAptContract extends React.Component {
     this.state.bookedDays = bookedDays
   }
 
-  // generate 12 months arrays (one in numbers, other in letters) starting today
-  _generate12MonthsArrays(){
-    let months  =  ['Jan', 'Feb', 'Mar', 'Apr',
-                    'May', 'Jun', 'Jul', 'Aug', 
-                    'Sep', 'Oct', 'Nov', 'Dec'];
-    let today = new Date();
-    let dd = today.getDate();
-    let mm = today.getMonth(); //January is 0!
+  _generateGraphicsMonths(){
+    let months  =  ['Jan', 'Feb', 'Mar', 'Apr','May', 'Jun', 'Jul', 'Aug','Sep', 'Oct', 'Nov', 'Dec'];
     
-    
-    let twelveMonths = [];
-    
-    //  --> Create an Array with of 12 months (in numbers) starting TODAY
-    for (let l=0; l<= 11; l++){
-      let k = mm+l;
-      twelveMonths.push(k);
+    let today = new Date()
+    let yyyy = Number(today.getFullYear());
+    let cM = Number(today.getMonth()); // Current Month in numbers
+  
+    let oneYearArray = [];
 
-      if(twelveMonths[l]>=12){
-        let trans = twelveMonths[l] - 12;
-        twelveMonths[l] = trans;
-      }
-
-    } // <--
-
-    let yearMonths = [];
-    //  --> Create an Array with of 12 months (in Names) starting TODAY
-    for (let p=0; p <= 11; p++){
-       
-       let j = '';
-      // if(Number(twelveMonths[p]) === 0){
-      //   j = months[11];
-      //  yearMonths.push(j);
-
-      // } else{
-        j = months[Number(twelveMonths[p])];
-        yearMonths.push(j);
-      //console.log('months letters', months[Number(twelveMonths[l]-1)])
-      //}
+    for ( let s = cM; s <=  11; s++){ 
+      oneYearArray.push([months[s], yyyy])
     }
 
-    let oneYearMonths = [twelveMonths, yearMonths]
+    for ( let s = 0; s < cM; s++){ 
+      
+      oneYearArray.push([months[s], yyyy+1])
+    }
 
-    return oneYearMonths    
-  }; 
-
-  _renderMonths(y){ // y = this.state.yearMonth
-
-    return y.map((months,i) => {
-      return (
-        
-        <div className="month-container" key={i}>
-          
-            <div className="month-name">
-              <p>{months}</p>
-            </div>
-          
-            <div className="days-container">
-              {this._renderDays(months)}
-            </div>
-          
-        </div>
-
-      )
-  })
+    return oneYearArray   // [0] = 'Mes' [1] = yyyy
   }
 
-  _renderDays(x){
-    let months  =  ['Jan', 'Feb', 'Mar', 'Apr',
-                    'May', 'Jun', 'Jul', 'Aug', 
-                    'Sep', 'Oct', 'Nov', 'Dec'];
-    let daysOfMonth  = [31, 28, 31, 30,
-                        31, 30, 31, 31,
-                        30, 31, 30, 31];
+  _generateDays(mm,yy){   // x = 'Mes' y = yyyy
+    let months  =  ['Jan', 'Feb', 'Mar', 'Apr','May', 'Jun', 'Jul', 'Aug','Sep', 'Oct', 'Nov', 'Dec'];
+    let daysOfMonth  = [31, 28, 31, 30,31, 30, 31, 31,30, 31, 30, 31];
 
-    let today = new Date()
-    let yyyy = today.getFullYear();
-    let monthIndex = months.indexOf(x);
-    let days = daysOfMonth[monthIndex];
-    let completeMonth = []; 
+    let nrDays = daysOfMonth[months.indexOf(x)];
 
+    for (var d = 0; nrDays < days; d++){
+      console.log('iteración del mes ', months[s], ' día ', (d+1))
     
-    // GENERAMOS LOS DIAS DE CADA MES CON SUS ESTILOS
-    for (var d = 0; d < days; d++){
-       
-      let day = yyyy + ', ' + (d+1) +', ' + x;  // first day of the current month
-      
-      console.log(' vemos day = ', day)
-      let g = new Date(day);
-      console.log('vemos g = ', g)
-      // asignamos style
-      let todayShort = today.getDate() + '-' + Number(today.getMonth()+1) + '-' + today.getFullYear();
-      let gShort = g.getDate() + '-' + Number(g.getMonth()+1)+ '-' + g.getFullYear();
-      
-      g.background = 'rgba(124,252,0,0.6)';
-      g.width = (100 / days) + 'px';
-      
-      // VERIFICAMOS SI CADA DIA SE ENCUENTRA ENTRE ALGUN CHECKIN Y CHECKOUT
+      // BRING DATE TO (dd-Mm-yyyy) format
+      let oneDay = {};
+      oneDay.day= d+1;
+      oneDay.month= mm;
+      oneDay.year= yy;
+      // default days style
+      oneDay.background = 'rgba(124,252,0,0.6)';
+      oneDay.width = (100 / days) + 'px';
+
+      let dateToCompare = new Date(´${yy} + '-' yy´)
+
+      // is oneDay between any check-in and check-out date ?
       for (var r = 0; r < this.state.aptBookings.length; r++){
 
         let checkin = new Date (this.state.aptBookings[r].checkIn);
         let checkout = new Date (this.state.aptBookings[r].checkOut);
 
-        if ( g >= checkin && g <= checkout){
 
-          g.background = 'red'
-
+        if ( oneDay >= checkin && oneDay <= checkout){  // styling BOOKED days
+          oneDay.background = 'red'
         }
       }
-      if( gShort === todayShort){
-        g.background = 'rgb(255,255,0)';
+      // STYLING "TODAY"
+      let hoy= {};
+      hoy.day = today.getDate();
+      hoy.momth = months[Number(today.getMonth())];
+      hoy.year = today.getFullYear();
+
+      if( oneDay.day === hoy.day && oneDay.month === hoy.month && oneDay.year === hoy.year){
+        oneDay.background = 'rgb(255,255,0)';
       }
-
-
-      completeMonth.push(g);
-
+      
+      oneMonthArray.push(oneDay)
     }
 
-    return completeMonth.map((days,i) => {
+  }
+  // _generateYearContent(){
+  //   let months  =  ['Jan', 'Feb', 'Mar', 'Apr','May', 'Jun', 'Jul', 'Aug','Sep', 'Oct', 'Nov', 'Dec'];
+  //   let daysOfMonth  = [31, 28, 31, 30,31, 30, 31, 31,30, 31, 30, 31];
+    
+  //   let today = new Date()
+  //   let yyyy = Number(today.getFullYear());
+  //   let cM = Number(today.getMonth()); // Current Month in numbers
+    
 
-      return (
+  //   let oneMonthArray = [];
+  //   let oneYearArray = [];
+
+  //   // GENERAMOS LOS DIAS DE CADA MES DE ÉSTE Y DEL PRÓXIMO AÑO 
+
+  //   for ( let s = cM; s <=  11; s++){   // --> for para generar el año en curso
+  //     let days = daysOfMonth[s];
+  //     for (var d = 0; d < days; d++){
+  //       console.log('iteración del mes ', months[s], ' día ', (d+1))
+  //       let day = yyyy + ', ' + (d+1) +', ' + months[cM]; 
         
-        <div className="single-day" key={i} style={{background: days.background, width:days.width}}>
-          {/* {days.toLocaleDateString()} */}
-        </div>
-      )
-    })
-  };
+
+  //       // BRING DATE TO (dd-Mm-yyyy) format
+  //       let oneDay = {};
+  //       oneDay.day= d+1;
+  //       oneDay.month= months[s];
+  //       oneDay.year= yyyy;
+  //       // days standard tyling
+  //       oneDay.background = 'rgba(124,252,0,0.6)';
+  //       oneDay.width = (100 / days) + 'px';
+
+  //       // VERIFICAMOS SI CADA DIA SE ENCUENTRA ENTRE ALGUN CHECKIN Y CHECKOUT
+  //       for (var r = 0; r < this.state.aptBookings.length; r++){
+
+  //         let checkin = new Date (this.state.aptBookings[r].checkIn);
+  //         let checkout = new Date (this.state.aptBookings[r].checkOut);
+
+  //         if ( oneDay >= checkin && oneDay <= checkout){  // styling BOOKED days
+  //           oneDay.background = 'red'
+  //         }
+  //       }
+  //       // STYLING "TODAY"
+  //       let hoy= {};
+  //       hoy.day = today.getDate();
+  //       hoy.momth = months[Number(today.getMonth())];
+  //       hoy.year = today.getFullYear();
+
+  //       if( oneDay.day === hoy.day && oneDay.month === hoy.month && oneDay.year === hoy.year){
+  //         oneDay.background = 'rgb(255,255,0)';
+  //       }
+        
+  //       oneMonthArray.push(oneDay)
+  //     }
+
+  //     oneYearArray.push([months[s] + ',' + yyyy , oneMonthArray[s]])
+
+  //     //console.log( 'oneYearArray en el primer bloque', oneYearArray)
+  //   }
+
+  //   for (var w = 0; w < (11-cM); w++){  // --> for para generar el próximo año
+  //     let days = daysOfMonth[w];
+  //     for (var d = 0; d < days; d++){
+  //       let day = (yyyy+1) + ', ' + (d+1) +', ' + months[w];  // first day of the current month
+  //       let g = new Date(day);
+
+  //       // BRING DATE TO (dd-Mm-yyyy) format
+  //       let oneDay = {};
+  //       oneDay.date= g.getDate() + '-' + Number(g.getMonth()+1)+ '-' + g.getFullYear();
+  //       // days styling
+  //       oneDay.background = 'rgba(124,252,0,0.6)';
+  //       oneDay.width = (100 / days) + 'px';
+
+  //       // VERIFICAMOS SI CADA DIA SE ENCUENTRA ENTRE ALGUN CHECKIN Y CHECKOUT
+  //       for (var r = 0; r < this.state.aptBookings.length; r++){
+
+  //         let checkin = new Date (this.state.aptBookings[r].checkIn);
+  //         let checkout = new Date (this.state.aptBookings[r].checkOut);
+
+  //         if ( oneDay >= checkin && g <= checkout){  // styling BOOKED days
+  //           oneDay.background = 'red'
+  //         };
+  //       }
+
+  //       oneMonthArray.push(oneDay);
+  //     }
+  //     oneYearArray.push(months[w] + ',' + (yyyy+1), oneMonthArray[w]);
+  //     //console.log( 'oneYearArray en el segundo bloque', oneYearArray)
+  //   } 
+
+  //   console.log( 'oneYearArray ', oneYearArray)
+        
+  //   return oneYearArray
+  // }
+
+  // _renderMonths(x){
+    
+  //   return x.map((months,i) => {
+
+  //     return (
+
+  //       <div className="month-container" key={i}>
+          
+  //         <div className="month-name">
+  //           <p>{months}</p>
+  //         </div>
+        
+
+          
+  //       </div>
+        
+        
+  //     )
+  //   })
+  // };
+
+  // _renderDays(x){
+
+
+  //   return x.map((days,i) => {
+
+  //     return (
+
+  //       <div className="days-container">
+
+  //         <div className="single-day" key={i} style={{background: days.background, width:days.width}}>
+  //           {/* {days.toLocaleDateString()} */}
+  //         </div>
+          
+  //       </div>
+
+  //     )
+  //   })
+
+  // }
   
   render() {
-    console.log('el bookings = ', this.state.aptBookings)
-    console.log('el booked days = ', this.state.bookedDays)
 
-    let y = this._generate12MonthsArrays()[1]
-
+    let y =  this._generateGraphicsMonths()
+    console.log('y en el render= ', y)
     return (
 
       <div className="graphic-area">
@@ -198,7 +268,7 @@ export default class CurrentAptContract extends React.Component {
         {this.state.yearMonth === [] ? <p>LOADING !</p> :
 
         <div className="graphic-contanier">
-          {this._renderMonths(y)}
+          {/* {this._renderMonths()} */}
         </div>}
           
         
