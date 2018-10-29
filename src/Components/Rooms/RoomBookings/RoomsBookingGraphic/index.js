@@ -9,34 +9,29 @@ import Calculations from '../../services/Calculations';
 // CSS
 import './index.css';
 
-export default class AptBookingsGraphic extends React.Component {
+export default class RoomsBookingsGraphic extends React.Component {
   constructor(props){
     super(props);
 
     this.state = {
       user          : this.props.userData,
-      apartmentCode : this.props.aptID,
-      aptBookings   : [],
+      roomCode      : this.props.roomID,
+      roomBookings  : [],
       bookedDays    : [],
-      // currentDay    : Calculations.getCurrentMonth()[0],
-      // currentMonth  : Calculations.getCurrentMonth()[1],
-      yearArray     : [],
-      // twelveMonths  : this._generate12MonthsArrays()[0],       // --> 12 months in nr starting from now
-      // yearMonths    : this._generate12MonthsArrays()[1],       // --> 12 months in letters starting from now
-      
+      yearArray     : [],      
     }
   };
  
   componentDidMount(){
-    if (this.state.apartmentCode) {
-      this._loadData(this.state.apartmentCode); 
+    if (this.state.roomCode) {
+      this._loadData(this.state.roomCode); 
     }
   };
 
   _loadData(aptCode){
-    DataService.getApartmentBookings(aptCode)  
+    DataService.getRoomBookings(roomCode)  
     .then(contracts => {
-      this.state.aptBookings = contracts
+      this.state.roomBookings = contracts
       this._getBookedDays(contracts)
     }).catch(function (error) {    
     console.log(error);
@@ -73,8 +68,6 @@ export default class AptBookingsGraphic extends React.Component {
       
       oneYearArray.push([months[s], yyyy+1])
     }
-
-    console.log('EL ONE YEAR ARRAY = ', oneYearArray)
     
 
     return oneYearArray.map((months,i) => {
@@ -124,10 +117,10 @@ export default class AptBookingsGraphic extends React.Component {
       let dateToCompare = new Date(d+1 + '-' + mm + '-' + yy);
 
       // is oneDay between any check-in and check-out date ?
-      for (var r = 0; r < this.state.aptBookings.length; r++){
+      for (var r = 0; r < this.state.roomBookings =ength; r++){
 
-        let checkin = new Date (this.state.aptBookings[r].checkIn);
-        let checkout = new Date (this.state.aptBookings[r].checkOut);
+        let checkin = new Date (this.state.roomBookings =].checkIn);
+        let checkout = new Date (this.state.roomBookings =].checkOut);
 
 
         if ( dateToCompare >= checkin && dateToCompare <= checkout){  // styling BOOKED days
@@ -171,9 +164,34 @@ export default class AptBookingsGraphic extends React.Component {
     // console.log('y[0] = ', y[0], ' y[1] = ', y[1])
  
     <div className="graphic-area">
+
       
-        {this._generateGraphicsMonths()}
       
     </div>
   )};
+};
+
+
+_generateRoomsGraphicsList(z){
+
+
+  return x.map((room, i) => {
+    return(
+        <div className="graphic-container">
+
+        <div className="room-nr">
+          <div className="room-nr-text">
+            <p>Room Nr</p>
+          </div>
+          <div className="room-nr-nr">
+            <p>{room.roomNumber}</p>
+          </div>
+        </div>
+
+        <div className="graphic">
+          {this._generateGraphicsMonths(room.roomCode)}
+        </div>
+        </div>
+    )
+  }
 };

@@ -139,46 +139,51 @@ export default class Apartment extends React.Component {
   
   render() {
     console.log('this.state.rooms', this.state.rooms)
-    
+    console.log('aptBookings ,', this.state.aptBookings)
+
     return (
 
       <div className="apt-overview">
       
-        <div className="paque">
+        {this.state.aptBookings.length === 0 ? <p>This apartment has rooms rentals only</p> :
+          <div>
+            <div className="paque">
 
-          {this.state.apartment === null ? <p>LOADING !</p> :
-          this._renderApartmentInfo()}
+              {this.state.apartment === null ? <p>LOADING !</p> :
+              this._renderApartmentInfo()}
 
-        </div>
-
-        <div classNAme="booking-graphic">
-          <AptBookingGraphic aptID={this.state.apartmentCode}/>
-        </div>
-
-        <div className="standard-list">
-            <div className="standard-list-title">
-                <p>Apartment Bookings</p>
-            </div> 
-            <div className="standard-list-header">
-
-                <ul>
-                    <li><p>Name</p></li>
-                    <li><p>Surname</p></li>
-                    <li><p>Check-In</p></li>
-                    <li><p>Check-Out</p></li>
-                    <li><p>Rent €/Mo</p></li>
-                </ul>          
             </div>
 
-            <div className="standard-list-render">
-            {this.state.aptBookings.length === 0 ?
-            <div id="empty-list">
-              <p>This apartment is not rented as a unit</p>
-            </div>:
-            this._renderAptBookings()}
+            <div className="booking-graphic">
+              <AptBookingGraphic aptID={this.state.apartmentCode}/>
             </div>
+          
+            <div className="standard-list">
+              <div className="standard-list-title">
+                  <p>Apartment Bookings</p>
+              </div> 
+              <div className="standard-list-header">
 
-        </div>
+                  <ul>
+                      <li><p>Name</p></li>
+                      <li><p>Surname</p></li>
+                      <li><p>Check-In</p></li>
+                      <li><p>Check-Out</p></li>
+                      <li><p>Rent €/Mo</p></li>
+                  </ul>          
+              </div>
+
+              <div className="standard-list-render">
+              {this.state.aptBookings.length === 0 ?
+                <div id="empty-list">
+                  <p>This apartment is not rented as a unit</p>
+                </div> :
+                  this._renderAptBookings()}
+              </div>
+
+            </div>
+          </div>
+        }
 
         <div className="standard-add-button">
             <div id="button-info">
@@ -190,46 +195,44 @@ export default class Apartment extends React.Component {
 
 
         <div className="apt-rooms-admin">
-
+         
+          {this.state.rooms.length === 0 ? <p>No rooms rentals for this apartment</p> :
             <div className="apt-manage-rooms">
-            <div className="standard-list-title">
-                <p>Rooms</p>
-            </div> 
-            <div className="standard-list">
+              <div className="standard-list-title">
+                  <p>Rooms</p>
+              </div> 
+              <div className="standard-list">
 
-              <div className="standard-list-header">
-                <ul>
-                  <li><p>Room Nr</p></li>
-                  <li><p>Size (sqm)</p></li>
-                  <li><p>Exterior</p></li>
-                  <li><p>Balcony</p></li>
-                  <li><p>Private Bathroom</p></li>
-                  <li><p>Price (€/Mo)</p></li>
-                </ul>          
-              </div>
-              
-              <div className="standard-list-render">
-                {this.state.rooms.length === 0 ? 
-                  <div id="empty-list">
-                    <p>This apartment has no rooms listed</p>
-                  </div> :
-                this._renderRooms()}
-              </div>
-              
-
-              <div className="standard-add-button">
-                <div id="button-info">
-                  <p>New Room</p>
-                  <Link to={`/apt_addRoom/${this.state.apartmentCode}`}><AddButton/></Link>
+                <div className="standard-list-header">
+                  <ul>
+                    <li><p>Room Nr</p></li>
+                    <li><p>Size (sqm)</p></li>
+                    <li><p>Exterior</p></li>
+                    <li><p>Balcony</p></li>
+                    <li><p>Private Bathroom</p></li>
+                    <li><p>Price (€/Mo)</p></li>
+                  </ul>          
                 </div>
+                <div className="standard-list-render">
+                  {this.state.rooms.length === 0 ? 
+                    <div id="empty-list">
+                      <p>This apartment has no rooms listed</p>
+                    </div> :
+                  this._renderRooms()}
+                </div>
+              
               </div>
-
             </div>
+          }
 
+          <div className="standard-add-button">
+            <div id="button-info">
+              <p>New Room</p>
+              <Link to={`/apt_addRoom/${this.state.apartmentCode}`}><AddButton/></Link>
+            </div>
           </div>
-
         </div>
-      
+
       </div>
 
     );

@@ -294,8 +294,6 @@ export default class DataService {
         }); 
     };
 
-    
-
     // BOOKINGS
 
     static apartmentNewBooking(newBooking){        
