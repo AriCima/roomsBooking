@@ -263,11 +263,17 @@ export default class Home extends React.Component {
             {this.state.apartments.length === 0? <p>LOADING !</p> : this._renderApartments() }     
           </div>
 
-        <div className="add-apartment">
-          <p>Add apartment</p>
-          <div className="add-apt-button">
-            <Link to={`/apt_add/${this.state.userId}`}><AddButton/></Link>
+          <div className="add-button-left">
+            <div id="add-button">
+              <div>
+                <p>Add apartment</p>
+              </div>
+              <div>
+                <Link to={`/apt_add/${this.state.userId}`}><AddButton/></Link>
+              </div>
+
           </div>
+
         </div>
 
       </div>

@@ -211,14 +211,22 @@ p{
 }
 .add-apartment{
     margin-top: 30px;
-    width: 80%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
 }
-.add-apt-button{
-    width: 60%;
+.add-button-left{
+    width: 80%;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    
+}
+#add-button{
     margin-top: 5px;
     display: flex;
     justify-content: flex-start;

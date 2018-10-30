@@ -158,7 +158,7 @@ export default class Room extends React.Component {
                 </div>
 
                 <div className="add-button-left">
-                    <div className="add-booking-button">
+                    <div id="add-button">
                         <div>
                             <p>New Booking</p>
                         </div>
