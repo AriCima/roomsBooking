@@ -97,10 +97,12 @@ export default class Home extends React.Component {
         }
       }
 
+      
       //console.log(console.log('this.state.apartments después del for for', this.state.apartments))
 
       // Get Incomes from all User's apartments
-      this.state.aptsIncomes = Calculations.calculateIncomes(this.state.currentAptContracts);
+      let trans = Calculations.calculateIncomes(this.state.currentAptContracts); 
+      this.setState({aptsIncomes : trans})
   
     }).catch(function (error) {    
     console.log(error);

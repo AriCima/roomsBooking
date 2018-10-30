@@ -9,7 +9,7 @@ import Calculations from '../../services/Calculations';
 // CSS
 import './index.css';
 
-export default class RoomsBookingsGraphic extends React.Component {
+export default class RoomBookingsGraphic extends React.Component {
   constructor(props){
     super(props);
 
@@ -28,28 +28,16 @@ export default class RoomsBookingsGraphic extends React.Component {
     }
   };
 
-  _loadData(aptCode){
+  _loadData(roomCode){
     DataService.getRoomBookings(roomCode)  
     .then(contracts => {
-      this.state.roomBookings = contracts
-      this._getBookedDays(contracts)
+      this.setState({roomBookings : contracts});
     }).catch(function (error) {    
     console.log(error);
     })
   }
 
-  _getBookedDays(x){
-    
-    // Get days between two dates:  https://stackoverflow.com/questions/4345045/javascript-loop-between-date-ranges
 
-    var bookedDays = [];
-    for (let i = 0; i < x.length; i++ ){
-      for (var d = new Date(x[i].checkIn); d <= new Date(x[i].checkOut); d.setDate(d.getDate() + 1)) {
-        bookedDays.push(new Date(d));
-      }
-    }
-    this.state.bookedDays = bookedDays
-  }
 
   _generateGraphicsMonths(){
     let months  =  ['Jan', 'Feb', 'Mar', 'Apr','May', 'Jun', 'Jul', 'Aug','Sep', 'Oct', 'Nov', 'Dec'];
@@ -98,8 +86,7 @@ export default class RoomsBookingsGraphic extends React.Component {
     let oneMonthArray = [];
 
     let today = new Date();
-    let date = (mm, yy)
-
+   
     let nrDays = daysOfMonth[months.indexOf(mm)];
 
     for (var d = 0; d < nrDays; d++){
@@ -116,11 +103,11 @@ export default class RoomsBookingsGraphic extends React.Component {
 
       let dateToCompare = new Date(d+1 + '-' + mm + '-' + yy);
 
-      // is oneDay between any check-in and check-out date ?
-      for (var r = 0; r < this.state.roomBookings =ength; r++){
+      // VERIFY: is oneDay between any check-in and check-out date ?
+      for (var r = 0; r < this.state.roomBookings.length; r++){
 
-        let checkin = new Date (this.state.roomBookings =].checkIn);
-        let checkout = new Date (this.state.roomBookings =].checkOut);
+        let checkin = new Date (this.state.roomBookings[r].checkIn);
+        let checkout = new Date (this.state.roomBookings[r].checkOut);
 
 
         if ( dateToCompare >= checkin && dateToCompare <= checkout){  // styling BOOKED days
@@ -142,6 +129,7 @@ export default class RoomsBookingsGraphic extends React.Component {
 
 
     return oneMonthArray.map((days, i) => {
+
       return(
         <div className="days-container">
 
@@ -161,33 +149,47 @@ export default class RoomsBookingsGraphic extends React.Component {
  
     <div className="graphic-area">
 
-      
+       {this._generateGraphicsMonths()}
       
     </div>
   )};
 };
 
 
-_generateRoomsGraphicsList(z){
+// _generateRoomsGraphicsList(z){
 
 
-  return z.map((room, i) => {
-    return(
-        <div className="graphic-container">
+//   return z.map((room, i) => {
+//     return(
+//         <div className="graphic-container">
 
-        <div className="room-nr">
-          <div className="room-nr-text">
-            <p>Room Nr</p>
-          </div>
-          <div className="room-nr-nr">
-            <p>{room.roomNumber}</p>
-          </div>
-        </div>
+//         <div className="room-nr">
+//           <div className="room-nr-text">
+//             <p>Room Nr</p>
+//           </div>
+//           <div className="room-nr-nr">
+//             <p>{room.roomNumber}</p>
+//           </div>
+//         </div>
 
-        <div className="graphic">
-          {this._generateGraphicsMonths(room.roomCode)}
-        </div>
-        </div>
-    )
-  })
-};
+//         <div className="graphic">
+//           {this._generateGraphicsMonths(room.roomCode)}
+//         </div>
+//         </div>
+//     )
+//   })
+// };
+
+
+  // _getBookedDays(x){
+    
+  //   // Get days between two dates:  https://stackoverflow.com/questions/4345045/javascript-loop-between-date-ranges
+
+  //   var bookedDays = [];
+  //   for (let i = 0; i < x.length; i++ ){
+  //     for (var d = new Date(x[i].checkIn); d <= new Date(x[i].checkOut); d.setDate(d.getDate() + 1)) {
+  //       bookedDays.push(new Date(d));
+  //     }
+  //   }
+  //   this.state.bookedDays = bookedDays
+  // }

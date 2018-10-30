@@ -6,8 +6,12 @@ import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import DataService from '../../services/DataService';
 import Calculations from '../../services/Calculations';
 
+// COMPONENTS
+import RoomBookingGraphic from '../../Rooms/RoomBookingGraphic';
+
 // CSS
 import './index.css';
+
 
 export default class AptBookingsGraphic extends React.Component {
   constructor(props){
@@ -33,24 +37,11 @@ export default class AptBookingsGraphic extends React.Component {
     DataService.getApartmentBookings(aptCode)  
     .then(contracts => {
       this.setState({aptBookings : contracts});
-      // this._getBookedDays(contracts)
     }).catch(function (error) {    
     console.log(error);
     })
   }
 
-  // _getBookedDays(x){
-    
-  //   // Get days between two dates:  https://stackoverflow.com/questions/4345045/javascript-loop-between-date-ranges
-
-  //   var bookedDays = [];
-  //   for (let i = 0; i < x.length; i++ ){
-  //     for (var d = new Date(x[i].checkIn); d <= new Date(x[i].checkOut); d.setDate(d.getDate() + 1)) {
-  //       bookedDays.push(new Date(d));
-  //     }
-  //   }
-  //   this.state.bookedDays = bookedDays
-  // }
 
   _generateGraphicsMonths(){
     let months  =  ['Jan', 'Feb', 'Mar', 'Apr','May', 'Jun', 'Jul', 'Aug','Sep', 'Oct', 'Nov', 'Dec'];
@@ -105,7 +96,7 @@ export default class AptBookingsGraphic extends React.Component {
 
     let nrDays = daysOfMonth[months.indexOf(mm)];
 
-    for (var d = 0; d < nrDays; d++){
+    for (let d = 0; d < nrDays; d++){
       //console.log('iteración del mes ', months[s], ' día ', (d+1))
     
       // BRING DATE TO (dd-Mm-yyyy) format
@@ -120,12 +111,9 @@ export default class AptBookingsGraphic extends React.Component {
       let dateToCompare = new Date(d+1 + '-' + mm + '-' + yy);
 
       // VERIFY: is oneDay between any check-in and check-out date ?
-      for (var r = 0; r < this.state.aptBookings.length; r++){
-
+      for (let r = 0; r < this.state.aptBookings.length; r++){
         let checkin = new Date (this.state.aptBookings[r].checkIn);
         let checkout = new Date (this.state.aptBookings[r].checkOut);
-
-
         if ( dateToCompare >= checkin && dateToCompare <= checkout){  // styling BOOKED days
           oneDay.background = 'red'
         }
@@ -159,6 +147,7 @@ export default class AptBookingsGraphic extends React.Component {
   };
   
   
+
   render() {
     return(
  

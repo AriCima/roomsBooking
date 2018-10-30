@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
+// COMPONENTS
 import AddButton from '../../Accessories/AddButton';
+import RoomBookingGraphic from'../RoomBookingGraphic';
 
 // MATERIAL UI
 import TextField from '@material-ui/core/TextField';
@@ -122,16 +124,55 @@ export default class Room extends React.Component {
     return (
         <div className="Room">
 
+           
             <div className="room-pageInfo">
                 <h4>{this.state.apartmentName}<span>, Room Nr: </span>{this.state.roomNumber}</h4>
+            </div>
+              
+
+            <div className="booking-graphic">
+              <RoomBookingGraphic roomID={this.props.roomID}/>
             </div>
 
             <div className="room-form-container">
 
-                <form   className="form-width" noValidate autoComplete="off" onSubmit={this.onPayment}>
-                    <div className="room-form-title">
-                        <p>Room Info</p>
+                <div className="standard-list">
+
+                    <div className="standard-list-title">
+                        <p>Room Bookings</p>
                     </div> 
+                    <div className="standard-list-header">
+                        <ul>
+                            <li><p>Name</p></li>
+                            <li><p>Surname</p></li>
+                            <li><p>Check-In</p></li>
+                            <li><p>Check-Out</p></li>
+                            <li><p>Rent €/Mo</p></li>
+                        </ul>          
+                    </div>
+
+                    <div className="standard-list-render">
+                    {this._renderRoomsBookings()}
+                    </div>
+
+                </div>
+
+                <div className="add-booking-button">
+                    <div>
+                        <p>New Book</p>
+                    </div>
+                    <div>
+                        <Link to={`/room_newbooking/${this.state.roomCode}`}><AddButton/></Link>
+                    </div>
+                </div>
+            
+            </div>         
+           
+
+
+             <div className="room-info-container">
+                <form   className="form-width" noValidate autoComplete="off" onSubmit={this.onPayment}>
+
                     <div id="room-input-area">
 
                         <div id="input-fields">
@@ -182,39 +223,8 @@ export default class Room extends React.Component {
                         
                     </div>
                 </form>
-
-                <div className="standard-list">
-
-                    <div className="standard-list-title">
-                        <p>Room Bookings</p>
-                    </div> 
-                    <div className="standard-list-header">
-                        <ul>
-                            <li><p>Name</p></li>
-                            <li><p>Surname</p></li>
-                            <li><p>Check-In</p></li>
-                            <li><p>Check-Out</p></li>
-                            <li><p>Rent €/Mo</p></li>
-                        </ul>          
-                    </div>
-
-                    <div className="standard-list-render">
-                    {this._renderRoomsBookings()}
-                    </div>
-
-                </div>
-
-                <div className="add-booking-button">
-                    <div>
-                        <p>New Book</p>
-                    </div>
-                    <div>
-                        <Link to={`/room_newbooking/${this.state.roomCode}`}><AddButton/></Link>
-                    </div>
-                </div>
+            </div>
             
-            </div>         
-           
         </div>
     );
   }

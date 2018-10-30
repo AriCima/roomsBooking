@@ -1,6 +1,8 @@
 .Room{
     margin-top: 60px;
 }
+
+
 .room-pageInfo{
     width: 100%;
     display: flex;
@@ -20,17 +22,16 @@
     padding: 0;
     color: rgb(145, 155, 155);
 }
-.room-form-container{
+
+.room-info-container{
     width: 100%;
-    margin-top: 20px;
+    margin-top: 30px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 } 
-.form-width{
-    width: 80%;
-}
+
 .room-form-title{
     width: 80%;
     display: flex;
@@ -53,6 +54,30 @@
     flex-wrap: wrap;
 }
 
+
+.booking-graphic{
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+.room-form-container{
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+} 
+
+
+
+.form-width{
+    width: 80%;
+}
 .room-bookings-list{
     width: 80%;
     margin-top: 20px;

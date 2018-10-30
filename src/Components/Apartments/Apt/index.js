@@ -9,6 +9,7 @@ import DataService from '../../services/DataService';
 
 // Components
 import AptBookingGraphic from '../AptBookingGraphic';
+import RoomBookingGraphic from '../../Rooms/RoomBookingGraphic';
 
 // CSS
 import './index.css';
@@ -192,6 +193,17 @@ export default class Apartment extends React.Component {
             
 
 
+         {/* <div className="rooms-graphic">
+      
+          {this.state.aptBookings.length === 0 ? <p>This apartment has rooms rentals only</p> :
+           
+
+              <div className="booking-graphic">
+                <RoomsBookingGraphic aptID={this.state.apartmentCode}/>
+              </div>
+          }
+
+        </div> */}
         <div className="apt-rooms-admin">
          
           {this.state.rooms.length === 0 ? <p>No rooms rentals for this apartment</p> :
