@@ -157,12 +157,14 @@ export default class Room extends React.Component {
 
                 </div>
 
-                <div className="add-booking-button">
-                    <div>
-                        <p>New Book</p>
-                    </div>
-                    <div>
-                        <Link to={`/room_newbooking/${this.state.roomCode}`}><AddButton/></Link>
+                <div className="add-button-left">
+                    <div className="add-booking-button">
+                        <div>
+                            <p>New Booking</p>
+                        </div>
+                        <div>
+                            <Link to={`/room_newbooking/${this.state.roomCode}`}><AddButton/></Link>
+                        </div>
                     </div>
                 </div>
             
@@ -171,6 +173,10 @@ export default class Room extends React.Component {
 
 
              <div className="room-info-container">
+                <div className="standard-list-title">
+                    <p>Room info</p>
+                </div> 
+            
                 <form   className="form-width" noValidate autoComplete="off" onSubmit={this.onPayment}>
 
                     <div id="room-input-area">

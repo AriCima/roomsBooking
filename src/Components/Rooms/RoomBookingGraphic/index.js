@@ -134,7 +134,7 @@ export default class RoomBookingsGraphic extends React.Component {
         <div className="days-container">
 
           <div className="single-day" key={i} style={{background: days.background, width:days.width}}>
-            {/* {days.toLocaleDateString()} */}
+            
           </div>
           
         </div>
@@ -155,41 +155,3 @@ export default class RoomBookingsGraphic extends React.Component {
   )};
 };
 
-
-// _generateRoomsGraphicsList(z){
-
-
-//   return z.map((room, i) => {
-//     return(
-//         <div className="graphic-container">
-
-//         <div className="room-nr">
-//           <div className="room-nr-text">
-//             <p>Room Nr</p>
-//           </div>
-//           <div className="room-nr-nr">
-//             <p>{room.roomNumber}</p>
-//           </div>
-//         </div>
-
-//         <div className="graphic">
-//           {this._generateGraphicsMonths(room.roomCode)}
-//         </div>
-//         </div>
-//     )
-//   })
-// };
-
-
-  // _getBookedDays(x){
-    
-  //   // Get days between two dates:  https://stackoverflow.com/questions/4345045/javascript-loop-between-date-ranges
-
-  //   var bookedDays = [];
-  //   for (let i = 0; i < x.length; i++ ){
-  //     for (var d = new Date(x[i].checkIn); d <= new Date(x[i].checkOut); d.setDate(d.getDate() + 1)) {
-  //       bookedDays.push(new Date(d));
-  //     }
-  //   }
-  //   this.state.bookedDays = bookedDays
-  // }
