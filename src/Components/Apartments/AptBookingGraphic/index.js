@@ -18,11 +18,7 @@ export default class AptBookingsGraphic extends React.Component {
       apartmentCode : this.props.aptID,
       aptBookings   : [],
       bookedDays    : [],
-      // currentDay    : Calculations.getCurrentMonth()[0],
-      // currentMonth  : Calculations.getCurrentMonth()[1],
       yearArray     : [],
-      // twelveMonths  : this._generate12MonthsArrays()[0],       // --> 12 months in nr starting from now
-      // yearMonths    : this._generate12MonthsArrays()[1],       // --> 12 months in letters starting from now
       
     }
   };
@@ -36,25 +32,25 @@ export default class AptBookingsGraphic extends React.Component {
   _loadData(aptCode){
     DataService.getApartmentBookings(aptCode)  
     .then(contracts => {
-      this.state.aptBookings = contracts
-      this._getBookedDays(contracts)
+      this.setState({aptBookings : contracts});
+      // this._getBookedDays(contracts)
     }).catch(function (error) {    
     console.log(error);
     })
   }
 
-  _getBookedDays(x){
+  // _getBookedDays(x){
     
-    // Get days between two dates:  https://stackoverflow.com/questions/4345045/javascript-loop-between-date-ranges
+  //   // Get days between two dates:  https://stackoverflow.com/questions/4345045/javascript-loop-between-date-ranges
 
-    var bookedDays = [];
-    for (let i = 0; i < x.length; i++ ){
-      for (var d = new Date(x[i].checkIn); d <= new Date(x[i].checkOut); d.setDate(d.getDate() + 1)) {
-        bookedDays.push(new Date(d));
-      }
-    }
-    this.state.bookedDays = bookedDays
-  }
+  //   var bookedDays = [];
+  //   for (let i = 0; i < x.length; i++ ){
+  //     for (var d = new Date(x[i].checkIn); d <= new Date(x[i].checkOut); d.setDate(d.getDate() + 1)) {
+  //       bookedDays.push(new Date(d));
+  //     }
+  //   }
+  //   this.state.bookedDays = bookedDays
+  // }
 
   _generateGraphicsMonths(){
     let months  =  ['Jan', 'Feb', 'Mar', 'Apr','May', 'Jun', 'Jul', 'Aug','Sep', 'Oct', 'Nov', 'Dec'];
@@ -105,7 +101,7 @@ export default class AptBookingsGraphic extends React.Component {
     let oneMonthArray = [];
 
     let today = new Date();
-    let date = (mm, yy)
+    // let date = (mm, yy)
 
     let nrDays = daysOfMonth[months.indexOf(mm)];
 
@@ -123,7 +119,7 @@ export default class AptBookingsGraphic extends React.Component {
 
       let dateToCompare = new Date(d+1 + '-' + mm + '-' + yy);
 
-      // is oneDay between any check-in and check-out date ?
+      // VERIFY: is oneDay between any check-in and check-out date ?
       for (var r = 0; r < this.state.aptBookings.length; r++){
 
         let checkin = new Date (this.state.aptBookings[r].checkIn);
@@ -165,10 +161,6 @@ export default class AptBookingsGraphic extends React.Component {
   
   render() {
     return(
-    // let y = ;
-
-    // console.log('y = ', y)
-    // console.log('y[0] = ', y[0], ' y[1] = ', y[1])
  
     <div className="graphic-area">
       

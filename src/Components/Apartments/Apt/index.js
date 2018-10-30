@@ -138,8 +138,6 @@ export default class Apartment extends React.Component {
   } 
   
   render() {
-    console.log('this.state.rooms', this.state.rooms)
-    console.log('aptBookings ,', this.state.aptBookings)
 
     return (
 
@@ -201,6 +199,7 @@ export default class Apartment extends React.Component {
               <div className="standard-list-title">
                   <p>Rooms</p>
               </div> 
+
               <div className="standard-list">
 
                 <div className="standard-list-header">
@@ -213,6 +212,7 @@ export default class Apartment extends React.Component {
                     <li><p>Price (€/Mo)</p></li>
                   </ul>          
                 </div>
+                
                 <div className="standard-list-render">
                   {this.state.rooms.length === 0 ? 
                     <div id="empty-list">

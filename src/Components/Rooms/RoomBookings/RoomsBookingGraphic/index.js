@@ -158,10 +158,6 @@ export default class RoomsBookingsGraphic extends React.Component {
   
   render() {
     return(
-    // let y = ;
-
-    // console.log('y = ', y)
-    // console.log('y[0] = ', y[0], ' y[1] = ', y[1])
  
     <div className="graphic-area">
 
@@ -175,7 +171,7 @@ export default class RoomsBookingsGraphic extends React.Component {
 _generateRoomsGraphicsList(z){
 
 
-  return x.map((room, i) => {
+  return z.map((room, i) => {
     return(
         <div className="graphic-container">
 
@@ -193,5 +189,5 @@ _generateRoomsGraphicsList(z){
         </div>
         </div>
     )
-  }
+  })
 };

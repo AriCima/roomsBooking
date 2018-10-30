@@ -131,7 +131,6 @@ export default class Home extends React.Component {
     })
    
   };
-  
 
   _renderApartments(){
     return this.state.apartments.map((dpts,j) => {
@@ -196,14 +195,11 @@ export default class Home extends React.Component {
          )
      })
      
-   }; 
+  }; 
 
   render() {
 
-    console.log('apartmentsArray = ', this.state.apartments)
-    //console.log('this.state.userId del render Home: ', this.state.userId)
     if (!this.props.userID) return <p>Loading  ...</p>;
-    //const userId = this.props.userID;
 
     return (
       <div className="home-super-container">
