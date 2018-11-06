@@ -94,7 +94,7 @@ class App extends Component {
               <Switch>
                 {/* <Route path="/landing" render = {(props) => {return <Login propsFn={props.history}/>}}/> */}
                 <Route path="/login" render = {(props) => {return <Login propsFn={props.history}/>}}/>
-                <Route path="/register" component={Register}/>
+                <Route path="/register" render = {(props) => {return <Register propsFn={props.history}/>}}/>
 
                 {/* <Route path="/home" render = {(props) => { return <Home userEmailId={user}/>}}/> */}
                 <Route path="/home/:user" render = {(props) => { return <Home userID={props.match.params.user}/>}}/>

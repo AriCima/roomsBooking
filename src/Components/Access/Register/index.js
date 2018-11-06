@@ -13,11 +13,12 @@ export default class Register extends Component {
     super(props);
 
     this.state = {
-      email: '',
-      password: '',
-      passwordConfirm:'',
-      passwordError: false,
-      emailError: false,
+      email           : '',
+      password        : '',
+      passwordConfirm :'',
+      userId          : '',
+      passwordError   : false,
+      emailError      : false,
     }
 
     this.db = firebase.auth();
@@ -66,14 +67,15 @@ export default class Register extends Component {
       AuthService.register(this.state.email, this.state.password)
         .then((result)=>{
           console.log("Welcome new user ID:", result.user.uid);
-          
+          let userID = result.user.uid;
+          this.setState({userId : userID})
 
           let userToRegister = {
             email   :this.state.email, 
           }
 
           DataService.saveUserInfoInFirestore(result.user.uid, userToRegister)
-          
+          this.props.propsFn.push(`/home/${this.state.userId}`)
       },(error)=>{
           this.setState({registerError: error});
         }

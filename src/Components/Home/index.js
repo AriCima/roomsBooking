@@ -209,6 +209,8 @@ export default class Home extends React.Component {
     if (!this.props.userID) return <p>Loading  ...</p>;
 
     return (
+
+
       <div className="home-super-container">
 
         <div className="e-figures">
@@ -265,7 +267,16 @@ export default class Home extends React.Component {
             </ul>     
           </div>
           <div className="units-list-super-container">
-            {this.state.apartments.length === 0? <p>LOADING !</p> : this._renderApartments() }     
+            {this.state.apartments.length === 0? 
+              <div className="no-apts-message">
+                <div className="line-centered">
+                  <p>You have no apartments listed !</p>
+                </div>
+                <div className="line-centered">
+                  <p>Click on the <span>ADD APARTMENT</span> button to start</p>
+                </div>
+              </div> 
+              : this._renderApartments() }     
           </div>
 
           <div className="add-button-left">
