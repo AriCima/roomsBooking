@@ -179,11 +179,9 @@ export default class Apartment extends React.Component {
           :
           
             <div className="paque">
-
               <div className="booking-graphic">
                 <AptBookingGraphic aptID={this.state.apartmentCode}/>
               </div>
-            
               <div className="standard-list">
                 <div className="standard-list-title">
                     <p>Apartment Bookings</p>
