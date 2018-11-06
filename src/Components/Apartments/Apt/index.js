@@ -67,19 +67,20 @@ export default class Apartment extends React.Component {
 
   _renderApartmentInfo(){
     return (
-      
-      <div className="apt-render-fn"> 
-
-        <div className="apt-info-block">
-          <div className="info-block-text">
-            <Link to={`/single_apt_overview/${this.state.apartmentCode}`}><h4>{this.state.apartment.apartmentName}</h4></Link>
-          </div>  
-          <div className="address">
-            <p>{this.state.apartment.street} {this.state.apartment.houseNr}, {this.state.apartment.floor}ª, {this.state.apartment.door} </p>
-          </div>
-        </div>
-
+      <div className="address">
+        <h4>{this.state.apartment.apartmentName}</h4>
       </div>
+
+      // <div className="apt-render-fn"> 
+
+      //  <div className="apt-info-block">
+      //     <div className="info-block-text">
+      //       <Link to={`/single_apt_overview/${this.state.apartmentCode}`}><h4>{this.state.apartment.apartmentName}</h4></Link>
+      //     </div>
+
+      //    </div>
+
+      //  </div>
     )
   };
 
@@ -137,50 +138,76 @@ export default class Apartment extends React.Component {
         )
     })
   } 
+
+  _renderRoomsGraphic(){
+    console.log('this.state.rooms = ', this.state.rooms)
+    return this.state.rooms.map((room,i) => {
+      return (
+        <Link to={`/single_room_overview/${room.id}`} className="room-line">
+          <div className="room-Nr">
+            <div>
+              <p>Room Nr: </p>
+            </div>
+            <div>
+              <p><span>{room.roomNumber}</span></p>
+            </div>
+          </div>
+          <div className="time-line">
+            <RoomBookingGraphic kei={i} roomID={room.id} className="lines"/>
+          </div>
+        </Link>
+      )
+  })
+  }
   
   render() {
 
     return (
 
       <div className="apt-overview">
+
+      {this.state.apartment === null ? <p>LOADING !</p> :
+        this._renderApartmentInfo()
+      }
       
-        {this.state.aptBookings.length === 0 ? <p>This apartment has rooms rentals only</p> :
+        {this.state.aptBookings.length === 0 ? 
+        
           <div>
+            {this._renderRoomsGraphic()}
+          </div>
+          
+          :
+          
             <div className="paque">
 
-              {this.state.apartment === null ? <p>LOADING !</p> :
-              this._renderApartmentInfo()}
-
-            </div>
-
-            <div className="booking-graphic">
-              <AptBookingGraphic aptID={this.state.apartmentCode}/>
-            </div>
-          
-            <div className="standard-list">
-              <div className="standard-list-title">
-                  <p>Apartment Bookings</p>
-              </div> 
-              <div className="standard-list-header">
-
-                  <ul>
-                      <li><p>Name</p></li>
-                      <li><p>Surname</p></li>
-                      <li><p>Check-In</p></li>
-                      <li><p>Check-Out</p></li>
-                      <li><p>Rent €/Mo</p></li>
-                  </ul>          
+              <div className="booking-graphic">
+                <AptBookingGraphic aptID={this.state.apartmentCode}/>
               </div>
+            
+              <div className="standard-list">
+                <div className="standard-list-title">
+                    <p>Apartment Bookings</p>
+                </div> 
+                <div className="standard-list-header">
 
-              <div className="standard-list-render">
-              {this.state.aptBookings.length === 0 ?
-                <div id="empty-list">
-                  <p>This apartment is not rented as a unit</p>
-                </div> :
-                  this._renderAptBookings()}
+                    <ul>
+                        <li><p>Name</p></li>
+                        <li><p>Surname</p></li>
+                        <li><p>Check-In</p></li>
+                        <li><p>Check-Out</p></li>
+                        <li><p>Rent €/Mo</p></li>
+                    </ul>          
+                </div>
+
+                <div className="standard-list-render">
+                {this.state.aptBookings.length === 0 ?
+                  <div id="empty-list">
+                    <p>This apartment is not rented as a unit</p>
+                  </div> :
+                    this._renderAptBookings()}
+                </div>
+
               </div>
-
-            </div>
           </div>
         }
 

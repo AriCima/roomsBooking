@@ -167,8 +167,12 @@ class RoomBookings extends React.Component {
 
         <div className="room-state">
 
+            <div className="room-pageInfo">
+                <h4>{this.state.apartmentName}<span>, Room Nr: </span>{this.state.roomNumber}</h4>
+                <h4><span>New Booking</span></h4>
+            </div>
 
-            <div className="form-container">
+            <div className="form-container-1">
 
                <form  className={classes.container} noValidate autoComplete="off" onSubmit={this.onNewBook}>
                 

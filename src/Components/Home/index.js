@@ -37,6 +37,7 @@ export default class Home extends React.Component {
   componentDidMount() {
     if (this.state.userId) {
     this._loadData(this.state.userId);
+    this.setState()
     }
   };
 
@@ -107,7 +108,8 @@ export default class Home extends React.Component {
     }).catch(function (error) {    
     console.log(error);
     })
-  
+
+   // We get all Rooms Contracts saved
     DataService.getUserRoomsContracts(userId) 
     .then(userRoomsContracts => {
       
@@ -125,9 +127,10 @@ export default class Home extends React.Component {
       }
       // console.log('this.state.rooms', this.state.rooms)
 
-      // Get Incomes from all User's apartments
-      this.state.roomsIncomes = Calculations.calculateIncomes(this.state.currentRoomsContracts);
-  
+      // Get Incomes from all User's rooms
+      let trans = Calculations.calculateIncomes(this.state.currentRoomsContracts); 
+      this.setState({roomsIncomes : trans})
+
     }).catch(function (error) {    
     console.log(error);
     })
@@ -171,6 +174,8 @@ export default class Home extends React.Component {
        if (this.state.rooms[r].apartmentCode === aptID)
        roomsToRender.push(this.state.rooms[r])
      };
+
+     // roomsToRender.sort( (fcion con 2 objetos)) ver partTime.
      //console.log('roomsToRender: ', roomsToRender);
      
      return roomsToRender.map((rooms,j) => {

@@ -7,9 +7,76 @@
     align-items: center;
 }
 
+.address{
+    width: 100%;
+    justify-content: flex-start;
+    display: flex;
+}
+
+.address h4{
+    margin: 10px 0 0 20px;
+    font-size: 28px;
+    font-weight: 550;
+    color: rgb(0, 144, 248);
+}
+.over-subt{
+    width: 100%;
+}
+.graphic{
+    width: 50%;
+}
 .paque{
     width: 100%;
 }
+
+/* ROOMS GRAPHIC RENDER */
+.room-line{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    margin-bottom: 10px;
+}
+/* .room-line:nth-child(even){
+    background-color: rgba(0, 144, 248, 0.05);
+} */
+.room-line:nth-child(even):hover{
+    background-color: rgba(0, 144, 248, 0.2);
+}
+/* .room-line:nth-child(odd){
+    background-color: rgba(0, 144, 248, 0.1);
+} */
+.room-line:nth-child(odd):hover{
+    background-color: rgba(0, 144, 248, 0.4);
+}
+.room-Nr{
+    margin-left: 30px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: flex-start;
+}
+.room-Nr p{
+    margin-right: 10px;
+    color: rgb(0, 144, 248);
+}
+.room-Nr p span{
+    margin-right: 10px;
+    font-size: 20px;
+    color: rgb(0, 144, 248);
+    font-weight: 550;
+}
+.time-line{
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+.time-line .graphic-area{
+    display: flex;
+    align-items: center;
+}
+
 
 /* BOOKINGS LISTING */
 /* Bookings Header*/
@@ -34,9 +101,9 @@
     padding: 0;
     color: rgb(145, 155, 155);
 }
-.standard-list-list-header{
+.standard-list-header{
     border-radius: 10px;
-    width: 55%;
+    width: 80%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -59,11 +126,14 @@
     justify-content: flex-start;
     align-items: center;
 }
+.standard-list-render{
+    width: 100%;
+}
+/* _render  */
 
-/* _render functions */
 .standard-list-row{
     border-radius: 10px;
-    width: 55%;
+    width: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -75,12 +145,6 @@
 }
 .standard-list-row:nth-child(even):hover{
     background-color: rgba(0, 144, 248, 0.2);
-}
-.standard-list-row:nth-child(odd){
-    background-color: rgba(0, 144, 248, 0.1);
-}
-.standard-list-row:nth-child(odd):hover{
-    background-color: rgba(0, 144, 248, 0.4);
 }
 .standard-list-info-block{
     width: 15%;
@@ -115,7 +179,6 @@
     display: block;
     
 }
-
 
 
 /* ROOMS LISTING */
