@@ -13,6 +13,7 @@ import Room from '../Rooms/Room';
 import RoomInput from '../Rooms/RoomInput';
 import RoomBookings from '../Rooms/RoomBookings';
 import ApartmentInput from '../Apartments/AptInput';
+import AptUtilities from '../Apartments/AptUtilities';
 
 // API SERVICES
 import DataService from '../services/DataService';
@@ -52,19 +53,6 @@ class App extends Component {
       if (user) {
 
         this.setState({user : user});
-
-        //console.log('El user en el state del App: ', this.state.user)
-        // DataService.getUserContactInfo(user.uid).then(
-        //   (userData)=>{
-        //     //console.log('userData en App: ', userData);
-        //     userData.id = user.uid;
-        //     this.setState({user : userData});
-        //     //console.log('El user luego del setState en App:', user)
-        //   }, 
-        //   (errorMessage)=>{
-        //     console.log(errorMessage)
-        //   }
-        // )
       
       } else {
         this.setState({
@@ -96,12 +84,12 @@ class App extends Component {
                 <Route path="/login" render = {(props) => {return <Login propsFn={props.history}/>}}/>
                 <Route path="/register" render = {(props) => {return <Register propsFn={props.history}/>}}/>
 
-                {/* <Route path="/home" render = {(props) => { return <Home userEmailId={user}/>}}/> */}
                 <Route path="/home/:user" render = {(props) => { return <Home userID={props.match.params.user}/>}}/>
                 <Route path="/single_apt_overview/:aptId" exact render = {(props) => { return <Apartment aptID={props.match.params.aptId} userData={user}/> }}/> 
                 <Route path="/apt_add/:user" exact render = {(props) => { return <ApartmentInput propsFn={props.history} userID={props.match.params.user}/> }}/> 
                 <Route path="/apt_addRoom/:aptCode" exact render = {(props) => { return <RoomInput propsFn={props.history} userID={user.uid} aptID={props.match.params.aptCode}/> }}/> 
                 <Route path="/apt_newbooking/:aptId" exact render = {(props) => { return <AptBookings propsFn={props.history} userID={user.uid} aptID={props.match.params.aptId}/> }}/> 
+                <Route path="/add_utility/:aptId" exact render = {(props) => { return <AptUtilities propsFn={props.history} userID={user.uid} aptID={props.match.params.aptId}/> }}/> 
 
 
                 <Route path="/single_room_overview/:roomId" exact render = {(props) => {return <Room roomID={props.match.params.roomId}/> }}/>

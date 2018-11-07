@@ -131,31 +131,6 @@ export default class DataService {
             
         });
     };
-    static getApartmentBookings(apartmentCode){
-        return new Promise((resolve, reject) => {
-
-            firebase.firestore().collection('apt_bookings')
-            .where(`apartmentCode`, `==`, apartmentCode).get()
-            .then((result) => {
-                let aptBookings = [];
-                result.docs.forEach((d) => {
-                    let j = d.data();
-                    j.id=d.id;
-                    aptBookings.push(j);
-                })
-
-                resolve(aptBookings);   
-            })
-
-            .catch((error) => {
-                
-                reject('El apartamento no existe');
-
-            })
-            
-        }); 
-    };
-
 
     // ROOMS
     static addNewRoom(roomInfo) { 
@@ -338,26 +313,25 @@ export default class DataService {
             
         });
     };
-    static getAptBookings(aptID){
-      
+    static getApartmentBookings(apartmentCode){
         return new Promise((resolve, reject) => {
 
-            firebase.firestore().collection('bookings').where(`unitType`, `==`, 'Apartment').where(`apartmentCode`, `==`, aptID).get()
+            firebase.firestore().collection('apt_bookings')
+            .where(`apartmentCode`, `==`, apartmentCode).get()
             .then((result) => {
-                
-                let bookings = [];
+                let aptBookings = [];
                 result.docs.forEach((d) => {
                     let j = d.data();
                     j.id=d.id;
-                    bookings.push(j);
+                    aptBookings.push(j);
                 })
-                
-                resolve(bookings);   
+
+                resolve(aptBookings);   
             })
 
             .catch((error) => {
                 
-                reject('The apartment does not exist');
+                reject('El apartamento no existe');
 
             })
             
@@ -378,6 +352,54 @@ export default class DataService {
                 })
                 
                 console.log('los roombookings en obtenidos en Data son: ', bookings)
+                resolve(bookings);   
+            })
+
+            .catch((error) => {
+                
+                reject('The apartment does not exist');
+
+            })
+            
+        }); 
+    };
+
+    // EXPENSES 
+    static addUtility(utilityInfo) { 
+
+        return new Promise((resolve, reject) => {
+
+            firebase.firestore().collection('utilities').add(utilityInfo)
+
+            .then((result) => {
+                
+                console.log("Utility info succesfully saved !")
+                resolve(result);
+            })
+
+            .catch((error) => {
+                var errorCode = error.code;
+                console.log('Utility NOT saved: ', errorCode);
+                var errorMessage = error.message;
+                
+            })
+            
+        });
+    };
+    static getAptUtilities(aptID){
+      
+        return new Promise((resolve, reject) => {
+
+            firebase.firestore().collection('utilities').where(`apartmentCode`, `==`, aptID).get()
+            .then((result) => {
+                
+                let bookings = [];
+                result.docs.forEach((d) => {
+                    let j = d.data();
+                    j.id=d.id;
+                    bookings.push(j);
+                })
+                
                 resolve(bookings);   
             })
 

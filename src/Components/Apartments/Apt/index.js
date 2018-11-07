@@ -70,17 +70,6 @@ export default class Apartment extends React.Component {
       <div className="address">
         <h4>{this.state.apartment.apartmentName}</h4>
       </div>
-
-      // <div className="apt-render-fn"> 
-
-      //  <div className="apt-info-block">
-      //     <div className="info-block-text">
-      //       <Link to={`/single_apt_overview/${this.state.apartmentCode}`}><h4>{this.state.apartment.apartmentName}</h4></Link>
-      //     </div>
-
-      //    </div>
-
-      //  </div>
     )
   };
 
@@ -169,6 +158,13 @@ export default class Apartment extends React.Component {
       {this.state.apartment === null ? <p>LOADING !</p> :
         this._renderApartmentInfo()
       }
+
+      <div className="standard-add-button">
+        <div id="button-info">
+          <p>Add utility</p>
+          <Link to={`/add_utility/${this.state.apartmentCode}`}><AddButton/></Link>
+        </div>
+      </div>
       
         {this.state.aptBookings.length === 0 ? 
         
@@ -178,7 +174,7 @@ export default class Apartment extends React.Component {
           
           :
           
-            <div className="paque">
+          <div className="paque">
               <div className="booking-graphic">
                 <AptBookingGraphic aptID={this.state.apartmentCode}/>
               </div>
@@ -217,18 +213,6 @@ export default class Apartment extends React.Component {
         </div>
             
 
-
-         {/* <div className="rooms-graphic">
-      
-          {this.state.aptBookings.length === 0 ? <p>This apartment has rooms rentals only</p> :
-           
-
-              <div className="booking-graphic">
-                <RoomsBookingGraphic aptID={this.state.apartmentCode}/>
-              </div>
-          }
-
-        </div> */}
         <div className="apt-rooms-admin">
          
           {this.state.rooms.length === 0 ? <p>No rooms rentals for this apartment</p> :

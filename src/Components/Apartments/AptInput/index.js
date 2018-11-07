@@ -66,21 +66,20 @@ const rentMode = [
 class ApartmentInput extends React.Component {
     constructor(props){
         super(props);
-
         this.state = { 
-            userId: this.props.userID,
-            apartmentName: '',
-            street: '',
-            houseNr: '',
-            floor: '',
-            door: '',
-            zip: '',
-            sqm: '',
-            rooms: '',
-            roomsRental: '',
-            rentPrice: '',
-            deposit: '',
-            type: 'Apartment'
+            userId          : this.props.userID,
+            apartmentName   : '',
+            street          : '',
+            houseNr         : '',
+            floor           : '',
+            door            : '',
+            zip             : '',
+            sqm             : '',
+            rooms           : '',
+            roomsRental     : '',
+            rentPrice       : '',
+            deposit         : '',
+            type            : 'Apartment'
         };
 
         this.onNewApartment             = this.onNewApartment.bind(this);
