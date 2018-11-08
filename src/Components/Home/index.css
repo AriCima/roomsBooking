@@ -45,6 +45,10 @@
 }
 
 .chart-title p{
+    font-weight: 500;
+}
+
+.chart-title p span{
     font-weight: 700;
 }
 
@@ -61,15 +65,21 @@
 
 
 .overview-block{
-    width: 100%;
+    width: 90%;
     margin: 15px 0 15px 10px;
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
 }
 
-.overview-block .underlined{
-    border-bottom: 1ps solid black;
+.overview-block-underlined{
+    width: 90%;
+    margin: 15px 0 15px 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-bottom: 5px;
+    border-bottom: 1px solid black;
 }
 
 .overview-block-feature{
@@ -78,16 +88,26 @@
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+
 }
 .overview-block-value{
     margin-left: 2%;
     width: 30%;
     display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+
+}
+.overview-block-result span{
+    font-weight: 700;
+}
+
+.overview-block-result{
+    width: 90%;
+    margin: 5px 0 15px 10px;
+    display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-}
-.overview-block span{
-    font-weight: 700;
 }
 
 /* --> UNITS LIST <-- */

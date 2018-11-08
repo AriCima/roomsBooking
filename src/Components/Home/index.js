@@ -243,7 +243,7 @@ export default class Home extends React.Component {
 
           <div className="e-figures-left">
             <div className="chart-title">
-              <p>Economic Overview: {this.state.currentMonth} </p>
+              <p>Economic Overview:  <span>{this.state.currentMonth}</span> </p>
             </div>
             <div className="user-overview">
             <div className="overview-block">
@@ -255,7 +255,7 @@ export default class Home extends React.Component {
               </div>
             </div>
 
-            <div className="overview-block underlined">
+            <div className="overview-block-underlined">
               <div className="overview-block-feature">
                 <p>Utilities</p>
               </div>
@@ -264,7 +264,7 @@ export default class Home extends React.Component {
               </div>
             </div>
 
-            <div className="overview-block">
+            <div className="overview-block-result">
               <div className="overview-block-feature">
                 <p><span>EBDITA</span></p>
               </div>
