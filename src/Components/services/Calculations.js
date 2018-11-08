@@ -236,6 +236,22 @@ export default class Calculations {
     
         return incomes
     };
+    static calculateMonthUtilities(x){
+        console.log('utilities received = ', x)
+        const date = new Date();
+        let currentM = date.getMonth();
+        let totalUtilities = 0;
+        for (let i = 0; i < x.length; i++){
+            console.log('utility Date = ', x[i].utilityDate)
+            let utDate= new Date(x[i].utilityDate);
+            let utMonth = utDate.getMonth();
+            console.log('utMonth = ', utMonth, ' currentM = ', currentM)
+            if (utMonth === currentM){
+                 totalUtilities = totalUtilities + Number(x[i].amount);
+            };
+        }
+        return totalUtilities
+    }
     static mergeApartmentsRooms(apts, rms){
         console.log('merge apts & rooms TRIGGERED');
         for (let x = 0; x < apts.length; x++){

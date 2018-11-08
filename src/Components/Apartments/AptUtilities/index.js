@@ -203,12 +203,12 @@ class AptUtilities extends React.Component {
                     <div id="input-fields-select">
                             <TextField
                                 id="date"
-                                label="Check-In"
+                                label="Date"
                                 type="date"
                                 defaultValue="dd/mm/yyyy"
                                 className={classes.textField}
-                                value={this.state.checkIn}
-                                onChange={(e)=>{this.onChangeState('checkIn', e.target.value)}}
+                                value={this.state.utilityDate}
+                                onChange={(e)=>{this.onChangeState('utilityDate', e.target.value)}}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}

@@ -411,4 +411,30 @@ export default class DataService {
             
         }); 
     };
+
+    static getUserMonthUtilities(userID){
+      
+        return new Promise((resolve, reject) => {
+
+            firebase.firestore().collection('utilities').where(`userId`, `==`, userID).get()
+            .then((result) => {
+                
+                let utilities = [];
+                result.docs.forEach((d) => {
+                    let j = d.data();
+                    j.id=d.id;
+                    utilities.push(j);
+                })
+                
+                resolve(utilities);   
+            })
+
+            .catch((error) => {
+                
+                reject('The user does not exist');
+
+            })
+            
+        }); 
+    };
 }

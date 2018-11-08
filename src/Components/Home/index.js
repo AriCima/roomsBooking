@@ -22,6 +22,7 @@ export default class Home extends React.Component {
       apartments              : [],
       currentAptContracts     : [],
       rooms                   : [],
+      utilities               : [],
       currentRoomsContracts   : [],
       aptsWithRooms           : [],
       aptsIncomes             : null,
@@ -135,6 +136,31 @@ export default class Home extends React.Component {
     console.log(error);
     })
    
+    DataService.getUserMonthUtilities(userId)
+    .then(uts =>{
+      const utilities = [];
+  
+      for (let i = 0; i < uts.length; i++){
+        utilities[i] = {
+          amount        : uts[i].amount,
+          apartmentCode : uts[i].apartmentCode,
+          utilityDate   : uts[i].utilityDate,
+          comment       : uts[i].comment,
+          roomCode      : uts[i].roomCode,
+          deductible    : uts[i].deductible,
+          utilityType   : uts[i].utilityType,
+        };
+      };
+
+    let trans = Calculations.calculateMonthUtilities(utilities);
+    let currentUtilities = trans;
+    this.setState({ currentUtilities });
+      console.log('utilities = ', this.state.currentUtilities)
+    }).catch(function (error) {   
+    console.log(error);
+    })
+
+
   };
 
   _renderApartments(){
@@ -231,10 +257,10 @@ export default class Home extends React.Component {
 
             <div className="overview-block underlined">
               <div className="overview-block-feature">
-                <p>Expenses</p>
+                <p>Utilities</p>
               </div>
               <div className="overview-block-value">
-              <p>{this.state.aptsExpenses + this.state.roomsExpenses}</p>
+              <p>{this.state.currentUtilities}</p>
               </div>
             </div>
 
@@ -243,7 +269,7 @@ export default class Home extends React.Component {
                 <p><span>EBDITA</span></p>
               </div>
               <div className="overview-block-value">
-                <p><span>{this.state.aptsIncomes + this.state.roomsIncomes - (this.state.aptsExpenses + this.state.roomsExpenses)}</span></p>
+                <p><span>{this.state.aptsIncomes + this.state.roomsIncomes - this.state.currentUtilities}</span></p>
               </div>
             </div>
           </div>
