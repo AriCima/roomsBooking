@@ -15,6 +15,7 @@ import RoomBookings from '../Rooms/RoomBookings';
 import ApartmentInput from '../Apartments/AptInput';
 import AptUtilities from '../Apartments/AptUtilities';
 import AptBookingReview from '../Apartments/AptBookingsReview';
+import RoomBookingReview from '../Rooms/RoomBookingReview';
 
 // API SERVICES
 import DataService from '../services/DataService';
@@ -92,6 +93,7 @@ class App extends Component {
                 <Route path="/apt_newbooking/:aptId" exact render = {(props) => { return <AptBookings propsFn={props.history} userID={user.uid} aptID={props.match.params.aptId}/> }}/> 
                 <Route path="/add_utility/:aptId" exact render = {(props) => { return <AptUtilities propsFn={props.history} userID={user.uid} aptID={props.match.params.aptId}/> }}/> 
                 <Route path="/apt_booking_review/:bookingId" exact render = {(props) => { return <AptBookingReview propsFn={props.history} userID={user.uid} bookingID={props.match.params.bookingId}/> }}/> 
+                <Route path="/room_booking_review/:bookingId" exact render = {(props) => { return <RoomBookingReview propsFn={props.history} userID={user.uid} bookingID={props.match.params.bookingId}/> }}/> 
 
 
                 <Route path="/single_room_overview/:roomId" exact render = {(props) => {return <Room roomID={props.match.params.roomId}/> }}/>

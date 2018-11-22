@@ -67,7 +67,7 @@ const aptStates = [
 ];
   
 
-class AptBookingsReview extends React.Component {
+class RoomBookingsReview extends React.Component {
     constructor(props){
         super(props);
 
@@ -160,9 +160,9 @@ class AptBookingsReview extends React.Component {
         } else {
 
             let modifiedBooking = this.state;
+            delete modifiedBooking.bookings;
             delete modifiedBooking.bookingCode;
             delete modifiedBooking.modifiedData;
-            delete modifiedBooking.aptBookings;
 
             <AlertDialogSlide text={'Are you sure you want to modify this booking ?'}/>
 
@@ -321,8 +321,8 @@ class AptBookingsReview extends React.Component {
     }
 }
 
-AptBookingsReview.propTypes = {
+RoomBookingsReview.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(AptBookingsReview);
+export default withStyles(styles)(RoomBookingsReview);
