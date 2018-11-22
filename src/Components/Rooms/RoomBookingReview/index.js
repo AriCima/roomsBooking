@@ -154,7 +154,7 @@ class RoomBookingsReview extends React.Component {
         // <---
 
         // OVERLAPPING CHECK --->
-        let overlappingCheckOnReview =  Calculations.overlappingCheckOnReview(this.state.checkIn, this.state.checkOut, this.state.roomBookings, this.state.bookingCode);
+        let overlappingCheckOnReview = Calculations.overlappingCheckOnReview(this.state.checkIn, this.state.checkOut, this.state.roomBookings, this.state.bookingCode);
         error = overlappingCheckOnReview.error;
         // <---
 

@@ -43,11 +43,9 @@ export default class Apartment extends React.Component {
 
     DataService.getApartmentRooms(this.state.apartmentCode).then(
       (roomsReceived) => {
-        //console.log("Rooms received", roomsReceived)
 
         this.setState({rooms: roomsReceived})
 
-        //console.log("Rooms del Manage state", this.state.rooms)
 
       }
     ); 
@@ -57,8 +55,6 @@ export default class Apartment extends React.Component {
         //console.log("Rooms received", roomsReceived)
 
         this.setState({aptBookings: bookingsReceived})
-
-
 
       }
     ); 
@@ -129,7 +125,7 @@ export default class Apartment extends React.Component {
   } 
 
   _renderRoomsGraphic(){
-    console.log('this.state.rooms = ', this.state.rooms)
+    //console.log('this.state.rooms = ', this.state.rooms)
     return this.state.rooms.map((room,i) => {
       return (
         <Link to={`/single_room_overview/${room.id}`} className="room-line">

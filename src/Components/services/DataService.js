@@ -324,7 +324,7 @@ export default class DataService {
                     j.id=d.id;
                     aptBookings.push(j);
                 })
-
+                console.log('aptBookings en el DataService = ', aptBookings)
                 resolve(aptBookings);   
             })
 
@@ -337,10 +337,11 @@ export default class DataService {
         }); 
     };
     static getRoomBookings(roomID){
-      console.log('Rooms booked TRIGGERED with roomCode', roomID)
+
         return new Promise((resolve, reject) => {
 
-            firebase.firestore().collection('room_bookings').where(`roomCode`, `==`, roomID).get()
+            firebase.firestore().collection('room_bookings')
+            .where(`roomCode`, `==`, roomID).get()
             .then((result) => {
                 
                 let bookings = [];
@@ -349,6 +350,7 @@ export default class DataService {
                     j.id=d.id;
                     bookings.push(j);
                 })
+                console.log('roomBookings en el DataService = ', bookings)
                 resolve(bookings);   
             })
 

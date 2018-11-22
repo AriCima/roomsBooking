@@ -61,7 +61,7 @@ export default class AptBookingsGraphic extends React.Component {
       oneYearArray.push([months[s], yyyy+1])
     }
 
-    console.log('EL ONE YEAR ARRAY = ', oneYearArray)
+    // console.log('EL ONE YEAR ARRAY = ', oneYearArray)
     
 
     return oneYearArray.map((months,i) => {

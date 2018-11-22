@@ -74,7 +74,7 @@ class AptBookingsReview extends React.Component {
         this.state = { 
             userId          : this.props.userID,
             bookingCode     : this.props.bookingID,
-            apartmentCode   : '',
+            apartmentCode   : this.props.apartmentCode,
             apartmentName   : '',
             checkIn         : '',
             checkOut        : '',
@@ -114,19 +114,23 @@ class AptBookingsReview extends React.Component {
                 rentPrice       : res.rentPrice,    
                 deposit         : res.deposit,      
             })
+
             DataService.getApartmentBookings(res.apartmentCode)
             .then((bookingsReceived) => {
-                //console.log("Rooms received", roomsReceived)
+                console.log("Apt bookings received en modify", bookingsReceived)
         
+    
                 this.setState({aptBookings: bookingsReceived})
-        
+                console.log("Aptbookings  en el state después de splice", this.state.aptBookings)
               }
             ); 
         })
+
         .catch(function (error) {    
             console.log(error);
         })
 
+       
        
     };
 
@@ -143,20 +147,20 @@ class AptBookingsReview extends React.Component {
         let error = false;
 
         // DATES VALIDATION --->
-        let overlappingCheckOnReview =  Calculations.overlappingCheckOnReview(this.state.checkIn, this.state.checkOut, this.state.aptBookings, this.state.bookingCode);
-        error = overlappingCheckOnReview.error;
+        let datesValidation =  Calculations.bookingsDatesValidation(this.state.checkIn, this.state.checkOut);
+        error = datesValidation.error;
         if(error){
             alert(datesValidation.message);
         }
         // <---
 
         // OVERLAPPING CHECK --->
-        let overlappingCheck =  Calculations.overlappingCheck(this.state.checkIn, this.state.checkOut, this.state.aptBookings);
-        error = overlappingCheck.error;
+        let overlappingCheckOnReview = Calculations.overlappingCheckOnReview(this.state.checkIn, this.state.checkOut, this.state.aptBookings, this.state.bookingCode);
+        error = overlappingCheckOnReview.error;
         // <---
 
         if(error){
-            // alert(overlappingCheck.message);
+            alert(overlappingCheckOnReview.message);
         } else {
 
             let modifiedBooking = this.state;

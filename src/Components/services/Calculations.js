@@ -39,7 +39,7 @@ export default class Calculations {
         
         const date = new Date();
         let currentRoomsContracts = [];
-        console.log('input del get CurrentRoomsContracts', contracts)
+        //console.log('input del get CurrentRoomsContracts', contracts)
         for ( let x = 0; x<contracts.length; x++){
 
             if (isWithinRange(date, contracts[x].checkIn, contracts[x].checkOut)) {
@@ -54,7 +54,7 @@ export default class Calculations {
                 currentRoomsContracts.push(contract);
             }
         }
-        console.log('currentRoomsContract en calculations', currentRoomsContracts)
+        //console.log('currentRoomsContract en calculations', currentRoomsContracts)
 
         return currentRoomsContracts  
     };
@@ -266,15 +266,15 @@ export default class Calculations {
         return incomes
     };
     static calculateMonthUtilities(x){
-        console.log('utilities received = ', x)
+        //console.log('utilities received = ', x)
         const date = new Date();
         let currentM = date.getMonth();
         let totalUtilities = 0;
         for (let i = 0; i < x.length; i++){
-            console.log('utility Date = ', x[i].utilityDate)
+            //console.log('utility Date = ', x[i].utilityDate)
             let utDate= new Date(x[i].utilityDate);
             let utMonth = utDate.getMonth();
-            console.log('utMonth = ', utMonth, ' currentM = ', currentM)
+            //console.log('utMonth = ', utMonth, ' currentM = ', currentM)
             if (utMonth === currentM){
                  totalUtilities = totalUtilities + Number(x[i].amount);
             };
