@@ -349,8 +349,6 @@ export default class DataService {
                     j.id=d.id;
                     bookings.push(j);
                 })
-                
-                console.log('los roombookings en obtenidos en Data son: ', bookings)
                 resolve(bookings);   
             })
 
@@ -364,13 +362,10 @@ export default class DataService {
     };
 
     static getAptBookingInfo(bookingID){
-       
         return new Promise((resolve, reject) => {
 
-            firebase.firestore().collection('apt_bookings').doc(bookingID).get()
-         
+            firebase.firestore().collection('apt_bookings').doc(bookingID).get()      
             .then((result) => {
-               console.log('el result.data en el dataservice = ', result.data())
                 resolve(result.data());   
             })
             .catch((error) => { 

@@ -153,13 +153,13 @@ class RoomBookingsReview extends React.Component {
         }
         // <---
 
-        // // OVERLAPPING CHECK --->
-        // let overlappingCheck =  Calculations.overlappingCheck(this.state.checkIn, this.state.checkOut, this.state.aptBookings);
-        // error = overlappingCheck.error;
-        // // <---
+        // OVERLAPPING CHECK --->
+        let overlappingCheckOnReview =  Calculations.overlappingCheckOnReview(this.state.checkIn, this.state.checkOut, this.state.roomBookings, this.state.bookingCode);
+        error = overlappingCheckOnReview.error;
+        // <---
 
         if(error){
-            // alert(overlappingCheck.message);
+            alert(overlappingCheckOnReview.message);
         } else {
 
             let modifiedBooking = this.state;
@@ -169,7 +169,6 @@ class RoomBookingsReview extends React.Component {
 
             <AlertDialogSlide text={'Are you sure you want to modify this booking ?'}/>
 
-            console.log('newBooking en el aptBooking', modifiedBooking)
             DataService.updateRoomBooking(this.props.bookingID, modifiedBooking);    
             this.props.propsFn.push(`/single_room_overview/${this.state.roomCode}`); 
         };

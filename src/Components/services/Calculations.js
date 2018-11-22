@@ -208,11 +208,40 @@ export default class Calculations {
         
     };
     static overlappingCheck(checkIn, checkOut, bookings){
+   
         for (let k=0; k < bookings.length; k++){
             if(areRangesOverlapping(checkIn, checkOut, bookings[k].checkIn, bookings[k].checkOut )){
                 let validationResult = {
                     error : true,
-                    message : 'The range overlaps with other BOOKING'
+                    message : 'The range overlaps with an existing BOOKING'
+                }
+                return validationResult 
+            };
+        }
+        
+        let validationResult = {
+            error : false,
+            message : "Dates are OK"
+        }
+
+        return validationResult
+       
+    };
+    static overlappingCheckOnReview(checkIn, checkOut, bookings, bcode){
+   
+        // Delete the same booking inside the bookings array --> https://stackoverflow.com/questions/15997879/get-the-index-of-the-object-inside-an-array-matching-a-condition
+        console.log('bookings recibidos en calculations = ', bookings)
+
+        let index = bookings.findIndex(x => x.id === bcode);
+        bookings.splice(index, 1)
+
+        console.log('bookings después del splice = ', bookings)
+
+        for (let k=0; k < bookings.length; k++){
+            if(areRangesOverlapping(checkIn, checkOut, bookings[k].checkIn, bookings[k].checkOut )){
+                let validationResult = {
+                    error : true,
+                    message : 'The range overlaps with an existing BOOKING'
                 }
                 return validationResult 
             };

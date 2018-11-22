@@ -143,17 +143,17 @@ class AptBookingsReview extends React.Component {
         let error = false;
 
         // DATES VALIDATION --->
-        let datesValidation = Calculations.bookingsDatesValidation(this.state.checkIn, this.state.checkOut);
-        error = datesValidation.error;
+        let overlappingCheckOnReview =  Calculations.overlappingCheckOnReview(this.state.checkIn, this.state.checkOut, this.state.aptBookings, this.state.bookingCode);
+        error = overlappingCheckOnReview.error;
         if(error){
             alert(datesValidation.message);
         }
         // <---
 
-        // // OVERLAPPING CHECK --->
-        // let overlappingCheck =  Calculations.overlappingCheck(this.state.checkIn, this.state.checkOut, this.state.aptBookings);
-        // error = overlappingCheck.error;
-        // // <---
+        // OVERLAPPING CHECK --->
+        let overlappingCheck =  Calculations.overlappingCheck(this.state.checkIn, this.state.checkOut, this.state.aptBookings);
+        error = overlappingCheck.error;
+        // <---
 
         if(error){
             // alert(overlappingCheck.message);
