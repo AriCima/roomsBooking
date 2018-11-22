@@ -73,8 +73,8 @@ class AptBookingsReview extends React.Component {
 
         this.state = { 
             userId          : this.props.userID,
-            apartmentCode   : this.props.aptID,
             bookingCode     : this.props.bookingID,
+            apartmentCode   : '',
             apartmentName   : '',
             checkIn         : '',
             checkOut        : '',

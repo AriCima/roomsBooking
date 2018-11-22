@@ -96,7 +96,7 @@ export default class Room extends React.Component {
   _renderRoomsBookings(){
     return this.state.roomBookings.map((bkngs,i) => {
         return (
-          <Link className="standard-list-row" key={i} to={`/booking_info/${bkngs.id}`}> 
+          <Link className="standard-list-row" key={i} to={`/room_booking_review/${bkngs.id}`}> 
           
             <div className="standard-list-info-block">
                 <p>{bkngs.tenantName}</p>

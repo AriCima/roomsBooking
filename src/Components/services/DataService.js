@@ -378,7 +378,6 @@ export default class DataService {
             })
         });  
     }
-
     static updateApartmentBooking(bookingID, bookingInfo){
         return new Promise((resolve, reject) => {
 
@@ -398,6 +397,21 @@ export default class DataService {
             })
             
         });
+    }
+    static getRoomBookingInfo(bookingID){
+       
+        return new Promise((resolve, reject) => {
+
+            firebase.firestore().collection('room_bookings').doc(bookingID).get()
+         
+            .then((result) => {
+               console.log('el result.data en el dataservice = ', result.data())
+                resolve(result.data());   
+            })
+            .catch((error) => { 
+                reject('El booking no existe');
+            })
+        });  
     }
     static updateRoomBooking(bookingID, bookingInfo){
         return new Promise((resolve, reject) => {

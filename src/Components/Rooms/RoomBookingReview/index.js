@@ -73,9 +73,10 @@ class RoomBookingsReview extends React.Component {
 
         this.state = { 
             userId          : this.props.userID,
-            apartmentCode   : this.props.aptID,
             bookingCode     : this.props.bookingID,
+            roomCode        : '',
             apartmentName   : '',
+            apartmentCode   : '',
             checkIn         : '',
             checkOut        : '',
             tenantName      : '',
@@ -86,8 +87,8 @@ class RoomBookingsReview extends React.Component {
             agency          : '',
             rentPrice       : '',
             deposit         : '',
-            unitType        : 'Apartment',
-            aptBookings     : [],
+            unitType        : 'Room',
+            roomBookings     : [],
             modifiedData    : [],
         };
 
@@ -97,10 +98,11 @@ class RoomBookingsReview extends React.Component {
 
     componentDidMount(){
 
-        DataService.getAptBookingInfo(this.state.bookingCode)
+        DataService.getRoomBookingInfo(this.state.bookingCode)
         .then(res => {
             console.log('RES en el get Apt Booking',res)
             this.setState({
+                roomCode        : res.roomCode,
                 apartmentCode   : res.apartmentCode,
                 apartmentName   : res.apartmentName,
                 checkIn         : res.checkIn,      
@@ -114,11 +116,12 @@ class RoomBookingsReview extends React.Component {
                 rentPrice       : res.rentPrice,    
                 deposit         : res.deposit,      
             })
-            DataService.getApartmentBookings(res.apartmentCode)
+
+            DataService.getRoomBookings(res.roomCode)
             .then((bookingsReceived) => {
-                //console.log("Rooms received", roomsReceived)
+                console.log("Bookings received", bookingsReceived)
         
-                this.setState({aptBookings: bookingsReceived})
+                this.setState({roomBookings: bookingsReceived})
         
               }
             ); 
@@ -160,15 +163,15 @@ class RoomBookingsReview extends React.Component {
         } else {
 
             let modifiedBooking = this.state;
-            delete modifiedBooking.bookings;
             delete modifiedBooking.bookingCode;
             delete modifiedBooking.modifiedData;
+            delete modifiedBooking.roomBookings;
 
             <AlertDialogSlide text={'Are you sure you want to modify this booking ?'}/>
 
             console.log('newBooking en el aptBooking', modifiedBooking)
-            DataService.updateApartmentBooking(this.props.bookingID, modifiedBooking);    
-            this.props.propsFn.push(`/single_apt_overview/${this.state.apartmentCode}`); 
+            DataService.updateRoomBooking(this.props.bookingID, modifiedBooking);    
+            this.props.propsFn.push(`/single_room_overview/${this.state.roomCode}`); 
         };
     };
 
