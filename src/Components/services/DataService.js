@@ -138,7 +138,6 @@ export default class DataService {
         return new Promise((resolve, reject) => {
 
             firebase.firestore().collection('rooms').add(roomInfo)
-
             .then((result) => {
                 
                 console.log("Room info succesfully saved !")
@@ -363,6 +362,43 @@ export default class DataService {
             
         }); 
     };
+
+    static getAptBookingInfo(bookingID){
+       
+        return new Promise((resolve, reject) => {
+
+            firebase.firestore().collection('apt_bookings').doc(bookingID).get()
+         
+            .then((result) => {
+               console.log('el result.data en el dataservice = ', result.data())
+                resolve(result.data());   
+            })
+            .catch((error) => { 
+                reject('El booking no existe');
+            })
+        });  
+    }
+
+    static updateApartmentBooking(bookingID, bookingInfo){
+        return new Promise((resolve, reject) => {
+
+            firebase.firestore().collection('apt_bookings').doc(bookingID).update(bookingInfo)
+            
+            .then((result) => {
+                
+                console.log("Apt Booking succesfully modified !")
+                resolve(result);
+            })
+
+            .catch((error) => {
+                var errorCode = error.code;
+                console.log('User NOT added: ', errorCode);
+                var errorMessage = error.message;
+                
+            })
+            
+        });
+    }
 
     // EXPENSES 
     static addUtility(utilityInfo) { 

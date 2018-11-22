@@ -76,7 +76,7 @@ export default class Apartment extends React.Component {
   _renderAptBookings(){
     return this.state.aptBookings.map((bkngs,i) => {
         return (
-          <Link className="standard-list-row" key={i} to={`/apt_booking_info/${bkngs.id}`}> 
+          <Link className="standard-list-row" key={i} to={`/apt_booking_review/${bkngs.id}`}> 
           
             <div className="standard-list-info-block">
                 <p>{bkngs.tenantName}</p>
